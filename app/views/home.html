@@ -1,0 +1,52 @@
+<ion-view view-title="大房东" class="home">
+	<ion-nav-buttons side="right">
+	  <a href="#/account/info" id="my_info">
+	    <button class="button button-icon">我的房产</button>
+	  </a>
+	</ion-nav-buttons>
+  <ion-content class="padding">
+    <div class="card padding align-center" id="house_card">
+    	<p class="desc gray">房产抵押率 {{house.mortgageRate}}%</p>
+      <div class="row">
+      	<div class="col-50 align-left">
+      		<span class="btn">{{house.duration}}个月/{{house.minPrice}}万元起投</span>
+      	</div>
+      	<div class="col-50 align-right">
+      		<span class="btn">{{house.houseType}}</span>
+      	</div>
+      </div>
+
+      <div class="predict gray">预期年化收益率</div>
+      <div class="percent">{{house.annualYield}}<span class="per">%</span></div>
+      
+      <div class="progress-bar">
+        <span style="width: {{house.completeRate}}%"></span>
+      </div>
+
+      <span class="arrow"></span>
+      <div class="seize-wrapper">
+        <div class="seize">
+          <a href="#/tab/buy">抢</a>
+          <span class="countdown">
+            <span class="odometer" id="h1"></span>
+            <span class="odometer" id="h2"></span>
+            <span class="odometer">:</span>
+            <span class="odometer" id="m1"></span>
+            <span class="odometer" id="m2"></span>
+            <span class="odometer">:</span>
+            <span class="odometer" id="s1"></span>
+            <span class="odometer" id="s2"></span>
+
+          </span>
+        </div>
+      </div>
+      
+      <div class="preview">
+        <img src="images/img.png" alt="详情" ng-click="openModal()">
+      </div>
+    </div>
+  </ion-content>
+
+  <publicity></publicity>
+</ion-view>
+

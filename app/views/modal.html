@@ -1,0 +1,13 @@
+<ion-modal-view id="preview_modal">
+  <div class="card">
+  	<div class="item item-image">
+  		<ion-slide-box show-pager="false">
+  		  <ion-slide ng-repeat="item in house.previews">
+  		  	<img ng-src="{{item.path}}" alt="" height="320">
+  		  </ion-slide>
+  		</ion-slide-box>
+  		<span class="seize-button" ng-click="seize()">抢</span>
+  	</div>
+  	<div class="padding bold desc">{{house.slogan}}</div>
+  </div>
+</ion-modal-view>

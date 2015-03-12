@@ -1,0 +1,65 @@
+@charset "UTF-8";
+@import "mixin";
+
+.accent{
+  color: $accent;
+}
+
+.button{
+  color: #fff;
+  background-color: $button-default-bg;
+  border: 0;
+  outline: none;
+  border-radius: 6px;
+  font-weight: bold;
+  &.button-light{
+    border: solid 1px $accent;
+  }
+  &.button-full{
+  	min-height: 36px;
+  	line-height: 36px;
+  }
+}
+
+.scroll{
+  position: relative;
+}
+
+.bar.bar-dark{
+  background: #272b30;
+}
+
+.card{
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: 10px;
+}
+
+input::-webkit-input-placeholder{ 
+	color: #111; 
+}
+
+.item.item-input, .item.item-input-inset{
+  border: 0;
+  border-bottom: solid 1px $accent;
+  background: transparent;
+  i{
+    position: relative;
+    font-size: 20px;
+    top: 1px;
+    color: $accent;
+  }
+  &.white{
+    border-bottom-color: $white;
+    input, input::-webkit-input-placeholder{ 
+      color: $white; 
+    }
+  }
+}
+
+.item.item-input-inset{
+  .item-input-wrapper{
+    background: transparent;
+    padding-left: 0;
+  }
+}

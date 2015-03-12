@@ -1,0 +1,82 @@
+@charset "UTF-8";
+@import "mixin";
+
+.pull-left {
+  @include float-left;
+}
+
+.pull-right {
+  @include float-right;
+}
+
+.align-center {
+  @include align;
+}
+
+.align-left {
+  @include align-left;
+}
+
+.align-right {
+  @include align-right;
+}
+
+input[type="checkbox"]{
+  @include checkbox(18px, $accent);
+  &.small{
+    @include checkbox(13px, $accent);
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.normal{
+  font-weight: normal !important;
+}
+
+.fs-xs{
+  font-size: 12px;
+}
+
+.fs-sm{
+	font-size: 14px;
+}
+
+.fs-md{
+	font-size: 16px;
+}
+
+.fs-lg{
+	font-size: 20px;
+}
+
+.black{
+	color: $black;
+}
+
+.white{
+	color: $white;
+}
+
+.gray{
+  color: $gray;
+}
+
+.gray-light{
+  color: $gray-light;
+}
+
+.gray-dark{
+	color: $gray-dark;
+}
+
+html, body{
+  height: 100%;
+}
+
+a, a:hover, a:active, a:focus{
+  outline: none;
+  text-decoration: none;
+}

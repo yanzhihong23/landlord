@@ -1,0 +1,521 @@
+// bower:scss
+// endbower
+
+@charset "UTF-8";
+@import "mixin";
+@import "base";
+@import "overwrite";
+@import "animation";
+
+ion-view{
+  background: url(../images/bg-2.jpg) center no-repeat;
+  background-size: cover;
+}
+
+
+
+.publicity{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 54px;
+  line-height: 54px;
+  text-align: center;
+  color: $white;
+  z-index: -1;
+  font-weight: bold;
+  font-size: 13px;
+  img{
+    vertical-align: middle;
+    margin-right: 3px;
+    width: 15px;
+  }
+}
+
+#startup{
+  .logo{
+    margin: 20% 0;
+    width: 100%;
+    min-height: 20%;
+    background: url(../images/landlord-logo-2.png) no-repeat;
+    background-size: contain;
+  }
+  .ads{
+    position: relative;
+    width: 131px;
+    height: 153px;
+    margin: auto;
+    background: url(../images/shield-lg.png) no-repeat;
+    background-size: cover;
+    .round-item{
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: solid 2px $accent;
+      border-radius: 40px;
+      background: $white;
+      color: $accent;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      padding: 15px;
+      &:first-child{
+        left: -50px;
+        top: 0;
+      }
+      &:nth-child(2){
+        right: -50px;
+        top: 0;
+      }
+      &:last-child{
+        bottom: -45px;
+        left: 50%;
+        margin-left: -40px;
+      }
+    }
+  }
+  .copyright{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 20px;
+    color: $white;
+    font-size: 12px;
+  }
+}
+
+#house_card{
+  background: rgba(255,255,255,0.9);
+  min-height: 300px;
+  .desc{
+    font-size: 16px;
+    border-bottom: solid 1px $accent;
+    padding: 10px;
+  }
+  .btn{
+    display: inline-block;
+    min-width: 5em;
+    min-height: 28px;
+    text-align: center;
+    color: $accent;
+    background-color: $white;
+    font-size: .9em;
+    padding: 3px 5px;
+    border: solid 1px $accent;
+    border-radius: 4px;
+  }
+  .predict{
+    padding-top: 1em;
+  }
+  .percent{
+    color: $accent;
+    font-size: 2.5em;
+    font-family: italic;
+    padding-top: .4em;
+    .per{
+      font-size: .6em;
+    }
+  }
+  .preview{
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    img{
+      cursor: pointer;
+    }
+  }
+  .progress-bar{
+    width: 66%;
+    height: 10px;
+    background-color: #bfbfbf;
+    border-radius: 10px;
+    margin: 20px auto;
+    span{
+      display: block;
+      width: 60%;
+      height: 100%;
+      background-color: $accent;
+      border-radius: 10px;
+    }
+  }
+}
+
+
+#my_info .button{
+  text-decoration: none;
+  color: $white;
+  font-size: 13px;
+}
+
+#pay{
+  .card .item:last-child{
+    border-bottom: solid 1px $accent;
+  }
+  .input-label{
+    width: 20%;
+    font-size: 14px;
+    color: #000;
+  }
+  .item-input input{
+    padding-left: 4px;
+  }
+  .item-select select{
+    max-width: 80%;
+    width: 80%;
+    direction: ltr;
+  }
+  input::-webkit-input-placeholder { color: #666; }
+  .item-input.vcode{
+    input{
+      max-width: 50%;
+      padding-right: 5px;
+    }
+    +.button{
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+    }
+  }
+}
+
+.arrow{
+  position: absolute;
+  background: $white;
+  width: 15px;
+  height: 14px;
+  bottom: 63px;
+  left: 50%;
+  margin-left: -8px;
+  transform: rotate(-55deg) skew(-20deg,0deg);
+  box-shadow: 2px -2px 6px 1px #999;
+}
+
+$seize-size: 140px;
+$seize-inner-size: 110px;
+.seize-wrapper{
+  position: absolute;
+  left: 50%;
+  margin-left: -$seize-size/2;
+  bottom: -$seize-size/2;
+  display: flex;
+  align-items: center;
+  width: $seize-size;
+  height: $seize-size;
+  border-radius: 73px;
+  background-color: $white;
+  text-align: center;
+  box-shadow: 0 0 6px 1px #999;
+  .seize{
+    width: $seize-inner-size;
+    height: $seize-inner-size;
+    border-radius: $seize-inner-size/2;
+    margin: auto;
+    box-shadow: 3px 3px 10px 2px #999;
+    background-color: $accent;
+    font-size: 46px;
+    line-height: $seize-inner-size;
+    font-weight: bold;
+    cursor: pointer;
+    a, a:focus, a:hover{
+      display: block;
+      color: $white;
+    }
+    .countdown{
+      position: absolute;
+      width: 100%;
+      bottom: 22%;
+      left: 0;
+      font-size: 14px;
+      color: $white;
+      line-height: 1;
+    }
+  }
+  &:after{
+    content: '';
+    @extend .arrow;
+    top: -7px;
+    bottom: auto;
+    box-shadow: none;
+  }
+}
+
+
+
+#preview_modal{
+  min-height: 60%;
+  width: 94%;
+  height: 74%;
+  left: 3%;
+  top: 13%;
+  border-radius: 10px;
+  background-color: $accent;
+  .card{
+    margin: 0;
+    height: 100%;
+    border: solid 3px $white;
+    background-color: transparent;
+    .item-image{
+      height: 80%;
+      border-bottom: 0;
+      background-color: transparent;
+      .seize-button{
+        position: absolute;
+        right: 5px;
+        bottom: 6px;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 30px;
+        background: $accent;
+        border: solid 2px $white;
+        line-height: 50px;
+        color: $white;
+        font-size: 54px;
+        font-weight: bold;
+        box-shadow: 2px 2px 6px 1px #333;
+      }
+      .slider::after{
+        content: '';
+        position: absolute;
+        top: 15px;
+        width: 95%;
+        right: 5%;
+        height: 20px;
+        background: url(../images/dots.png) no-repeat right center;
+      }
+    }
+    .desc{
+      color: $white;
+      font-size: 13px;
+    }
+  }
+}
+
+
+#buy_card{
+  color: $gray;
+  .cal{
+    font-size: 18px;
+    color: #333;
+    margin-top: 8px;
+    .count{
+      .button{
+        width: 100%;
+        height: 28px;
+        min-height: 28px;
+        line-height: 28px;
+        border-radius: 0;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 0;
+        margin: 0;
+        display: block;
+      }
+      input{
+        display: block;
+        width: 100%;
+        border-top: solid 1px $gray-light;
+        border-bottom: solid 1px $gray-light;
+        height: 28px;
+        line-height: 28px;
+        font-size: 18px;
+        color: $accent;
+        padding: 0 0 0 12px;
+      }
+    }
+  }
+  .limit-desc{
+    padding: 8px 0 16px;
+    margin: auto 10px;
+    border-bottom: solid 1px $gray-light;
+  }
+  .pre-box{
+    border: solid 1px $gray-light;
+    margin: 0 10%;
+    height: 100px;
+    .title{
+      font-size: 12px;
+      height: 22px;
+      line-height: 22px;
+      background-color: $gray-light;
+      color: $white;
+    }
+    .content{
+      font-size: 16px;
+      padding: 1em;
+    }
+  }
+  input[type="checkbox"].small{
+    top: 1px;
+    right: 3px;
+  }
+  a.tos{
+    color: $gray;
+  }
+}
+
+#my_info{
+  .balance-info{
+    background: rgba(161,120,23,0.8);
+    color: $white;
+    padding: 0 10px;
+    .tip{
+      font-size: 13px;
+      i{
+        position: absolute;
+        left: -8px;
+        padding-left: 18px;
+        &:before{
+          font-size: 22px;
+          transform: rotate(-15deg);
+        }
+      }
+      span{
+        padding-left: 18px;
+      }
+    }
+    >.row{
+      padding: 10px 12px;
+    }
+    .tip+.row{
+      &, .row{
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+    .plus-btn{
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      background: #fff;
+      border-radius: 20px;
+      border: gray 1px dashed;
+      display: block;
+      margin: auto;
+      color: $accent;
+      font-size: 18px;
+      float: right;
+    }
+  }
+  .card{
+    padding-top: 0;
+    .title{
+      background-color: $accent;
+      line-height: 34px;
+      color: $white;
+    }
+    .item-image{
+      margin: 0;
+      border-top: 0;
+      border-radius: 10px;
+      .slider-slide{
+        padding: 3px;
+      }
+      .desc{
+        &.desc-bg{
+          background: rgba(255,255,255,.8);
+        }
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        min-height: 46px;
+        font-size: 13px;
+        text-align: left;
+        margin: 0;
+        padding: 3px 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        i{
+          font-size: 26px;
+          color: whitesmoke;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// phone view
+#phone_view{
+  .item-input{
+    margin: 28% 0 14%;
+  }
+}
+
+// #login_view, #register_view{
+  .card{
+    // margin-top: 15%;
+    .button-full{
+      margin-top: 10%;
+    }
+  }
+// }
+
+
+#order_view{
+  .card {
+    .title{
+      line-height: 38px;
+      background: $accent;
+      color: $white;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .payment-show{
+      .row{
+        border-bottom: solid 1px $gray-light;
+        padding-bottom: 10px;
+        line-height: 1.6;
+        .col-50:first-child{
+          border-right: solid 1px $gray-light;
+        }
+      }
+    }
+    .payment-select{
+      padding-bottom: 8%;
+      .balance{
+        display: block;
+        text-align: left;
+        line-height: 34px;
+        span{
+          display: inline-block;
+          width: 15%;
+          text-align: center;
+          margin-right: 10px;
+          input[type="checkbox"] {
+            top: 2px;
+          }
+        }
+      }
+      .item-input{
+        border-bottom: solid 1px $accent;
+      }
+      .item-select{
+        padding: 0;
+        border: 0;
+        margin-bottom: 20px;
+        .input-label{
+          line-height: 27px;
+          max-width: 15%;
+          padding-right: 0;
+          input[type="checkbox"] {
+            top: 4px;
+          }
+        }
+        select{
+          padding: 13px 31px 10px 10px;
+          max-width: 90%;
+          width: 85%;
+          direction: ltr;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+

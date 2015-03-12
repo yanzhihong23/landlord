@@ -1,0 +1,49 @@
+<ion-view view-title="我的房产" id="my_info" cache-view="false">
+	<ion-content>
+		<section class="balance-info bold white">
+			<div class="padding-top tip" ng-if="showTip">
+				<i class="ion-ios7-bell-outline"></i>
+				<span>账户余额{{info.balance | currency:'￥'}}元，要生锈啦，赶紧买！</span>
+			</div>
+			<div class="row">
+				<div class="col-80">
+					<div class="row">
+						<div class="col-33 col-center">在投资产</div>
+						<div class="col fs-lg">{{info.invest | currency:'￥'}}</div>
+					</div>
+					<div class="row">
+						<div class="col-33 col-center">当前收益</div>
+						<div class="col fs-md">{{info.earnings | currency:'￥'}}</div>
+					</div>
+				</div>
+				<div class="col-20 col-center"><a href="#/tab/home" class="plus-btn align-center"><i class="ion-plus"></i></a></div>
+			</div>
+		</section>
+		
+  	<div class="card" ng-repeat="item in investingItems">
+  		<div class="title align-center">{{item.desc}}</div>
+    	<div class="item item-image">
+    		<ion-slide-box show-pager="false">
+    		  <ion-slide ng-repeat="image in item.images">
+    		  	<img ng-src="{{image.path}}" alt="" height="300">
+    		  </ion-slide>
+    		</ion-slide-box>
+    		<div class="desc row" ng-show="!item.showDesc">
+	  			<div class="col-10 col-offset-90 col-center" ng-click="item.showDesc=true">
+	  				<i class="ion-chevron-left"></i>
+	  			</div>
+	  		</div>
+	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:!item.showDesc}">
+	  			<div class="col-80 col-offset-10">
+	  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;收益：{{item.earnings | currency:'￥'}}元<br>
+	  				到期：2015/12/17
+	  			</div>
+	  			<div class="col col-center" ng-click="item.showDesc=false">
+	  				<i class="ion-chevron-right"></i>
+	  			</div>
+    	</div>
+    </div>
+	</ion-content>
+
+	<publicity></publicity>
+</ion-view>
