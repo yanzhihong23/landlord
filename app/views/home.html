@@ -25,7 +25,7 @@
 
       <span class="arrow"></span>
       <div class="seize-wrapper">
-        <div class="seize">
+        <div class="seize" ng-show="house.status==3">
           <a href="#/tab/buy">抢</a>
           <span class="countdown">
             <span class="odometer" id="h1"></span>
@@ -36,8 +36,13 @@
             <span class="odometer">:</span>
             <span class="odometer" id="s1"></span>
             <span class="odometer" id="s2"></span>
-
           </span>
+        </div>
+        <div class="seize disabled" ng-show="house.status==1">
+          <a href="">收益中...</a>
+        </div>
+        <div class="seize disabled" ng-show="house.status==2">
+          <a href="">敬请期待</a>
         </div>
       </div>
       

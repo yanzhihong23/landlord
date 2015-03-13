@@ -223,6 +223,10 @@ $seize-inner-size: 110px;
     line-height: $seize-inner-size;
     font-weight: bold;
     cursor: pointer;
+    &.disabled{
+      background: $gray;
+      font-size: 20px;
+    }
     a, a:focus, a:hover{
       display: block;
       color: $white;

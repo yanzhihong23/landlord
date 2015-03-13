@@ -47,7 +47,7 @@ angular.module('landlordApp')
   			$scope.$parent.house = $scope.house;
 
   			// countdown
-  			if(/-/.test(landlord.fp_finish_date_remain)) {
+  			if(/-/.test(landlord.fp_finish_date_remain) || landlord.fp_status != '3') {
   				$scope.countdown = 0;
   			} else {
   				var remainArr = landlord.fp_finish_date_remain.split(':');
