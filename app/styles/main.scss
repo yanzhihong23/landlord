@@ -476,11 +476,11 @@ $seize-inner-size: 110px;
 #order_view{
   .card {
     .title{
-      line-height: 38px;
-      background: $accent;
-      color: $white;
-      font-size: 1.2em;
-      font-weight: bold;
+      line-height: 46px;
+      font-size: 20px;
+      margin: 0 10px;
+      color: $gray-dark;
+      border-bottom: solid 1px $gray-light;
     }
     .payment-show{
       .row{
@@ -493,6 +493,7 @@ $seize-inner-size: 110px;
       }
     }
     .payment-select{
+      padding-top: 6%;
       padding-bottom: 8%;
       .balance{
         display: block;
@@ -509,12 +510,12 @@ $seize-inner-size: 110px;
         }
       }
       .item-input{
+        padding-top: 12px;
         border-bottom: solid 1px $accent;
       }
       .item-select{
         padding: 0;
         border: 0;
-        margin-bottom: 20px;
         .input-label{
           line-height: 27px;
           max-width: 15%;
@@ -529,6 +530,10 @@ $seize-inner-size: 110px;
           width: 85%;
           direction: ltr;
         }
+      }
+      .card-pay{
+        margin-left: 15%;
+        padding-left: 10px;
       }
     }
   }

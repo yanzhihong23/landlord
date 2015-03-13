@@ -1,26 +1,13 @@
 <ion-view view-title="开始当房东" cache-view="false" id="order_view">
   <ion-content class="padding">
   	<div class="card align-center">
-  		<div class="title">支付金额：{{order.total | currency:'￥'}}元</div>
-      <section class="padding payment-show">
-        <div class="row">
-          <div class="col-50">
-            <div>账户支付</div>
-            <div>{{order.balance | currency:'￥'}}元</div>
-          </div>
-          <div class="col-50">
-            <div>银行卡支付</div>
-            <div>{{order.bank | currency:'￥'}}元</div>
-          </div>
-        </div>
-      </section>
-
+  		<div class="title">支付金额：<span class="accent">{{order.total | currency:''}}</span>元</div>
   		<section class="padding payment-select list">
         <label class="balance">
           <span>
             <input type="checkbox" ng-model="order.useBalance" ng-disabled="!order.balanceUsable">
           </span>
-          账户余额（{{order.balanceUsable | currency:'￥'}}元）
+          账户余额（{{order.balanceUsable | currency:''}}元）
         </label>
   			<div class="item item-select">
           <span class="input-label">
@@ -29,6 +16,7 @@
 	       	<select ng-model="order.bankCard" ng-options="card.value as card.label for card in bankCards" ng-disabled="!order.useCard">
 		       </select>
   			</div>
+        <div ng-show="order.bank" class="card-pay align-left fs-xs accent">银行卡还需支付{{order.bank | currency:''}}元</div>
 
 	  		<label class="item item-input">
 			    <input type="password" placeholder="请输入支付密码" ng-model="user.payPassword">
