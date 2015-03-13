@@ -40,6 +40,7 @@ $gray-light: 				#ccc;
     cursor: pointer;
     position: relative;
     outline: none;
+    border: 0;
     &, &:before, &:after{
     	box-sizing: content-box;
     }

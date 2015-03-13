@@ -76,6 +76,10 @@ html, body{
   height: 100%;
 }
 
+body, button, input, select, textarea{
+  font-family: 'Open Sans', Tahoma, Arial, 'Hiragino Sans GB', "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+
 a, a:hover, a:active, a:focus{
   outline: none;
   text-decoration: none;

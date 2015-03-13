@@ -8,7 +8,7 @@
 @import "animation";
 
 ion-view{
-  background: url(../images/bg-2.jpg) center no-repeat;
+  background: url(../images/bg-3.jpg) center no-repeat;
   background-size: cover;
 }
 
@@ -148,8 +148,14 @@ ion-view{
 }
 
 #pay{
-  .card .item:last-child{
-    border-bottom: solid 1px $accent;
+  .item.item-input{
+    &:before, &:after{
+      width: 0;
+      background: none;
+    }
+  }
+  .tip{
+    font-size: 13px;
   }
   .input-label{
     width: 20%;
@@ -166,6 +172,7 @@ ion-view{
   }
   input::-webkit-input-placeholder { color: #666; }
   .item-input.vcode{
+    border-bottom: 0;
     input{
       max-width: 50%;
       padding-right: 5px;
@@ -435,23 +442,35 @@ $seize-inner-size: 110px;
 }
 
 
-
+.logo-part{
+  height: 15%;
+  margin-top: 25%;
+  background: url(../images/landlord-logo-3.png) no-repeat center;
+  background-size: contain;
+}
 
 // phone view
 #phone_view{
+  .card{
+    background: rgba(0,0,0,.4);
+    padding-bottom: 10%;
+  }
   .item-input{
-    margin: 28% 0 14%;
+    margin: 5% 0;
   }
 }
 
-// #login_view, #register_view{
+#register_view, #login_view{
   .card{
-    // margin-top: 15%;
-    .button-full{
-      margin-top: 10%;
-    }
+    padding: 2% 15px;
   }
-// }
+}
+
+.card{
+  .button-full{
+    margin-top: 10%;
+  }
+}
 
 
 #order_view{
