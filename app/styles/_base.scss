@@ -72,6 +72,10 @@ input[type="checkbox"]{
 	color: $gray-dark;
 }
 
+.blue{
+  color: $blue;
+}
+
 html, body{
   height: 100%;
 }
@@ -83,4 +87,8 @@ body, button, input, select, textarea{
 a, a:hover, a:active, a:focus{
   outline: none;
   text-decoration: none;
+}
+
+a.blue{
+  color: $blue !important;
 }

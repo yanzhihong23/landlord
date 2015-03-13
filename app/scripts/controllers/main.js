@@ -345,7 +345,7 @@ angular.module('landlordApp')
 			$scope.pay.count,
 			$scope.pay.key,
 			$scope.pay.type,
-			1, 1)
+			1, $scope.pay.payMode)
 		.success(function(data) {
 			if(data.flag === 1) {
 				storablePan = data.storablePan;
