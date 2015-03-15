@@ -1,6 +1,10 @@
 @charset "UTF-8";
 @import "mixin";
 
+.modal-backdrop.active {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
 .accent{
   color: $accent;
 }
