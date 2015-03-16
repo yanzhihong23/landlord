@@ -102,7 +102,7 @@ angular.module('landlordApp')
 
 	  var countdown = function() {
 	  	var parsed = parseTime($scope.countdown);
-	  	od_h1.update(parsed.h1);
+	  	od_h1.update(Math.min(parsed.h1, 9));
 	  	od_h2.update(parsed.h2);
 	  	od_m1.update(parsed.m1);
 	  	od_m2.update(parsed.m2);
@@ -307,10 +307,11 @@ angular.module('landlordApp')
 			});
 	};
 })
-.controller('PayCtrl', function($scope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading) {
+.controller('PayCtrl', function($scope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout) {
 	var accountInfo = userConfig.getAccountInfo();
 	var sessionId = userConfig.getSessionId();
 	var mId = accountInfo && accountInfo.m_id, storablePan, token;
+	$scope.resendCountdown = 0;
 
 	$scope.pay = $scope.$parent.pay;
 	$scope.pay.name = accountInfo.realname;
@@ -348,14 +349,35 @@ angular.module('landlordApp')
 			1, $scope.pay.payMode)
 		.success(function(data) {
 			if(data.flag === 1) {
+				resendCountdown();
 				storablePan = data.storablePan;
 				token = data.token;
+				toaster.pop('success', data.msg);
 			}
 		})
 	};
 
 	$scope.doPay = function() {
 		$ionicLoading.show();
+
+		// update kyc info
+		if(!accountInfo.realname) {
+			UserApi.updateKycInfo(sessionId, $scope.pay.name, $scope.pay.id, accountInfo.mobilenum)
+				.success(function(data) {
+					if(data.flag === 1) {
+						userConfig.autoLogin(); // get new account info
+						console.log(data.msg);
+						pay();
+					} else {
+						toaster.pop('error', data.msg);
+					}
+				});
+		} else {
+			pay();
+		}
+	};
+
+	var pay = function() {
 		PayApi.bindAndPay(mId, sessionId, 
 			$scope.pay.extRefNo, storablePan, 
 			$scope.pay.count, 
@@ -374,21 +396,23 @@ angular.module('landlordApp')
 			$ionicLoading.hide();
 			if(data.flag === 1) {
 				toaster.pop('success', data.msg);
-				// update kyc info
-				if(!accountInfo.realname) {
-					UserApi.updateKycInfo(sessionId, $scope.pay.name, $scope.pay.id, accountInfo.mobilenum)
-						.success(function(data) {
-							if(data.flag === 1) {
-								userConfig.autoLogin(); // get new account info
-								console.log(data.msg);
-							}
-						})
-				}
+				$scope.pay = {};
 				$state.go('account.info');
 			} else {
 				toaster.pop('error', data.msg);
 			}
-		})
+		});
+	};
+
+	var resendCountdown = function() {
+	  $scope.resendCountdown = 60;
+	  var countdown = function() {
+	    if($scope.resendCountdown > 0) {
+	      $scope.resendCountdown += -1;
+	      $timeout(countdown, 1000);
+	    }
+	  };
+	  countdown();
 	};
 })
 .controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory) {
