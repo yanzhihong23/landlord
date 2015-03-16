@@ -307,7 +307,7 @@ angular.module('landlordApp')
 			});
 	};
 })
-.controller('PayCtrl', function($scope, $state, PayApi, userConfig, toaster) {
+.controller('PayCtrl', function($scope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading) {
 	var accountInfo = userConfig.getAccountInfo();
 	var sessionId = userConfig.getSessionId();
 	var mId = accountInfo && accountInfo.m_id, storablePan, token;
@@ -355,6 +355,7 @@ angular.module('landlordApp')
 	};
 
 	$scope.doPay = function() {
+		$ionicLoading.show();
 		PayApi.bindAndPay(mId, sessionId, 
 			$scope.pay.extRefNo, storablePan, 
 			$scope.pay.count, 
@@ -370,8 +371,19 @@ angular.module('landlordApp')
 			$scope.pay.bankCode, 
 			$scope.pay.phone)
 		.success(function(data) {
+			$ionicLoading.hide();
 			if(data.flag === 1) {
 				toaster.pop('success', data.msg);
+				// update kyc info
+				if(!accountInfo.realname) {
+					UserApi.updateKycInfo(sessionId, $scope.pay.name, $scope.pay.id, accountInfo.mobilenum)
+						.success(function(data) {
+							if(data.flag === 1) {
+								userConfig.autoLogin(); // get new account info
+								console.log(data.msg);
+							}
+						})
+				}
 				$state.go('account.info');
 			} else {
 				toaster.pop('error', data.msg);

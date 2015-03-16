@@ -127,6 +127,20 @@ angular.module('landlordApp')
 					mobile: mobile
 				})
 			});
+		};
+
+		this.updateKycInfo = function(sessionId, realname, idNo, mobile) {
+			return $http({
+				method: 'POST',
+				url: server + '/qactivity/updateMFDByMid',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					real_name: realname,
+					id_num: idNo,
+					mobile: mobile
+				})
+			})
 		}
 
 

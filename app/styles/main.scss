@@ -173,8 +173,9 @@ ion-view{
   input::-webkit-input-placeholder { color: #666; }
   .item-input.vcode{
     border-bottom: 0;
+    width: 70%;
     input{
-      max-width: 50%;
+      max-width: 70%;
       padding-right: 5px;
     }
     +.button{
@@ -296,8 +297,14 @@ $seize-inner-size: 110px;
       }
     }
     .desc{
+      display: -webkit-box;
       color: $white;
       font-size: 13px;
+      height: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
   }
 }

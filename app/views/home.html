@@ -20,7 +20,7 @@
       <div class="percent">{{house.annualYield}}<span class="per">%</span></div>
       
       <div class="progress-bar">
-        <span style="width: {{house.completeRate}}%"></span>
+        <span style="width: {{house.completeRate || 0}}%"></span>
       </div>
 
       <span class="arrow"></span>
@@ -41,7 +41,7 @@
         <div class="seize disabled" ng-show="house.status==1">
           <a href="">收益中...</a>
         </div>
-        <div class="seize disabled" ng-show="house.status==2">
+        <div class="seize disabled" ng-show="house.status==0">
           <a href="">敬请期待</a>
         </div>
       </div>
