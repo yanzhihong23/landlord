@@ -21,6 +21,7 @@ angular
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
   		switch(toState.name) {
   			case 'tabs.home':
+        case 'tabs.tos':
   			case 'account.info':
         case 'account.phone':
         case 'account.setPayPassword':
@@ -103,7 +104,8 @@ angular
       url: "/tos",
       views: {
         'home-tab': {
-          templateUrl: "views/tos.html"
+          templateUrl: "views/tos.html",
+          controller: 'TosCtrl'
         }
       }
     })

@@ -18,6 +18,11 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		}, 3000);
 	})
+	.controller('TosCtrl', function($scope, $ionicHistory) {
+		$scope.close = function() {
+			$ionicHistory.goBack();
+		};
+	})
   .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading) {
   	$scope.countdown = 0;
 
@@ -319,7 +324,7 @@ angular.module('landlordApp')
 	$scope.pay.key = $scope.house.key;
 	$scope.pay.type = $scope.house.type;
 
-	$scope.pay.cardNo = '6228483470502762919'; // for test
+	// $scope.pay.cardNo = '6228483470502762919'; // for test
 	console.log('$scope.pay.payMode = ' + $scope.pay.payMode);
 
 
