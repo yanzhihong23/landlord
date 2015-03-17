@@ -275,8 +275,8 @@ $seize-inner-size: 110px;
       background-color: transparent;
       .seize-button{
         position: absolute;
-        right: 5px;
-        bottom: 6px;
+        right: 3%;
+        bottom: 1%;
         display: inline-block;
         width: 50px;
         height: 50px;
@@ -312,6 +312,10 @@ $seize-inner-size: 110px;
   }
 }
 
+.card .slider{
+  height: 100%;
+}
+
 
 #buy_card{
   color: $gray;
@@ -342,6 +346,7 @@ $seize-inner-size: 110px;
         font-size: 18px;
         color: $accent;
         padding: 0 0 0 12px;
+        border-radius: 0;
       }
     }
   }
