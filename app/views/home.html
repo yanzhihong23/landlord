@@ -1,7 +1,7 @@
 <ion-view view-title="大房东" class="home">
 	<ion-nav-buttons side="right">
-	  <a href="#/account/info" id="my_info">
-	    <button class="button button-icon">我的房产</button>
+	  <a id="my_info">
+	    <button class="button button-icon" ng-click="goToInfo()">我的房产</button>
 	  </a>
 	</ion-nav-buttons>
   <ion-content class="padding">
@@ -29,7 +29,7 @@
       <div class="seize-wrapper">
         <div class="seize" ng-show="house.status==3">
           <a href="#/tab/buy">抢</a>
-          <span class="countdown">
+          <span class="countdown" ng-show="resendCountdown">
             <span class="odometer" id="h1"></span>
             <span class="odometer" id="h2"></span>
             <span class="odometer">:</span>

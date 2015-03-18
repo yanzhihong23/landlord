@@ -4,7 +4,7 @@ angular.module('landlordApp')
 	.service('serverConfig', function() {
 
 	})
-	.factory('utils', function() {
+	.factory('utils', function($ionicHistory) {
 		return {
 			param: function(obj) {
 				var str = [];
@@ -24,6 +24,12 @@ angular.module('landlordApp')
 				};
 				
 				return year + '-' + appendZero(month) + '-' + appendZero(date);
+			},
+			disableBack: function() {
+				$ionicHistory.nextViewOptions({
+				  disableAnimate: false,
+				  disableBack: true
+				});
 			}
 		}
 	})

@@ -1,12 +1,19 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter) {
+	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils) {
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
+  			utils.disableBack();
   			$state.go('account.info');
   		})
+  		utils.disableBack();
   		$state.go('account.phone');
+  	}
+
+  	$scope.backToHome = function() {
+			utils.disableBack();
+  		$state.go('tabs.home');
   	}
 
   	var init = function() {
@@ -65,8 +72,10 @@ angular.module('landlordApp')
 
 		$scope.logout = function() {
 			userConfig.logout();
+			utils.disableBack();
 			$state.go('account.phone');
 			$rootScope.$on('loginSuc', function() {
+				utils.disableBack();
 				$state.go('tabs.home');
 			})
 		}
@@ -77,22 +86,14 @@ angular.module('landlordApp')
 
 		init();
 	})
-	.controller('LoginCtrl', function($scope, userConfig, $state, $ionicHistory) {
+	.controller('LoginCtrl', function($scope, userConfig, $state) {
 		if(userConfig.isLogined()) {
 		  $state.go('tabs.home');
 		} else if($state.name === 'account.phone') {
-			console.log('before');
-			console.log($ionicHistory.viewHistory());
-			$ionicHistory.clearHistory();
-			console.log('after');
-			console.log($ionicHistory.viewHistory());
+
 		}
-		// $ionicHistory.nextViewOptions({
-		//   disableAnimate: true,
-		//   disableBack: true
-		// });
 	})
-	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, $ionicHistory, toaster, $interval, $timeout) {
+	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
 		$scope.account = {};
 		$scope.resendCountdown = 0;
 
@@ -178,6 +179,7 @@ angular.module('landlordApp')
 		};
 
 		var payPasswordCheck = function() {
+			utils.disableBack();
 			var accountInfo = userConfig.getAccountInfo();
 			if(accountInfo && !accountInfo.is_pay_password) {
 				$state.go('account.setPayPassword');

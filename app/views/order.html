@@ -1,4 +1,4 @@
-<ion-view view-title="开始当房东" cache-view="false" id="order_view">
+<ion-view view-title="开始当房东" id="order_view">
   <ion-content class="padding">
   	<div class="card align-center">
   		<div class="title">支付金额：<span class="accent">{{order.total | currency:''}}</span>元</div>
@@ -13,7 +13,7 @@
           <span class="input-label">
             <input type="checkbox" ng-model="order.useCard" ng-disabled="order.cardDisabled"> 
           </span>
-	       	<select ng-model="order.bankCard" ng-options="card.value as card.label for card in bankCards" ng-disabled="!order.useCard" ng-click="addNewCard()">
+	       	<select ng-model="order.bankCard" ng-options="card.value as card.label for card in bankCards" ng-disabled="!order.useCard">
 		       </select>
   			</div>
         <div ng-show="order.bank" class="card-pay align-left fs-xs accent">银行卡还需支付{{order.bank | currency:''}}元</div>

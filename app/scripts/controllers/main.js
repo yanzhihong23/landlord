@@ -23,8 +23,13 @@ angular.module('landlordApp')
 			$ionicHistory.goBack();
 		};
 	})
-  .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading) {
+  .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
   	$scope.countdown = 0;
+
+  	$scope.goToInfo = function() {
+  		utils.disableBack();
+  		$state.go('account.info');
+  	}
 
   	var updateData = function() {
   		// get current
@@ -225,12 +230,6 @@ angular.module('landlordApp')
 		$scope.order.useBalance = true;
 	}
 
-	$scope.addNewCard = function() {
-		if($scope.order.useCard && $scope.order.bankCard === 'add') {
-			$state.go('tabs.pay');
-		}
-	}
-
 	UserApi.getBoundBankList(userConfig.getSessionId())
 		.success(function(data) {
 			if(data.flag === 1) {
@@ -298,7 +297,8 @@ angular.module('landlordApp')
 				} else {
 					$scope.$parent.pay.payMode = 1;
 				}
-				if($scope.order.bankCard === 'add') {
+				if($scope.order.bankCard === 'add' && $scope.bankCards.length === 1) {
+					$scope.order.useCard = false;
 					$state.go('tabs.pay');
 				}
 			} else {

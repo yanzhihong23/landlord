@@ -1,7 +1,7 @@
 <ion-view view-title="我的房产" id="my_info" cache-view="false">
 	<ion-nav-buttons side="left">
-	  <a href="#/tab/home" id="my_info">
-	    <button class="button button-icon">首页</button>
+	  <a id="my_info">
+	    <button class="button button-icon" ng-click="backToHome()">首页</button>
 	  </a>
 	</ion-nav-buttons>
 	<ion-nav-buttons side="right">
@@ -28,7 +28,7 @@
 						<div class="col fs-md">{{info.earnings | currency:'￥'}}</div>
 					</div>
 				</div>
-				<div class="col-20 col-center"><a href="#/tab/home" class="plus-btn align-center"><i class="ion-plus"></i></a></div>
+				<div class="col-20 col-center"><a class="plus-btn align-center" ng-click="backToHome()"><i class="ion-plus"></i></a></div>
 			</div>
 		</section>
 		
