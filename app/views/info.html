@@ -1,5 +1,12 @@
-<ion-view view-title="我的房产" id="my_info" cache-view="false">
+<ion-view view-title="我的房产" id="my_info" cache-view="true">
+	<ion-nav-buttons side="right">
+	  <a href="#/tab/home" id="my_info">
+	    <button class="button button-icon">首页</button>
+	  </a>
+	</ion-nav-buttons>
 	<ion-content>
+		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
+    </ion-refresher>
 		<section class="balance-info bold white">
 			<div class="padding-top tip" ng-if="showTip">
 				<i class="ion-ios7-bell-outline"></i>

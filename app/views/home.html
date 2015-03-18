@@ -5,6 +5,8 @@
 	  </a>
 	</ion-nav-buttons>
   <ion-content class="padding">
+    <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
+    </ion-refresher>
     <div class="card padding align-center" id="house_card">
     	<p class="desc gray">房产抵押率 {{house.mortgageRate}}%</p>
       <div class="row">

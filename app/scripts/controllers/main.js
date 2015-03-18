@@ -26,44 +26,50 @@ angular.module('landlordApp')
   .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading) {
   	$scope.countdown = 0;
 
-  	// get current
-  	$ionicLoading.show();
-  	LandlordApi.getLandlord().success(function(data, status, headers, config) {
-  		$ionicLoading.hide();
-  		if(data.flag === 1) {
-  			var landlord = data.data.landlord;
-  			$scope.house = {
-  				key: landlord.fp_id,
-  				type: 1,
-  				mortgageRate: landlord.house_rate,
-  				duration: landlord.fp_expect,
-  				minPrice: ~~landlord.fp_price_min/10000,
-  				maxPrice: ~~landlord.fp_price_max/10000,
-  				houseType: landlord.house_type,
-  				annualYield: landlord.fp_rate_max,
-  				completeRate: landlord.fp_percent,
-  				status: landlord.fp_status,	// 0: not publish, 1: end, 3: on sell,
-  				slogan: landlord.fp_slogan,
-  				previews: data.data.landlord_atts,
-  				startDate: landlord.fp_start_date.replace(/-/g,'.'),
-  				endDate: landlord.fp_end_date.replace(/-/g,'.')
-  			};
+  	var updateData = function() {
+  		// get current
+  		$ionicLoading.show();
+  		LandlordApi.getLandlord().success(function(data, status, headers, config) {
+  			$ionicLoading.hide();
+  			$scope.$broadcast('scroll.refreshComplete');
+  			if(data.flag === 1) {
+  				var landlord = data.data.landlord;
+  				$scope.house = {
+  					key: landlord.fp_id,
+  					type: 1,
+  					mortgageRate: landlord.house_rate,
+  					duration: landlord.fp_expect,
+  					minPrice: ~~landlord.fp_price_min/10000,
+  					maxPrice: ~~landlord.fp_price_max/10000,
+  					houseType: landlord.house_type,
+  					annualYield: landlord.fp_rate_max,
+  					completeRate: landlord.fp_percent,
+  					status: landlord.fp_status,	// 0: not publish, 1: end, 3: on sell,
+  					slogan: landlord.fp_slogan,
+  					previews: data.data.landlord_atts,
+  					startDate: landlord.fp_start_date.replace(/-/g,'.'),
+  					endDate: landlord.fp_end_date.replace(/-/g,'.'),
+  					percent: landlord.fp_percent,
+  					price: landlord.fp_price,
+  					remain: ~~(100 - +landlord.fp_percent)*landlord.fp_price/1000000
+  				};
 
-  			$scope.$parent.house = $scope.house;
+  				$scope.$parent.house = $scope.house;
 
-  			// countdown
-  			if(/-/.test(landlord.fp_finish_date_remain) || landlord.fp_status != '3') {
-  				$scope.countdown = 0;
+  				// countdown
+  				if(/-/.test(landlord.fp_finish_date_remain) || landlord.fp_status != '3') {
+  					$scope.countdown = 0;
+  				} else {
+  					var remainArr = landlord.fp_finish_date_remain.split(':');
+  					$scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
+  				}
+  				
+  				countdown();
   			} else {
-  				var remainArr = landlord.fp_finish_date_remain.split(':');
-  				$scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
+  				console.log('fail');
   			}
-  			
-  			countdown();
-  		} else {
-  			console.log('fail');
-  		}
-  	});
+  		});
+  	};
 
   	// toaster.pop('success', "text");
   	// localStorage.setItem('ls.isLogined', true); // test on device
@@ -138,6 +144,13 @@ angular.module('landlordApp')
 	    };
 		}
 		// countdown end
+
+		$scope.doRefresh = function() {
+			updateData();
+		};
+
+		updateData();
+
 	})
 	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi) {
 		// check login status
@@ -148,6 +161,8 @@ angular.module('landlordApp')
   		$state.go('account.phone');
   	}
 
+  	console.log($scope.house);
+
   	// show available balance
   	var accountInfo = userConfig.getAccountInfo();
   	if(accountInfo) {
@@ -157,8 +172,8 @@ angular.module('landlordApp')
   	var annual = $scope.house.annualYield*$scope.house.minPrice*100;
 		$scope.item = {
 			mIncome: (annual/12).toFixed(2) || 0,
-			total: annual.toFixed(2) || 0,
-			limit: $scope.house.maxPrice || 1
+			total: (annual/12*$scope.house.duration).toFixed(2) || 0,
+			limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1
 		};
 
 		$scope.buy = angular.copy($scope.item);

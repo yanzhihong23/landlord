@@ -11,53 +11,61 @@ angular.module('landlordApp')
 
   	$scope.investingItems = [];
 
-  	LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
-  		.success(function(data) {
-  			if(data.flag === 1) {
-  				data = data.data;
-  				$scope.info = {
-  					balance: data.balanceUsable || 0,
-  					invest: data.invest || 0,
-  					earnings: data.earnings || 0
-  				}
-  				$scope.showTip = !!data.balanceUsable;
+  	var init = function() {
+  		LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
+  			.success(function(data) {
+  				$scope.$broadcast('scroll.refreshComplete');
+  				if(data.flag === 1) {
+  					data = data.data;
+  					$scope.info = {
+  						balance: data.balanceUsable || 0,
+  						invest: data.invest || 0,
+  						earnings: data.earnings || 0
+  					}
+  					$scope.showTip = !!data.balanceUsable;
 
-  				// update balance
-  				var accountInfo = userConfig.getAccountInfo();
-  				accountInfo.balanceUsable = data.balanceUsable;
-  				userConfig.setAccountInfo(accountInfo);
+  					// update balance
+  					var accountInfo = userConfig.getAccountInfo();
+  					accountInfo.balanceUsable = data.balanceUsable;
+  					userConfig.setAccountInfo(accountInfo);
 
-  				var investingItems = data.vipAccounts;
-  				var idObj = {};
-  				if(investingItems.length) {
-  					for(var i=0; i<investingItems.length; i++) {
-  						var id = investingItems[i].fp_id;
-  						if(!idObj.id) {
-  							idObj.id = 1;
-  							LandlordApi.getLandlordProfitDetail(userConfig.getSessionId(), id)
-  							.success(function(data) {
-  								if(data.flag === 1) {
-  									data = data.data;
-  									var desc = '该笔投资正在匹配中...';
-  									if(data.next_expect_ba.ba_expect) {
-  										desc = data.next_expect_ba.ba_time_formate + ' 入账“房租”' + $filter('currency')(data.baList[data.baList.length-1].ba_price, '￥') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + ')';
+  					var investingItems = data.vipAccounts;
+  					var idObj = {};
+  					if(investingItems.length) {
+  						for(var i=0; i<investingItems.length; i++) {
+  							var id = investingItems[i].fp_id;
+  							if(!idObj.id) {
+  								idObj.id = 1;
+  								LandlordApi.getLandlordProfitDetail(userConfig.getSessionId(), id)
+  								.success(function(data) {
+  									if(data.flag === 1) {
+  										data = data.data;
+  										var desc = '该笔投资正在匹配中...';
+  										if(data.next_expect_ba.ba_expect) {
+  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租”' + $filter('currency')(data.baList[data.baList.length-1].ba_price, '￥') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + ')';
+  										}
+  										var item = {
+  											invest: data.invest/10000,
+  											earnings: data.earnings || 0,
+  											images: data.landlord_atts,
+  											desc: desc
+  										};
+
+  										$scope.investingItems.push(item);
   									}
-  									var item = {
-  										invest: data.invest/10000,
-  										earnings: data.earnings || 0,
-  										images: data.landlord_atts,
-  										desc: desc
-  									};
-
-  									$scope.investingItems.push(item);
-  								}
-  							});
+  								});
+  							}
   						}
   					}
   				}
-  			}
-  		});
+  			});
+		};
 
+		$scope.doRefresh = function() {
+			init();
+		};
+
+		init();
 	})
 	.controller('LoginCtrl', function($scope, userConfig, $state) {
 		if(userConfig.isLogined()) {
