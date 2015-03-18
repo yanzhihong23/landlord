@@ -47,8 +47,11 @@
 	  		</div>
 	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:!item.showDesc}">
 	  			<div class="col-80 col-offset-10">
-	  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;收益：{{item.earnings | currency:'￥'}}元<br>
-	  				到期：2015/12/17
+	  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;<span ng-show="item.earnings">收益：{{item.earnings | currency:''}}元</span><br>
+	  				<span ng-show="item.endDate">到期：{{item.endDate}}</span>
+	  				<span ng-hide="item.endDate">正在匹配中</span>
+  				 &nbsp;&nbsp;&nbsp; 
+	  				<a href="" class="blue">电子合同</a>
 	  			</div>
 	  			<div class="col col-center" ng-click="item.showDesc=false">
 	  				<i class="ion-chevron-right"></i>

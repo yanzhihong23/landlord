@@ -43,13 +43,14 @@ angular.module('landlordApp')
   										data = data.data;
   										var desc = '该笔投资正在匹配中...';
   										if(data.next_expect_ba.ba_expect) {
-  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租”' + $filter('currency')(data.baList[data.baList.length-1].ba_price, '￥') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + ')';
+  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(data.next_expect_ba.ba_price, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + ')';
   										}
   										var item = {
   											invest: data.invest/10000,
   											earnings: data.earnings || 0,
   											images: data.landlord_atts,
-  											desc: desc
+  											desc: desc,
+  											endDate: data.baList.length && data.baList[data.baList.length-1].ba_time_formate
   										};
 
   										$scope.investingItems.push(item);
@@ -76,7 +77,7 @@ angular.module('landlordApp')
 
 		init();
 	})
-	.controller('LoginCtrl', function($scope, userConfig, $state) {
+	.controller('LoginCtrl', function($scope, userConfig, $state, $ionicHistory) {
 		if(userConfig.isLogined()) {
 		  $state.go('tabs.home');
 		} else if($state.name === 'account.phone') {
@@ -86,7 +87,10 @@ angular.module('landlordApp')
 			console.log('after');
 			console.log($ionicHistory.viewHistory());
 		}
-		console.log('LoginCtrl');
+		// $ionicHistory.nextViewOptions({
+		//   disableAnimate: true,
+		//   disableBack: true
+		// });
 	})
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, $ionicHistory, toaster, $interval, $timeout) {
 		$scope.account = {};

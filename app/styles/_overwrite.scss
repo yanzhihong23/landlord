@@ -1,6 +1,14 @@
 @charset "UTF-8";
 @import "mixin";
 
+// toaser
+.toast-top-full-width{
+  top: 50px;
+  .platform-ios &{
+    top: 70px;
+  }
+}
+
 .modal-backdrop.active {
   background-color: rgba(0, 0, 0, 0.5); 
 }
