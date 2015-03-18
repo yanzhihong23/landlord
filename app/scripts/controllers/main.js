@@ -225,6 +225,12 @@ angular.module('landlordApp')
 		$scope.order.useBalance = true;
 	}
 
+	$scope.addNewCard = function() {
+		if($scope.order.useCard && $scope.order.bankCard === 'add') {
+			$state.go('tabs.pay');
+		}
+	}
+
 	UserApi.getBoundBankList(userConfig.getSessionId())
 		.success(function(data) {
 			if(data.flag === 1) {

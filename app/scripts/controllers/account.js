@@ -9,12 +9,13 @@ angular.module('landlordApp')
   		$state.go('account.phone');
   	}
 
-  	$scope.investingItems = [];
-
   	var init = function() {
   		LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
   			.success(function(data) {
   				$scope.$broadcast('scroll.refreshComplete');
+
+  				$scope.investingItems = [];
+  				
   				if(data.flag === 1) {
   					data = data.data;
   					$scope.info = {
