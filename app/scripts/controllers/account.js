@@ -111,6 +111,8 @@ angular.module('landlordApp')
 					if(data.flag === 1) {
 						userConfig.setAccountInfo(data.data);
 						toaster.pop('success', data.msg);
+						// clear password
+						$scope.account.password = null;
 
 						payPasswordCheck();
 
@@ -152,7 +154,9 @@ angular.module('landlordApp')
 	  			if(data.flag === 1) {
 	  				userConfig.setAccountInfo(data.data);
 	  				toaster.pop('success', data.msg);
-
+	  				// clear password
+						$scope.account.password = null;
+						
 	  				payPasswordCheck();
 
 	  				userConfig.setUser({
@@ -179,9 +183,9 @@ angular.module('landlordApp')
 		};
 
 		var payPasswordCheck = function() {
-			utils.disableBack();
 			var accountInfo = userConfig.getAccountInfo();
 			if(accountInfo && !accountInfo.is_pay_password) {
+				utils.disableBack();
 				$state.go('account.setPayPassword');
 			} else {
 				$rootScope.$broadcast('loginSuc');

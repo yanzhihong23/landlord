@@ -157,12 +157,18 @@ angular.module('landlordApp')
 		updateData();
 
 	})
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi) {
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout) {
 		// check login status
 		if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
-  			$state.go('tabs.buy');
+  			utils.disableBack();
+  			$state.go('tabs.home');
+
+  			$timeout(function() {
+  				$state.go('tabs.buy');
+  			}, 10);
   		})
+  		utils.disableBack();
   		$state.go('account.phone');
   	}
 
