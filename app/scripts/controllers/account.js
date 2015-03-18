@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('InfoCtrl', function($scope, userConfig, $state, $rootScope, LandlordApi, $filter) {
+	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter) {
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
   			$state.go('account.info');
@@ -15,7 +15,7 @@ angular.module('landlordApp')
   				$scope.$broadcast('scroll.refreshComplete');
 
   				$scope.investingItems = [];
-  				
+
   				if(data.flag === 1) {
   					data = data.data;
   					$scope.info = {
@@ -61,6 +61,14 @@ angular.module('landlordApp')
   				}
   			});
 		};
+
+		$scope.logout = function() {
+			userConfig.logout();
+			$state.go('account.phone');
+			$rootScope.$on('loginSuc', function() {
+				$state.go('tabs.home');
+			})
+		}
 
 		$scope.doRefresh = function() {
 			init();

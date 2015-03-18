@@ -441,7 +441,7 @@ angular.module('landlordApp')
 	  countdown();
 	};
 })
-.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory) {
+.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout) {
 	var sessionId = userConfig.getSessionId();
 	var mobile = userConfig.getAccountInfo().mobilenum;
 	$scope.resendCountdown = 0;

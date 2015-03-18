@@ -1,7 +1,12 @@
 <ion-view view-title="我的房产" id="my_info" cache-view="false">
-	<ion-nav-buttons side="right">
+	<ion-nav-buttons side="left">
 	  <a href="#/tab/home" id="my_info">
 	    <button class="button button-icon">首页</button>
+	  </a>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+	  <a id="my_info">
+	    <button class="button button-icon" ng-click="logout()">切换账户</button>
 	  </a>
 	</ion-nav-buttons>
 	<ion-content>
