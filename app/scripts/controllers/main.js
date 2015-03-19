@@ -31,7 +31,7 @@ angular.module('landlordApp')
   		$state.go('account.info');
   	}
 
-  	var updateData = function() {
+  	var updateData = function(refresh) {
   		// get current
   		$ionicLoading.show();
   		LandlordApi.getLandlord().success(function(data, status, headers, config) {
@@ -69,7 +69,7 @@ angular.module('landlordApp')
   					$scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
   				}
   				
-  				countdown();
+  				!refresh && countdown();
   			} else {
   				console.log('fail');
   			}
@@ -151,7 +151,7 @@ angular.module('landlordApp')
 		// countdown end
 
 		$scope.doRefresh = function() {
-			updateData();
+			updateData(true);
 		};
 
 		updateData();
