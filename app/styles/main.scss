@@ -265,7 +265,9 @@ $seize-inner-size: 110px;
   }
 }
 
-
+.slider-slide img{
+  border-radius: $border-radius-size;
+}
 
 #preview_modal{
   min-height: 60%;
@@ -285,9 +287,6 @@ $seize-inner-size: 110px;
       height: 80%;
       border-bottom: 0;
       background-color: transparent;
-      img{
-        border-radius: $border-radius-size;
-      }
       .seize-button{
         position: absolute;
         right: 3%;
