@@ -45,7 +45,7 @@
 	  				<i class="ion-chevron-left"></i>
 	  			</div>
 	  		</div>
-	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:item.showDesc===false}">
+	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:!item.showDesc}">
 	  			<div class="col-80 col-offset-10">
 	  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;<span ng-show="item.earnings">收益：{{item.earnings | currency:''}}元</span><br>
 	  				<span ng-show="item.endDate">到期：{{item.endDate}}</span>
