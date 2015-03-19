@@ -285,7 +285,7 @@ angular.module('landlordApp')
 				$scope.order.bank = 0;
 
 				$scope.order.useCard = false;
-				$scope.order.cardDisabled = true;
+				$scope.order.cardDisabled = false;
 
 				$scope.$parent.pay.payMode = 2;
 			}
@@ -305,6 +305,10 @@ angular.module('landlordApp')
 	$scope.$watch('order.useCard', function(val, oldVal) {
 		if(val !== oldVal) { // val === oldVal when back from bind new card
 			if(val) {
+				if($scope.order.balanceUsable > $scope.order.total) {
+					$scope.order.useBalance = false;
+				}
+
 				if($scope.order.useBalance) {
 					$scope.$parent.pay.payMode = 3;
 				} else {
