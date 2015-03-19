@@ -273,17 +273,21 @@ $seize-inner-size: 110px;
   height: 74%;
   left: 6%;
   top: 13%;
-  border-radius: 10px;
+  border-radius: $border-radius-size;
   background-color: $accent;
   .card{
     margin: 0;
     height: 100%;
     border: solid 3px $white;
     background-color: transparent;
+    border-radius: $border-radius-size;
     .item-image{
       height: 80%;
       border-bottom: 0;
       background-color: transparent;
+      img{
+        border-radius: $border-radius-size;
+      }
       .seize-button{
         position: absolute;
         right: 3%;

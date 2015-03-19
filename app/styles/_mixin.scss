@@ -7,6 +7,8 @@ $gray: 							#808080;
 $gray-light: 				#ccc;
 $blue:              #489cdf;
 
+$border-radius-size:  6px;
+
 
 @mixin float ($side: left) {
   display: inline;
