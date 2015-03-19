@@ -1,4 +1,4 @@
-<ion-view view-title="我的房产" id="my_info" cache-view="false">
+<ion-view view-title="我的房产" id="my_info">
 	<ion-nav-buttons side="left">
 	  <a id="my_info">
 	    <button class="button button-icon" ng-click="backToHome()">首页</button>
@@ -14,7 +14,7 @@
     </ion-refresher>
 		<section class="balance-info bold white">
 			<div class="padding-top tip" ng-if="showTip">
-				<i class="ion-ios7-bell-outline"></i>
+				<i class="ion-ios-bell-outline"></i>
 				<span>账户余额{{info.balance | currency:'￥'}}元，要生锈啦，赶紧买！</span>
 			</div>
 			<div class="row">
@@ -45,13 +45,13 @@
 	  				<i class="ion-chevron-left"></i>
 	  			</div>
 	  		</div>
-	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:!item.showDesc}">
+	  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:item.showDesc===false}">
 	  			<div class="col-80 col-offset-10">
 	  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;<span ng-show="item.earnings">收益：{{item.earnings | currency:''}}元</span><br>
 	  				<span ng-show="item.endDate">到期：{{item.endDate}}</span>
 	  				<span ng-hide="item.endDate">正在匹配中</span>
   				 &nbsp;&nbsp;&nbsp; 
-	  				<a href="" class="blue">电子合同</a>
+	  				<a ng-click="goToTos($index)" class="blue">电子合同</a>
 	  			</div>
 	  			<div class="col col-center" ng-click="item.showDesc=false">
 	  				<i class="ion-chevron-right"></i>

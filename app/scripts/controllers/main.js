@@ -18,9 +18,15 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		}, 3000);
 	})
-	.controller('TosCtrl', function($scope, $ionicHistory) {
+	.controller('TosCtrl', function($scope, $state, $ionicHistory, utils) {
 		$scope.close = function() {
-			$ionicHistory.goBack();
+			if($ionicHistory.backView()) {
+				$ionicHistory.goBack();
+			} else {
+				utils.disableBack();
+				$state.go('account.info');
+			}
+			
 		};
 	})
   .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
@@ -31,7 +37,7 @@ angular.module('landlordApp')
   		$state.go('account.info');
   	}
 
-  	var updateData = function(refresh) {
+  	var updateData = function(restartCountdown) {
   		// get current
   		$ionicLoading.show();
   		LandlordApi.getLandlord().success(function(data, status, headers, config) {
@@ -69,7 +75,7 @@ angular.module('landlordApp')
   					$scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
   				}
   				
-  				!refresh && countdown();
+  				restartCountdown && countdown();
   			} else {
   				console.log('fail');
   			}
@@ -151,10 +157,11 @@ angular.module('landlordApp')
 		// countdown end
 
 		$scope.doRefresh = function() {
-			updateData(true);
+			var restartCountdown = !$scope.countdown;
+			updateData(restartCountdown);
 		};
 
-		updateData();
+		updateData(true);
 
 	})
 	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout) {

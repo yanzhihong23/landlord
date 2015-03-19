@@ -14,7 +14,12 @@ angular.module('landlordApp')
   	$scope.backToHome = function() {
 			utils.disableBack();
   		$state.go('tabs.home');
-  	}
+  	};
+
+  	$scope.goToTos = function() {
+  		utils.disableBack();
+  		$state.go('tabs.tos');
+  	};
 
   	var init = function() {
   		LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
@@ -156,7 +161,7 @@ angular.module('landlordApp')
 	  				toaster.pop('success', data.msg);
 	  				// clear password
 						$scope.account.password = null;
-						
+
 	  				payPasswordCheck();
 
 	  				userConfig.setUser({
