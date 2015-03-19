@@ -33,7 +33,7 @@ angular
   	});
 
     // auto login
-    if(userConfig.isLogined) {
+    if(userConfig.isLogined()) {
       userConfig.autoLogin();
     }
   })

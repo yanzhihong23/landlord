@@ -124,8 +124,8 @@ ion-content.padding{
   }
   .preview{
     position: absolute;
-    bottom: 20px;
-    right: 30px;
+    bottom: 15px;
+    right: 20px;
     img{
       cursor: pointer;
     }
@@ -234,6 +234,10 @@ $seize-inner-size: 110px;
     line-height: $seize-inner-size;
     font-weight: bold;
     cursor: pointer;
+    a img{
+      vertical-align: middle;
+      padding-bottom: 17px;
+    }
     &.disabled{
       background: $gray;
       font-size: 20px;

@@ -65,9 +65,6 @@ angular.module('landlordApp')
 
 		this.logout = function() {
 			localStorageService.clearAll();
-			// self.setLoginStatus(false);
-			// self.setSessionId();
-			// self.setAccountInfo();
 		};
 
 		this.setUser = function(user) {
