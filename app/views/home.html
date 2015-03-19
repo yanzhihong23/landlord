@@ -27,8 +27,10 @@
 
       <span class="arrow"></span>
       <div class="seize-wrapper" ng-cloak>
-        <div class="seize" ng-show="house.status==3">
-          <a href="#/tab/buy"><img src="images/seize.png" alt="抢" width="60"></a>
+        <div class="seize" ng-class="{disabled: house.status!=3}">
+          <a href="#/tab/buy" ng-show="house.status==3"><img src="images/seize.png" alt="抢" width="60"></a>
+          <a ng-show="house.status==1">收益中...</a>
+          <a ng-show="house.status==0">敬请期待</a>
           <span class="countdown" ng-show="countdown">
             <span class="odometer" id="h1"></span>
             <span class="odometer" id="h2"></span>
@@ -39,12 +41,6 @@
             <span class="odometer" id="s1"></span>
             <span class="odometer" id="s2"></span>
           </span>
-        </div>
-        <div class="seize disabled" ng-show="house.status==1">
-          <a href="">收益中...</a>
-        </div>
-        <div class="seize disabled" ng-show="house.status==0">
-          <a href="">敬请期待</a>
         </div>
       </div>
       
