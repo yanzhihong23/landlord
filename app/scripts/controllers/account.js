@@ -62,7 +62,8 @@ angular.module('landlordApp')
   											earnings: data.earnings || 0,
   											images: data.landlord_atts,
   											desc: desc,
-  											endDate: data.baList.length && data.baList[data.baList.length-1].ba_time_formate
+  											endDate: data.baList.length && data.baList[data.baList.length-1].ba_time_formate,
+  											showDesc: true
   										};
 
   										$scope.investingItems.push(item);
@@ -103,11 +104,6 @@ angular.module('landlordApp')
 		$scope.resendCountdown = 0;
 
 		$scope.login = function() {
-			//for test
-			// $scope.account = {
-			// 	phone: 'victorygwk',
-			// 	password: 'it789123'
-			// }
   		var username = $scope.account.phone;
   		var password = md5.createHash($scope.account.password || '');
 
@@ -115,7 +111,7 @@ angular.module('landlordApp')
   			.success(function(data, status, headers, config) {
 					if(data.flag === 1) {
 						userConfig.setAccountInfo(data.data);
-						toaster.pop('success', data.msg);
+						// toaster.pop('success', data.msg);
 						// clear password
 						$scope.account.password = null;
 
