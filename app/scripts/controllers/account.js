@@ -163,8 +163,6 @@ angular.module('landlordApp')
 		  			if(data.flag === 1) {
 		  				userConfig.setAccountInfo(data.data);
 		  				toaster.pop('success', data.msg);
-		  				
-
 		  				payPasswordCheck();
 
 		  				userConfig.setUser({
@@ -174,9 +172,9 @@ angular.module('landlordApp')
 							// clear password
 							$scope.account.password = null;
 		  			} else {
-		  				$scope.clicked = false;
 		  				toaster.pop('error', data.msg);
 		  			}
+		  			$scope.clicked = false;
 		  		});
 			}
   		
@@ -184,15 +182,20 @@ angular.module('landlordApp')
 
 		$scope.setPayPassword = function() {
 			var password = md5.createHash($scope.account.payPassword || '');
-			UserApi.setPayPassword(userConfig.getSessionId(), password)
-				.success(function(data) {
-					if(data.flag === 1) {
-						toaster.pop('success', data.msg);
-						$rootScope.$broadcast('loginSuc');
-					} else {
-						toaster.pop('error', data.msg);
-					}
-				})
+			if(!$scope.clicked) {
+				$scope.clicked = true;
+				UserApi.setPayPassword(userConfig.getSessionId(), password)
+					.success(function(data) {
+						if(data.flag === 1) {
+							toaster.pop('success', data.msg);
+							$rootScope.$broadcast('loginSuc');
+						} else {
+							toaster.pop('error', data.msg);
+						}
+						$scope.clicked = false;
+					});
+			}
+			
 		};
 
 		var payPasswordCheck = function() {
