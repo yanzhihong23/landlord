@@ -17,6 +17,9 @@ angular
     'LocalStorageModule',
     'toaster'
   ])
+  .constant('serverConfig', {
+    url: 'https://m-test.nonobank.com/msapi'
+  })
   .run(function($rootScope, $ionicNavBarDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if($rootScope.modal && $rootScope.modal._isShown) {
@@ -25,6 +28,19 @@ angular
 
   		switch(toState.name) {
         case 'account.info':
+          if(!userConfig.isLogined()) {
+            event.preventDefault(); 
+
+            $rootScope.$on('loginSuc', function() {
+              utils.disableBack();
+              $state.go(toState.name);
+            });
+
+            utils.disableBack();
+            $state.go('account.phone');
+          }
+          $ionicNavBarDelegate.showBackButton(false);
+          break;
         case 'tabs.buy': 
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
