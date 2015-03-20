@@ -17,13 +17,51 @@ angular
     'LocalStorageModule',
     'toaster'
   ])
-  .run(function($rootScope, $ionicNavBarDelegate, $ionicHistory, userConfig) {
+  .run(function($rootScope, $ionicNavBarDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      if($rootScope.modal && $rootScope.modal._isShown) {
+        $rootScope.modal.hide();
+      }
+
   		switch(toState.name) {
+        case 'account.info':
+        case 'tabs.buy': 
+          if(!userConfig.isLogined()) {
+            event.preventDefault(); 
+
+            $rootScope.$on('loginSuc', function() {
+              utils.disableBack();
+              $state.go('tabs.home');
+
+              $timeout(function() {
+                $state.go(toState.name);
+              }, 10);
+            });
+
+            utils.disableBack();
+            $state.go('account.phone');
+          }
+          $ionicNavBarDelegate.showBackButton(true);
+          break;
+        case 'account.phone':
+        case 'account.login':
+        case 'account.register':
+          if(userConfig.isLogined()) {
+            event.preventDefault();
+            utils.disableBack();
+            $state.go('tabs.home');
+          }
+          break;
+        case 'account.setPayPassword':
+          var accountInfo = userConfig.getAccountInfo();
+          if(accountInfo && accountInfo.is_pay_password) {
+            event.preventDefault();
+            utils.disableBack();
+            $state.go('tabs.home');
+          }
+          break;
   			case 'tabs.home':
         case 'tabs.tos':
-  			case 'account.info':
-        case 'account.phone':
         case 'account.setPayPassword':
   				$ionicNavBarDelegate.showBackButton(false);
   				break;

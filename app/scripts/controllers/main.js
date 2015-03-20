@@ -29,7 +29,7 @@ angular.module('landlordApp')
 			
 		};
 	})
-  .controller('HomeCtrl', function($scope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
+  .controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
   	$scope.countdown = 0;
 
   	$scope.goToInfo = function() {
@@ -89,13 +89,13 @@ angular.module('landlordApp')
 	    scope: $scope,
 	    animation: 'slide-in-up'
 	  }).then(function(modal) {
-	    $scope.modal = modal;
+	    $rootScope.modal = modal;
 	  });
 	  $scope.openModal = function() {
-	    $scope.modal.show();
+	    $rootScope.modal.show();
 	  };
 	  $scope.closeModal = function() {
-	    $scope.modal.hide();
+	    $rootScope.modal.hide();
 	  };
 	  $scope.$on('modal.hidden', function() {
 	  	if(seizeNow) {

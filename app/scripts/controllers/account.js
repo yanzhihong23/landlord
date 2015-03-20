@@ -7,6 +7,7 @@ angular.module('landlordApp')
   			utils.disableBack();
   			$state.go('account.info');
   		})
+
   		utils.disableBack();
   		$state.go('account.phone');
   	}
@@ -93,11 +94,7 @@ angular.module('landlordApp')
 		init();
 	})
 	.controller('LoginCtrl', function($scope, userConfig, $state) {
-		if(userConfig.isLogined()) {
-		  $state.go('tabs.home');
-		} else if($state.name === 'account.phone') {
 
-		}
 	})
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
 		$scope.account = {};
