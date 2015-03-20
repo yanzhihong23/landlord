@@ -48,8 +48,8 @@ angular.module('landlordApp')
   					if(investingItems.length) {
   						for(var i=0; i<investingItems.length; i++) {
   							var id = investingItems[i].fp_id;
-  							if(!idObj.id) {
-  								idObj.id = 1;
+  							if(!idObj[id]) {
+  								idObj[id] = 1;
   								LandlordApi.getLandlordProfitDetail(userConfig.getSessionId(), id)
   								.success(function(data) {
   									if(data.flag === 1) {
@@ -187,6 +187,8 @@ angular.module('landlordApp')
 				$state.go('account.setPayPassword');
 			} else {
 				$rootScope.$broadcast('loginSuc');
+				// utils.disableBack();
+				// $state.go('tabs.home');
 			}
 		};
 
