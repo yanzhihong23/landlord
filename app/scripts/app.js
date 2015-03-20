@@ -39,7 +39,6 @@ angular
             utils.disableBack();
             $state.go('account.phone');
           }
-          $ionicNavBarDelegate.showBackButton(false);
           break;
         case 'tabs.buy': 
           if(!userConfig.isLogined()) {
@@ -57,7 +56,6 @@ angular
             utils.disableBack();
             $state.go('account.phone');
           }
-          $ionicNavBarDelegate.showBackButton(true);
           break;
         case 'account.phone':
         case 'account.login':
@@ -78,13 +76,6 @@ angular
             $state.go('tabs.home');
           }
           break;
-  			case 'tabs.home':
-        case 'tabs.tos':
-        case 'account.setPayPassword':
-  				$ionicNavBarDelegate.showBackButton(false);
-  				break;
-				default:
-					$ionicNavBarDelegate.showBackButton(true);
   		}
   	});
 

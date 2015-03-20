@@ -1,4 +1,4 @@
-<ion-view view-title="我的房产" id="my_info">
+<ion-view view-title="我的房产" id="my_info" hide-back-button="true">
 	<ion-nav-buttons side="left">
 	  <a id="my_info">
 	    <button class="button button-icon" ng-click="backToHome()">首页</button>
@@ -9,7 +9,7 @@
 	    <button class="button button-icon" ng-click="logout()">切换账户</button>
 	  </a>
 	</ion-nav-buttons>
-	<ion-content>
+	<ion-content has-bouncing="false">
 		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
     </ion-refresher>
 		<section class="balance-info bold white">
