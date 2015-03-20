@@ -64,8 +64,10 @@ angular
         case 'account.register':
           if(userConfig.isLogined()) {
             event.preventDefault();
-            utils.disableBack();
-            $state.go('tabs.home');
+            if(fromState.name !== 'account.setPayPassword') {
+              utils.disableBack();
+              $state.go('tabs.home');
+            }
           }
           break;
         case 'account.setPayPassword':

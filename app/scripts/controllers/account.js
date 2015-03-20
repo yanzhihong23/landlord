@@ -56,7 +56,7 @@ angular.module('landlordApp')
   										data = data.data;
   										var desc = '该笔投资正在匹配中...';
   										if(data.next_expect_ba.ba_expect) {
-  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(data.next_expect_ba.ba_price, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + ')';
+  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(data.next_expect_ba.ba_price, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + '期)';
   										}
   										var item = {
   											invest: data.invest/10000,
@@ -99,6 +99,12 @@ angular.module('landlordApp')
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
 		$scope.account = {};
 		$scope.resendCountdown = 0;
+		$scope.clicked = false;
+		$scope.invalidPassword = false;
+
+		$scope.passwordValidate = function(password) {
+      $scope.invalidPassword = !utils.isPasswordValid(password);
+		};
 
 		$scope.login = function() {
   		var username = $scope.account.phone;
@@ -125,8 +131,10 @@ angular.module('landlordApp')
 		};
 
 		$scope.sendSms = function(resend) {
+			$scope.clicked = true;
 			UserApi.sendSms($scope.account.phone)
 				.success(function(data, status, headers, config) {
+					$scope.clicked = false;
 	  			if(data.flag === 1) {
 	  				$scope.account.sessionId = data.data.session_id;
 	  				!resend && $state.go('account.register');
@@ -135,6 +143,7 @@ angular.module('landlordApp')
 	  			} else if(data.flag === 6) {
 	  				!resend && $state.go('account.login');
 	  			} else if(data.flag === 8) {
+	  				toaster.clear();
 	  				toaster.pop('error', data.msg);
 	  			}
 	  		});
@@ -147,24 +156,30 @@ angular.module('landlordApp')
 
 		$scope.register = function() {
 			var account = $scope.account;
-  		UserApi.register(account.phone, account.vcode, account.password, account.sessionId)
-  			.success(function(data, status, headers, config) {
-	  			if(data.flag === 1) {
-	  				userConfig.setAccountInfo(data.data);
-	  				toaster.pop('success', data.msg);
-	  				// clear password
-						$scope.account.password = null;
+			if(!$scope.clicked) {
+				$scope.clicked = true;
+	  		UserApi.register(account.phone, account.vcode, account.password, account.sessionId)
+	  			.success(function(data, status, headers, config) {
+		  			if(data.flag === 1) {
+		  				userConfig.setAccountInfo(data.data);
+		  				toaster.pop('success', data.msg);
+		  				
 
-	  				payPasswordCheck();
+		  				payPasswordCheck();
 
-	  				userConfig.setUser({
-							username: account.phone,
-							password: md5.createHash(account.password)
-						});
-	  			} else {
-	  				toaster.pop('error', data.msg);
-	  			}
-	  		})
+		  				userConfig.setUser({
+								username: account.phone,
+								password: md5.createHash(account.password)
+							});
+							// clear password
+							$scope.account.password = null;
+		  			} else {
+		  				$scope.clicked = false;
+		  				toaster.pop('error', data.msg);
+		  			}
+		  		});
+			}
+  		
 		};
 
 		$scope.setPayPassword = function() {

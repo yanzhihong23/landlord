@@ -30,6 +30,20 @@ angular.module('landlordApp')
 				  disableAnimate: false,
 				  disableBack: true
 				});
+			},
+			isPasswordValid: function(password) {
+				var minMaxLength = /^[\s\S]{6,16}$/,
+	        letter = /[a-zA-Z]/,
+	        number = /[0-9]/,
+	        special = /[ !"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/,
+	        count = 0;
+	      if(minMaxLength.test(password)) {
+	      	letter.test(password) && count++;
+	      	number.test(password) && count++;
+	      	special.test(password) && count++;
+	      }
+
+	      return count >= 2;
 			}
 		}
 	})

@@ -458,13 +458,18 @@ angular.module('landlordApp')
 	  countdown();
 	};
 })
-.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout) {
+.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 	var sessionId = userConfig.getSessionId();
 	var mobile = userConfig.getAccountInfo().mobilenum;
+	$scope.invalidPassword = false;
 	$scope.resendCountdown = 0;
 	$scope.user = {
 		vcode: '',
 		password: ''
+	};
+
+	$scope.passwordValidate = function(password) {
+    $scope.invalidPassword = !utils.isPasswordValid(password);
 	};
 
 	$scope.sendSms = function() {

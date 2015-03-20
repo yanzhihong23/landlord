@@ -1,9 +1,12 @@
 <ion-view view-title="房东信息" id="phone_view">
 	<div class="logo-part"></div>
 	<div class="card padding">
-		<label class="item item-input white">
-	    <input type="number" ng-model="account.phone" placeholder="房东大人，请填写手机号">
-	  </label>
-	  <button class="button button-full" ng-click="sendSms()">下一步</button>
+		<form name="phoneForm" ng-submit="sendSms()">
+			<label class="item item-input white">
+		    <input type="text" ng-model="account.phone" placeholder="房东大人，请填写手机号" ng-minlength="11" ng-maxlength="11" ng-trim=true required>
+		  </label>
+		  <button type="submit" class="button button-full" ng-disabled="phoneForm.$invalid || clicked">下一步</button>
+		</form>
+		
 	</div>
 </ion-view>
