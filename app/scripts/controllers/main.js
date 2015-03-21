@@ -62,7 +62,7 @@ angular.module('landlordApp')
   					endDate: landlord.fp_end_date.replace(/-/g,'.'),
   					percent: landlord.fp_percent,
   					price: landlord.fp_price,
-  					remain: ~~(100 - +landlord.fp_percent)*landlord.fp_price/1000000
+  					remain: ~~((100 - +landlord.fp_percent)*landlord.fp_price/1000000)
   				};
 
   				$scope.$parent.house = $scope.house;
@@ -161,26 +161,14 @@ angular.module('landlordApp')
 			updateData(restartCountdown);
 		};
 
+		$rootScope.$on('landlordUpdated', function() {
+			$scope.doRefresh();
+		});
+
 		updateData(true);
 
 	})
 	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout) {
-		// check login status
-		if(!userConfig.isLogined()) {
-  		$rootScope.$on('loginSuc', function(evt) {
-  			utils.disableBack();
-  			$state.go('tabs.home');
-
-  			$timeout(function() {
-  				$state.go('tabs.buy');
-  			}, 10);
-  		})
-  		utils.disableBack();
-  		$state.go('account.phone');
-  	}
-
-  	console.log($scope.house);
-
   	// show available balance
   	var accountInfo = userConfig.getAccountInfo();
   	if(accountInfo) {
@@ -231,8 +219,13 @@ angular.module('landlordApp')
 					}
 				});
 		};
+
+		// reset
+		$rootScope.$on('landlordUpdated', function() {
+			$scope.buy.volume = 1;
+		});
 	})
-.controller('OrderCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, toaster, md5) {
+.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5) {
 	$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
 	$scope.order.balance = $scope.order.balanceUsable;
 	$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
@@ -336,12 +329,15 @@ angular.module('landlordApp')
 		var payMode = $scope.$parent.pay.payMode;
 		var payPassword = md5.createHash($scope.user.payPassword);
 
+		$ionicLoading.show();
 		PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword)
 			.success(function(data) {
+				$ionicLoading.hide();
 				if(data.flag === 1) {
 					toaster.pop('success', data.msg);
-					$state.go('account.info');
+					$scope.user.payPassword = null; // clear password
 					$rootScope.$broadcast('landlordUpdated');
+					$state.go('account.info');
 				} else {
 					toaster.pop('error', data.msg);
 				}

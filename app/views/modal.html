@@ -6,7 +6,9 @@
   		  	<img ng-src="{{item.path}}" alt="" height="97%">
   		  </ion-slide>
   		</ion-slide-box>
-  		<span class="seize-button" ng-click="seize()" ng-show="house.status==3">抢</span>
+  		<span class="seize-button" ng-click="seize()" ng-show="house.status==3">
+        <img src="images/seize.png" alt="抢">
+      </span>
   	</div>
   	<div class="padding bold desc">{{house.slogan}}</div>
   </div>
