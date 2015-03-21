@@ -326,9 +326,6 @@ angular.module('landlordApp')
 				
 			}
 		}
-		
-
-		console.log($scope.$parent.pay.payMode)
 	});
 
 	$scope.quickPay = function() {
@@ -344,6 +341,7 @@ angular.module('landlordApp')
 				if(data.flag === 1) {
 					toaster.pop('success', data.msg);
 					$state.go('account.info');
+					$rootScope.$broadcast('landlordUpdated');
 				} else {
 					toaster.pop('error', data.msg);
 				}
@@ -440,6 +438,7 @@ angular.module('landlordApp')
 			if(data.flag === 1) {
 				toaster.pop('success', data.msg);
 				$scope.pay = {};
+				$rootScope.$broadcast('landlordUpdated');
 				$state.go('account.info');
 			} else {
 				toaster.pop('error', data.msg);

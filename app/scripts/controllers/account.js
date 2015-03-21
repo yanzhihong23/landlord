@@ -91,6 +91,10 @@ angular.module('landlordApp')
 			init();
 		};
 
+		$rootScope.$on('landlordUpdated', function() {
+			init();
+		});
+
 		init();
 	})
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
