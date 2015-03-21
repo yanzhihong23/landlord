@@ -60,6 +60,7 @@ angular
         case 'account.phone':
         case 'account.login':
         case 'account.register':
+        case 'account.retrievePassword':
           if(userConfig.isLogined()) {
             event.preventDefault();
             if(fromState.name !== 'account.setPayPassword') {
@@ -138,11 +139,11 @@ angular
         }
       }
     })
-    .state('tabs.forgotTxPwd', {
-      url: "/forgotTxPwd",
+    .state('tabs.retrievePayPassword', {
+      url: "/retrievePayPassword",
       views: {
         'home-tab': {
-          templateUrl: "views/forgotTxPwd.html",
+          templateUrl: "views/retrieve-pay-password.html",
           controller: 'RetrieveTxPwdCtrl'
         }
       }
@@ -175,8 +176,7 @@ angular
     	url: "/phone",
     	views: {
     		'home-tab': {
-    			templateUrl: "views/phone.html",
-    			controller: 'LoginCtrl'
+    			templateUrl: "views/phone.html"
     		}
     	}
     })
@@ -184,8 +184,7 @@ angular
     	url: "/login",
     	views: {
     		'home-tab': {
-    			templateUrl: "views/login.html",
-    			controller: 'LoginCtrl'
+    			templateUrl: "views/login.html"
     		}
     	}
     })
@@ -193,8 +192,7 @@ angular
       url: "/register",
       views: {
         'home-tab': {
-          templateUrl: "views/register.html",
-          controller: 'LoginCtrl'
+          templateUrl: "views/register.html"
         }
       }
     })
@@ -203,6 +201,15 @@ angular
       views: {
         'home-tab': {
           templateUrl: "views/set-pay-password.html"
+        }
+      }
+    })
+    .state('account.retrievePassword', {
+      url: '/retrievePassword',
+      views: {
+        'home-tab': {
+          templateUrl: 'views/retrieve-password.html',
+          controller: 'RetrievePasswordCtrl'
         }
       }
     })

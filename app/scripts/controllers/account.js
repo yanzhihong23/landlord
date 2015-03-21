@@ -93,9 +93,6 @@ angular.module('landlordApp')
 
 		init();
 	})
-	.controller('LoginCtrl', function($scope, userConfig, $state) {
-
-	})
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
 		$scope.account = {};
 		$scope.resendCountdown = 0;
@@ -220,4 +217,40 @@ angular.module('landlordApp')
 		  };
 		  countdown();
 		};
+	})
+	.controller('RetrievePasswordCtrl', function($scope, UserApi, toaster, userConfig, md5) {
+		$scope.sendRetrieveSms = function() {
+			UserApi.sendSmsForRetrievePassword($scope.account.phone)
+				.success(function(data) {
+					if(data.flag === 1) {
+						toaster.pop('success', data.msg);
+					} else {
+						toaster.pop('error', data.msg);
+					}
+				});
+		};
+
+		$scope.changePassword = function() {
+			UserApi.findPassword($scope.account.phone, $scope.account.retrieveVcode)
+				.success(function(data) {
+					if(data.flag === 5) {
+						UserApi.changePassword(data.data.session_id, $scope.account.newPassword)
+							.success(function(data) {
+								if(data.flag === 3) {
+									toaster.pop('success', data.msg);
+									var password = md5.createHash($scope.account.newPassword);
+									userConfig.setUser({
+										username: $scope.account.phone,
+										password: md5.createHash($scope.account.newPassword)
+									});
+								} else {
+									toaster.pop('error', data.msg);
+								}
+							});
+					} else {
+						toaster.pop('error', data.msg);
+					}
+				});
+			
+		}
 	})

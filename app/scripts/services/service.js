@@ -47,7 +47,7 @@ angular.module('landlordApp')
 			}
 		}
 	})
-	.service('userConfig', function(localStorageService, UserApi, $interval) {
+	.service('userConfig', function(localStorageService, UserApi, $interval, $rootScope) {
 		var self = this;
 		var auto = null;
 
@@ -96,6 +96,7 @@ angular.module('landlordApp')
 							self.logout();
 						} else {
 							self.setAccountInfo(data.data);
+							$rootScope.$broadcast('loginSuc');
 						}
 					});
 			}

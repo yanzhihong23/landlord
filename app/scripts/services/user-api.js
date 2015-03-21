@@ -140,7 +140,43 @@ angular.module('landlordApp')
 					mobile: mobile
 				})
 			})
-		}
+		};
+
+		this.sendSmsForRetrievePassword = function(mobile) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/sendValidateMobile',
+				headers: headers,
+				data: utils.param({
+					mobilenum: mobile
+				})
+			});
+		};
+
+		this.findPassword = function(mobile, vcode, idNo) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/findPassword',
+				headers: headers,
+				data: utils.param({
+					mobilenum: mobile,
+					validation: vcode,
+					idCard: idNo
+				})
+			});
+		};
+
+		this.changePassword = function(sessionId, password) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/changeFindPassword',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					password: password
+				})
+			});
+		};
 
 
 	})
