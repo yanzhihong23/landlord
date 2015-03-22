@@ -85,7 +85,7 @@ angular.module('landlordApp')
 			$rootScope.$on('loginSuc', function() {
 				init();
 				utils.disableBack();
-				$state.go('tabs.home');
+				$state.go('account.info');
 			})
 		}
 
