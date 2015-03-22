@@ -55,6 +55,8 @@ input::-webkit-input-placeholder{
   border: 0;
   border-bottom: solid 1px $accent;
   background: transparent;
+  // padding-top: 11px;
+  // padding-bottom: 0;
   &:before,&:after{
     content: '';
     position: absolute;
@@ -78,6 +80,10 @@ input::-webkit-input-placeholder{
       background: $gray;
     }
   }
+}
+
+.item-select:after{
+  margin-top: 0;
 }
 
 .item.item-input-inset{

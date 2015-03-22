@@ -11,9 +11,9 @@
 		      <span ng-show="resendCountdown">{{resendCountdown}}秒后</span>重新发送
 		    </button>
 		  </div>
-			<label class="item item-input">
-		    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" required>
-		  </label>
+			<div class="item item-input">
+		    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" clear-input required>
+		  </div>
 		  <button type="submit" class="button button-full" ng-disabled="registerForm.$invalid || invalidPassword || clicked">设置登录密码</button>
 		</form>
 	</div>

@@ -568,5 +568,15 @@ $seize-inner-size: 110px;
 
 
 
+input[clear-input]+i{
+  position: absolute;
+  right: 0px;
+  top: 18px;
+  font-size: 22px;
+  padding: 0 8px;
+}
+
+
+
 
 
