@@ -416,6 +416,34 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    // App cache
+    manifest: {
+      dist: {
+        options: {
+          basePath: '<%= yeoman.dist %>',
+          network: ['http://*', 'https://*'],
+          // fallback: ['/ /offline.html'],
+          exclude: [
+            // 'index.html'
+          ],
+          preferOnline: true,
+          verbose: true,
+          timestamp: true,
+          hash: true
+        },
+        src: [
+          'index.html',
+          'views/**/*.html',
+          'templates/**/*.html',
+          'scripts/**/*.js',
+          'styles/**/*.css',
+          'images/*.{png,jpg,jpeg,gif,webp,svg}',
+          'fonts/**/*.{ttf}'
+        ],
+        dest: '<%= yeoman.dist %>/manifest.appcache'
+      }
     }
   });
 
@@ -463,7 +491,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'manifest'
   ]);
 
   grunt.registerTask('default', [
