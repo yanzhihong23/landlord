@@ -353,6 +353,7 @@ angular.module('landlordApp')
 	$scope.pay = $scope.$parent.pay;
 	$scope.pay.name = accountInfo.realname;
 	$scope.pay.id = accountInfo.idnum;
+	$scope.pay.phone = accountInfo.mobilenum;
 	$scope.pay.key = $scope.house.key;
 	$scope.pay.type = $scope.house.type;
 

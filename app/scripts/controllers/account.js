@@ -4,6 +4,7 @@ angular.module('landlordApp')
 	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils) {
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
+  			init();
   			utils.disableBack();
   			$state.go('account.info');
   		})
@@ -82,6 +83,7 @@ angular.module('landlordApp')
 			utils.disableBack();
 			$state.go('account.phone');
 			$rootScope.$on('loginSuc', function() {
+				init();
 				utils.disableBack();
 				$state.go('tabs.home');
 			})
