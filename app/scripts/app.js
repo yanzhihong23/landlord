@@ -20,6 +20,9 @@ angular
   .constant('serverConfig', {
     url: 'https://m-test.nonobank.com/msapi'
   })
+  .config(function($httpProvider) {
+    $httpProvider.defaults.timeout = 5000;
+  })
   .run(function($rootScope, $ionicNavBarDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if($rootScope.modal && $rootScope.modal._isShown) {
