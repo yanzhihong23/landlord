@@ -1,8 +1,12 @@
 'use strict';
 
 angular.module('landlordApp')
-	.service('serverConfig', function() {
-
+	.factory('httpInterceptor', function(toaster) {
+		return {
+			responseError: function(rejecton) {
+				// toaster.pop('error', '网络连接超时');
+			}
+		}
 	})
 	.factory('utils', function($ionicHistory) {
 		return {

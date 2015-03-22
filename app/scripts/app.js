@@ -22,6 +22,7 @@ angular
   })
   .config(function($httpProvider) {
     $httpProvider.defaults.timeout = 5000;
+    $httpProvider.interceptors.push('httpInterceptor');
   })
   .run(function($rootScope, $ionicNavBarDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

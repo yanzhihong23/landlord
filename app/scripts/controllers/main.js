@@ -79,7 +79,9 @@ angular.module('landlordApp')
   			} else {
   				console.log('fail');
   			}
-  		});
+  		}).error(function(data) {
+  			$ionicLoading.hide();
+  		})
   	};
 
   	// toaster.pop('success', "text");
