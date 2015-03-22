@@ -35,7 +35,7 @@
   	<div class="card" ng-repeat="item in investingItems">
   		<div class="title align-center">{{item.desc}}</div>
     	<div class="item item-image">
-    		<ion-slide-box show-pager="false">
+    		<ion-slide-box show-pager="true">
     		  <ion-slide ng-repeat="image in item.images">
     		  	<img ng-src="{{image.path}}" alt="" height="300">
     		  </ion-slide>

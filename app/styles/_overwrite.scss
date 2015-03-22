@@ -91,3 +91,26 @@ input::-webkit-input-placeholder{
   opacity: .6;
   background-color: transparent;
 }
+
+// scroll refresher
+.scroll-refresher .ionic-refresher-content .text-pulling{
+  font-size: 13px;
+}
+
+// slide pager
+.slider-pager{
+  top: 5px;
+  .slider-pager-page{
+    color: $white;
+    width: auto;
+    margin: 2px 1px;
+    i:before{
+      font-size: 12px;
+      -webkit-transform-origin-x: 50%;
+      -webkit-transform: scale(.6);
+    }
+    &.active i:before{
+      -webkit-transform: scale(.8);
+    }
+  }
+}
