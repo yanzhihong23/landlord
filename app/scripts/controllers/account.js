@@ -18,7 +18,18 @@ angular.module('landlordApp')
   		$state.go('tabs.home');
   	};
 
-  	$scope.goToTos = function() {
+  	$scope.goToTos = function(index) {
+  		var item = $scope.items[index];
+  		$rootScope.landlord = {
+  			total: item.invest,
+  			fp_title: item.finance_plan.fp_title,
+  			fp_price_max: item.finance_plan.fp_price_max,
+  			fp_start_date: item.finance_plan.fp_start_date,
+  			fp_end_date: utils.getDate(utils.addMonth(new Date(item.finance_plan.fp_start_date), ~~item.finance_plan.fp_expect)),
+  			fp_expect: item.finance_plan.fp_expect,
+  			fp_rate_min: item.finance_plan.fp_rate_min,
+  			fp_publish_date: utils.getDate(item.finance_plan.fp_publish_date)
+  		}
   		utils.disableBack();
   		$state.go('tabs.tos');
   	};
@@ -29,6 +40,7 @@ angular.module('landlordApp')
   				$scope.$broadcast('scroll.refreshComplete');
 
   				$scope.investingItems = [];
+  				$scope.items = [];
 
   				if(data.flag === 1) {
   					data = data.data;
@@ -69,6 +81,7 @@ angular.module('landlordApp')
   										};
 
   										$scope.investingItems.push(item);
+  										$scope.items.push(data);
   									}
   								});
   							}
@@ -101,7 +114,7 @@ angular.module('landlordApp')
 
 		init();
 	})
-	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout) {
+	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout, $ionicLoading) {
 		$scope.account = {};
 		$scope.resendCountdown = 0;
 		$scope.clicked = false;
@@ -115,8 +128,10 @@ angular.module('landlordApp')
   		var username = $scope.account.phone;
   		var password = md5.createHash($scope.account.password || '');
 
+  		$ionicLoading.show();
   		UserApi.login(username, password)
   			.success(function(data, status, headers, config) {
+  				$ionicLoading.hide();
 					if(data.flag === 1) {
 						userConfig.setAccountInfo(data.data);
 						// toaster.pop('success', data.msg);
@@ -163,8 +178,10 @@ angular.module('landlordApp')
 			var account = $scope.account;
 			if(!$scope.clicked) {
 				$scope.clicked = true;
+				$ionicLoading.show();
 	  		UserApi.register(account.phone, account.vcode, account.password, account.sessionId)
 	  			.success(function(data, status, headers, config) {
+	  				$ionicLoading.hide();
 		  			if(data.flag === 1) {
 		  				userConfig.setAccountInfo(data.data);
 		  				toaster.pop('success', data.msg);
@@ -189,8 +206,10 @@ angular.module('landlordApp')
 			var password = md5.createHash($scope.account.payPassword || '');
 			if(!$scope.clicked) {
 				$scope.clicked = true;
+				$ionicLoading.show();
 				UserApi.setPayPassword(userConfig.getSessionId(), password)
 					.success(function(data) {
+						$ionicLoading.hide();
 						if(data.flag === 1) {
 							toaster.pop('success', data.msg);
 							$rootScope.$broadcast('loginSuc');

@@ -18,8 +18,8 @@ angular.module('landlordApp')
         
         return str.join("&");
 			},
-			getDate: function() {
-				var now = new Date();
+			getDate: function(dateObj) {
+				var now = dateObj ? new Date(dateObj) : new Date();
 				var year = now.getFullYear();
 				var month = now.getMonth() + 1;
 				var date = now.getDate();
@@ -28,6 +28,15 @@ angular.module('landlordApp')
 				};
 				
 				return year + '-' + appendZero(month) + '-' + appendZero(date);
+			},
+			addMonth: function(dateObj, num) {
+				var currentMonth = dateObj.getMonth();
+		    dateObj.setMonth(dateObj.getMonth() + num)
+
+		    if (dateObj.getMonth() != ((currentMonth + num) % 12)){
+		        dateObj.setDate(0);
+		    }
+		    return dateObj;
 			},
 			disableBack: function() {
 				$ionicHistory.nextViewOptions({

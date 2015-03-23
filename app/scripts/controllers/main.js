@@ -18,7 +18,15 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		}, 3000);
 	})
-	.controller('TosCtrl', function($scope, $state, $ionicHistory, utils) {
+	.controller('TosCtrl', function($scope, $state, $ionicHistory, utils, userConfig) {
+		var accountInfo = userConfig.getAccountInfo();
+		$scope.userInfo = {
+			realname: accountInfo.realname,
+			id: accountInfo.idnum,
+			mobile: accountInfo.mobilenum
+		};
+		$scope.today = utils.getDate();
+
 		$scope.close = function() {
 			if($ionicHistory.backView()) {
 				$ionicHistory.goBack();
@@ -26,7 +34,6 @@ angular.module('landlordApp')
 				utils.disableBack();
 				$state.go('account.info');
 			}
-			
 		};
 	})
   .controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
@@ -45,6 +52,8 @@ angular.module('landlordApp')
   			$scope.$broadcast('scroll.refreshComplete');
   			if(data.flag === 1) {
   				var landlord = data.data.landlord;
+  				$rootScope.landlord = landlord;
+  				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date);
   				$scope.house = {
   					key: landlord.fp_id,
   					type: 1,
@@ -209,6 +218,9 @@ angular.module('landlordApp')
 
 			$scope.$parent.pay.count = val;
 			$scope.$parent.order.total = val*10000;
+
+			// for tos
+			$rootScope.landlord.total = val*10000;
 		});
 
 		$scope.buyNow = function() {
@@ -321,6 +333,7 @@ angular.module('landlordApp')
 				
 			}
 		}
+		console.log($scope.$parent.pay.payMode)
 	});
 
 	$scope.quickPay = function() {
