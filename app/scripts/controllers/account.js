@@ -82,11 +82,13 @@ angular.module('landlordApp')
 			userConfig.logout();
 			utils.disableBack();
 			$state.go('account.phone');
-			$rootScope.$on('loginSuc', function() {
+
+			var callMeOffFn = $rootScope.$on('loginSuc', function() {
 				init();
 				utils.disableBack();
 				$state.go('account.info');
-			})
+				callMeOffFn(); // deregister the listener
+			});
 		}
 
 		$scope.doRefresh = function() {
