@@ -22,11 +22,12 @@
           <label class="item item-input">
             <input type="password" placeholder="请输入支付密码" ng-model="user.payPassword" ng-pattern="/^[\s\S]{6,16}$/" required>
           </label>
+          <a href="#/tab/retrievePayPassword" class="pull-right blue padding">忘记支付密码?</a>
         </section>
       </div>
 
       <button type="submit" class="button button-full" ng-disabled="!(order.useBalance || order.useCard) || orderForm.$invalid">支付</button>
-      <a href="#/tab/retrievePayPassword" class="pull-right blue">忘记支付密码</a>
+      
     </form>
   	
   </ion-content>
