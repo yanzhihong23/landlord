@@ -52,8 +52,10 @@ angular.module('landlordApp')
   			$scope.$broadcast('scroll.refreshComplete');
   			if(data.flag === 1) {
   				var landlord = data.data.landlord;
+  				// for tos
   				$rootScope.landlord = landlord;
   				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date);
+  				
   				$scope.house = {
   					key: landlord.fp_id,
   					type: 1,
@@ -359,7 +361,7 @@ angular.module('landlordApp')
 			});
 	};
 })
-.controller('PayCtrl', function($scope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout) {
+.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout) {
 	var accountInfo = userConfig.getAccountInfo();
 	var sessionId = userConfig.getSessionId();
 	var mId = accountInfo && accountInfo.m_id, storablePan, token;
@@ -449,6 +451,7 @@ angular.module('landlordApp')
 			$ionicLoading.hide();
 			if(data.flag === 1) {
 				toaster.pop('success', data.msg);
+				// $scope.order = {};
 				$scope.pay = {};
 				$rootScope.$broadcast('landlordUpdated');
 				$state.go('account.info');
