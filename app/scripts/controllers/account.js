@@ -248,7 +248,7 @@ angular.module('landlordApp')
 									userConfig.setUser({
 										username: $scope.account.phone,
 										password: md5.createHash($scope.account.newPassword)
-									});
+									}, true); // broadcast login success
 								} else {
 									toaster.pop('error', data.msg);
 								}

@@ -85,12 +85,16 @@ angular.module('landlordApp')
 			localStorageService.clearAll();
 		};
 
-		this.setUser = function(user) {
+		this.setUser = function(user, broadcast) {
 			localStorageService.add('user', user);
-			self.autoLogin();
+			if(broadcast) {
+				autoLogin(true)
+			} else {
+				self.autoLogin();
+			}
 		};
 
-		function autoLogin() {
+		function autoLogin(broadcast) {
 			var user = localStorageService.get('user');
 			if(user) {
 				UserApi.login(user.username, user.password)
@@ -100,7 +104,7 @@ angular.module('landlordApp')
 							self.logout();
 						} else {
 							self.setAccountInfo(data.data);
-							$rootScope.$broadcast('loginSuc');
+							if(broadcast) $rootScope.$broadcast('loginSuc');
 						}
 					});
 			}
