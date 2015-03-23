@@ -31,8 +31,14 @@
 				<div class="col-20 col-center"><a class="plus-btn align-center" ng-click="backToHome()"><i class="ion-plus"></i></a></div>
 			</div>
 		</section>
+
+		<div class="card align-center" id="no_record" ng-hide="investingItems.length">
+			<div class="name fs-large">尊贵的房东大人</div>
+			<div class="content">好项目常在，恭候您考察</div>
+			<div class="cmd" ng-click="backToHome()">去考察</div>
+		</div>
 		
-  	<div class="card" ng-repeat="item in investingItems">
+  	<div class="card" ng-repeat="item in investingItems" ng-show="investingItems.length">
   		<div class="title align-center">{{item.desc}}</div>
     	<div class="item item-image">
     		<ion-slide-box show-pager="true">

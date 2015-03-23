@@ -580,6 +580,36 @@ input[clear-input]+i{
 }
 
 
+$cmd-size: 136px;
+#no_record{
+  margin-top: 8%;
+  background-color: rgba(255,255,255,0.7);
+  .name{
+    font-size: 22px;
+    font-style: italic;
+    margin: 10% 0;
+  }
+  .content{
+    font-size: 18px;
+    margin-bottom: 30%;
+  }
+  .cmd{
+    width: $cmd-size;
+    height: $cmd-size;
+    border-radius: $cmd-size/2;
+    background-color: $accent;
+    color: $white;
+    position: absolute;
+    left: 50%;
+    margin-left: -$cmd-size/2;
+    bottom: -$cmd-size/2;
+    line-height: $cmd-size;
+    font-size: 36px;
+    box-shadow: 3px 8px 10px 0px #444;
+  }
+}
+
+
 
 
 
