@@ -85,8 +85,14 @@ input::-webkit-input-placeholder{
   }
 }
 
-.item-select:after{
-  margin-top: 0;
+.item.item-select{
+  margin-top: 1px;
+  &:after{
+    margin-top: 0;
+  }
+  select{
+    padding-right: 16px;
+  }
 }
 
 .item.item-input-inset{
@@ -122,4 +128,11 @@ input::-webkit-input-placeholder{
       -webkit-transform: scale(.8);
     }
   }
+}
+
+
+.action-sheet .button{
+  font-size: 15px;
+  font-weight: normal;
+  border-top: solid 1px $gray-light;
 }

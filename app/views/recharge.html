@@ -1,0 +1,29 @@
+<ion-view view-title="充值" cache-view="fasle">
+	<ion-content id="pay">
+		<form name="rechargeForm" ng-submit="quickRecharge()">
+			<div class="card padding">
+				<div class="list padding-top">
+					<div class="padding" style="padding-left:16px">账户余额（{{balanceUsable | currency: ''}}元）</div>
+				  <label class="item item-input">
+				    <span class="input-label">充值金额</span>
+				    <input type="text" ng-model="recharge.amount" placeholder="0.00" required>
+				  </label>
+				  <label class="item item-input item-select" ng-click="selectBank()">
+				    <span class="input-label">银行</span>
+           	<span class="select">{{recharge.bankCardShow}}</span>
+				  </label>
+				  <label class="item item-input">
+				    <span class="input-label">支付密码</span>
+				    <input type="password" ng-model="recharge.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="请输入支付密码" required>
+				  </label>
+				</div>
+			</div>
+
+			<div class="submit">
+				<button type="submit" class="button button-full" ng-disabled="rechargeForm.$invalid">确认充值</button>
+			</div>
+		</form>
+	</ion-content>
+
+	<publicity></publicity>
+</ion-view>
