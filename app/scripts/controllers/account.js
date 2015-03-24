@@ -63,6 +63,7 @@ angular.module('landlordApp')
   					var accountInfo = userConfig.getAccountInfo();
   					accountInfo.balanceUsable = data.balanceUsable;
   					userConfig.setAccountInfo(accountInfo);
+  					$rootScope.$broadcast('balanceUpdated');
 
   					var investingItems = data.vipAccounts;
   					var idObj = {};

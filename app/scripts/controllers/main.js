@@ -245,37 +245,41 @@ angular.module('landlordApp')
 		});
 	})
 .controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5) {
-	$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
-	$scope.order.balance = $scope.order.balanceUsable;
-	$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
-	$scope.bankCards = [];
-	$scope.user = {payPassword: ''};
+	var init = function() {
+		$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
+		$scope.order.balance = $scope.order.balanceUsable;
+		$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
+		$scope.bankCards = [];
+		$scope.user = {payPassword: ''};
 
-	if($scope.order.balance) {
-		$scope.order.useBalance = true;
-	}
+		$scope.order.useBalance = !!$scope.order.balance;
 
-	UserApi.getBoundBankList(userConfig.getSessionId())
-		.success(function(data) {
-			if(data.flag === 1) {
-				var arr = data.data;
-				for(var i=0; i<arr.length; i++) {
-					var card = {
-						value: arr[i].kuaiq_short_no, // storablePan
-						label: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
-					};
-					
-				}
-				$scope.bankCards.push(card);
-			} 
+		UserApi.getBoundBankList(userConfig.getSessionId())
+			.success(function(data) {
+				if(data.flag === 1) {
+					var arr = data.data;
+					for(var i=0; i<arr.length; i++) {
+						var card = {
+							value: arr[i].kuaiq_short_no, // storablePan
+							label: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
+						};
+						
+					}
+					$scope.bankCards.push(card);
+				} 
 
-			$scope.bankCards.push({
-				label: '添加银行卡',
-				value: 'add'
-			});
+				$scope.bankCards.push({
+					label: '添加银行卡',
+					value: 'add'
+				});
 
-			$scope.order.bankCard = $scope.bankCards[0].value;
-		}); 
+				$scope.order.bankCard = $scope.bankCards[0].value;
+			}); 
+	};
+
+	init();
+
+	
 
 	$scope.$watch('order.bankCard', function(val, oldVal) {
 		if(val !== oldVal && val === 'add' && $scope.order.useCard) {
@@ -363,6 +367,10 @@ angular.module('landlordApp')
 				}
 			});
 	};
+
+	$rootScope.$on('balanceUpdated', function() {
+		init();
+	}); 
 })
 .controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils) {
 	var accountInfo = userConfig.getAccountInfo();
