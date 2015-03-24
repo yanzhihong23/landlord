@@ -135,4 +135,11 @@ input::-webkit-input-placeholder{
   font-size: 15px;
   font-weight: normal;
   border-top: solid 1px $gray-light;
+  .platform-android &{
+    font-size: 15px;
+    text-align: center;
+    border-color: $gray-light;
+    color: $blue;
+  }
 }
+

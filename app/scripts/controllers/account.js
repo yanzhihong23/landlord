@@ -361,7 +361,7 @@ angular.module('landlordApp')
 				return;
 			}
 
-			$ionicActionSheet.show({
+			var hideSheet = $ionicActionSheet.show({
 				buttons: $scope.bankCards,
 				cancelText: '取消',
 				buttonClicked: function(index) {
@@ -369,6 +369,7 @@ angular.module('landlordApp')
 						$state.go('account.rechargeNew');
 					} else {
 						$scope.recharge.bankCard = $scope.bankCards[index].value;
+						hideSheet();
 					}
 	     	}
 			})
