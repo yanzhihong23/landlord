@@ -409,6 +409,8 @@ angular.module('landlordApp')
 				storablePan = data.storablePan;
 				token = data.token;
 				toaster.pop('success', data.msg);
+			} else {
+				toaster.pop('error', data.msg);
 			}
 		})
 	};
