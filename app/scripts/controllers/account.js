@@ -122,6 +122,7 @@ angular.module('landlordApp')
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout, $ionicLoading) {
 		$scope.account = {};
 		$scope.resendCountdown = 0;
+		var resendCountdown = utils.resendCountdown($scope);
 		$scope.clicked = false;
 		$scope.invalidPassword = false;
 
@@ -238,23 +239,15 @@ angular.module('landlordApp')
 				// $state.go('tabs.home');
 			}
 		};
-
-		var resendCountdown = function() {
-		  $scope.resendCountdown = 60;
-		  var countdown = function() {
-		    if($scope.resendCountdown > 0) {
-		      $scope.resendCountdown += -1;
-		      $timeout(countdown, 1000);
-		    }
-		  };
-		  countdown();
-		};
 	})
-	.controller('RetrievePasswordCtrl', function($scope, UserApi, toaster, userConfig, md5) {
+	.controller('RetrievePasswordCtrl', function($scope, UserApi, toaster, userConfig, md5, utils) {
+		$scope.resendCountdown = 0;
+		var resendCountdown = utils.resendCountdown($scope);
 		$scope.sendRetrieveSms = function() {
 			UserApi.sendSmsForRetrievePassword($scope.account.phone)
 				.success(function(data) {
 					if(data.flag === 1) {
+						resendCountdown();
 						toaster.pop('success', data.msg);
 					} else {
 						toaster.pop('error', data.msg);

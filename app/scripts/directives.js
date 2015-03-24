@@ -12,7 +12,7 @@ angular.module('landlordApp')
       restrict: 'A',
       require: 'ngModel',
       link: function(scope, element, attr) {
-        var htmlMarkup = attr.clearBtnMarkup ? attr.clearBtnMarkup : '<i class="ion-ios-trash-outline"></i>';
+        var htmlMarkup = attr.clearBtnMarkup ? attr.clearBtnMarkup : '<i class="ion-ios-close-empty"></i>';
         var btn = angular.element(htmlMarkup);
         element.after(btn);
 

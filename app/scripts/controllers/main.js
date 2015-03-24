@@ -55,7 +55,7 @@ angular.module('landlordApp')
   				// for tos
   				$rootScope.landlord = landlord;
   				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date);
-  				
+
   				$scope.house = {
   					key: landlord.fp_id,
   					type: 1,
@@ -361,11 +361,12 @@ angular.module('landlordApp')
 			});
 	};
 })
-.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout) {
+.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils) {
 	var accountInfo = userConfig.getAccountInfo();
 	var sessionId = userConfig.getSessionId();
 	var mId = accountInfo && accountInfo.m_id, storablePan, token;
 	$scope.resendCountdown = 0;
+	var resendCountdown = utils.resendCountdown($scope);
 
 	$scope.pay = $scope.$parent.pay;
 	$scope.pay.name = accountInfo.realname;
@@ -460,23 +461,13 @@ angular.module('landlordApp')
 			}
 		});
 	};
-
-	var resendCountdown = function() {
-	  $scope.resendCountdown = 60;
-	  var countdown = function() {
-	    if($scope.resendCountdown > 0) {
-	      $scope.resendCountdown += -1;
-	      $timeout(countdown, 1000);
-	    }
-	  };
-	  countdown();
-	};
 })
 .controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 	var sessionId = userConfig.getSessionId();
 	var mobile = userConfig.getAccountInfo().mobilenum;
 	$scope.invalidPassword = false;
 	$scope.resendCountdown = 0;
+	var resendCountdown = utils.resendCountdown($scope);
 	$scope.user = {
 		vcode: '',
 		password: ''
@@ -507,19 +498,11 @@ angular.module('landlordApp')
 					$ionicHistory.goBack();
 				} else {
 					toaster.pop('error', data.msg); 
+					if(data.flag === 4) {
+						$scope.invalidVcode = true;
+					}
 				}
 			});
-	};
-
-	var resendCountdown = function() {
-	  $scope.resendCountdown = 60;
-	  var countdown = function() {
-	    if($scope.resendCountdown > 0) {
-	      $scope.resendCountdown += -1;
-	      $timeout(countdown, 1000);
-	    }
-	  };
-	  countdown();
 	};
 })
 	

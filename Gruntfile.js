@@ -428,7 +428,7 @@ module.exports = function (grunt) {
           exclude: [
             // 'index.html'
           ],
-          preferOnline: true,
+          preferOnline: false,
           verbose: true,
           timestamp: true,
           hash: true

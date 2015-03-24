@@ -24,7 +24,7 @@ angular.module('landlordApp')
 					count: count,
 					key: key, // product id
 					type: type, //product type
-					paycode: paycode, // 1: buy, 2: repayment
+					paycode: paycode, // 1: buy, 2: repayment/recharge
 					payMode: payMode // 1: bank, 2: balance， 3: combo
 				})
 			});
@@ -34,7 +34,7 @@ angular.module('landlordApp')
 		this.getBindVcode = function(mId, sessionId, realname, idNo, bankCardNo, bankCode, mobile) {
 			return $http({
 				method: 'POST',
-				url: server + '/quickBill/getDynTr2',
+				url: server + '/quickBill/getDynByBind',
 				headers: headers,
 				data: utils.param({
 					m_id: mId,

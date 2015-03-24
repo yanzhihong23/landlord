@@ -217,6 +217,15 @@ angular
         }
       }
     })
+    .state('account.recharge', {
+      url: '/recharge',
+      views: {
+        'home-tab': {
+          templateUrl: 'views/recharge.html',
+          controller: 'RechargeCtrl'
+        }
+      }
+    })
 
     
     // if none of the above states are matched, use this as the fallback

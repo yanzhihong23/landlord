@@ -8,7 +8,7 @@ angular.module('landlordApp')
 			}
 		}
 	})
-	.factory('utils', function($ionicHistory) {
+	.factory('utils', function($ionicHistory, $timeout) {
 		return {
 			param: function(obj) {
 				var str = [];
@@ -57,6 +57,18 @@ angular.module('landlordApp')
 	      }
 
 	      return count >= 2;
+			},
+			resendCountdown: function($scope) {
+				return function() {
+					$scope.resendCountdown = 60;
+					var countdown = function() {
+					  if($scope.resendCountdown > 0) {
+					    $scope.resendCountdown += -1;
+					    $timeout(countdown, 1000);
+					  }
+					};
+					countdown();
+				};
 			}
 		}
 	})

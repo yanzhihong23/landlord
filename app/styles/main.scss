@@ -430,7 +430,7 @@ $seize-inner-size: 110px;
       display: block;
       margin: auto;
       color: $accent;
-      font-size: 18px;
+      font-size: 16px;
       float: right;
     }
   }
@@ -572,13 +572,18 @@ $seize-inner-size: 110px;
 }
 
 
-
 input[clear-input]+i{
+  display: none;
+}
+input[clear-input]:focus+i{
+  display: block;
   position: absolute;
   right: 0px;
-  top: 18px;
-  font-size: 22px;
-  padding: 0 8px;
+  top: 12px;
+  font-size: 29px;
+  height: 29px;
+  line-height: 29px;
+  padding: 0 10px;
 }
 
 
