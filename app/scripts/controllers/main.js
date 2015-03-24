@@ -18,14 +18,17 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		}, 3000);
 	})
-	.controller('TosCtrl', function($scope, $state, $ionicHistory, utils, userConfig) {
+	.controller('TosCtrl', function($scope, $rootScope, $state, $ionicHistory, utils, userConfig) {
 		var accountInfo = userConfig.getAccountInfo();
 		$scope.userInfo = {
 			realname: accountInfo.realname,
 			id: accountInfo.idnum,
 			mobile: accountInfo.mobilenum
 		};
-		$scope.today = utils.getDate();
+
+		if($rootScope.landlord) {
+			$rootScope.landlord.joinDate = utils.getDate();
+		} 
 
 		$scope.close = function() {
 			if($ionicHistory.backView()) {
