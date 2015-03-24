@@ -2,6 +2,8 @@
 
 angular.module('landlordApp')
 	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils) {
+		$scope.isNoRecord = false;
+
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
   			init();
@@ -59,6 +61,7 @@ angular.module('landlordApp')
   					var investingItems = data.vipAccounts;
   					var idObj = {};
   					if(investingItems.length) {
+  						$scope.isNoRecord = false;
   						for(var i=0; i<investingItems.length; i++) {
   							var id = investingItems[i].fp_id;
   							if(!idObj[id]) {
@@ -86,6 +89,8 @@ angular.module('landlordApp')
   								});
   							}
   						}
+  					} else {
+  						$scope.isNoRecord = true;
   					}
   				}
   			});
@@ -258,7 +263,7 @@ angular.module('landlordApp')
 		};
 
 		$scope.changePassword = function() {
-			UserApi.findPassword($scope.account.phone, $scope.account.retrieveVcode)
+			UserApi.findPassword($scope.account.phone, $scope.account.retrieveVcode, $scope.account.idNo)
 				.success(function(data) {
 					if(data.flag === 5) {
 						UserApi.changePassword(data.data.session_id, $scope.account.newPassword)
