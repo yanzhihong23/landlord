@@ -1,4 +1,9 @@
 <ion-view view-title="房东信息" id="phone_view">
+	<ion-nav-buttons side="left">
+	  <a id="my_info">
+	    <button class="button button-icon" ng-click="backToHome()">首页</button>
+	  </a>
+	</ion-nav-buttons>
 	<div class="logo-part"></div>
 	<div class="card padding">
 		<form name="phoneForm" ng-submit="sendSms()">

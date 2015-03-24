@@ -132,6 +132,11 @@ angular.module('landlordApp')
 		$scope.clicked = false;
 		$scope.invalidPassword = false;
 
+		$scope.backToHome = function() {
+			utils.disableBack();
+  		$state.go('tabs.home');
+  	};
+
 		$scope.passwordValidate = function(password) {
       $scope.invalidPassword = !utils.isPasswordValid(password);
 		};
@@ -309,6 +314,10 @@ angular.module('landlordApp')
 			$scope.recharge.name = accountInfo.realname;
 			$scope.recharge.id = accountInfo.idnum;
 			$scope.recharge.phone = accountInfo.mobilenum;
+
+			if(accountInfo.realname && accountInfo.idnum) {
+				$scope.disableIdEdit = true;
+			}
 
 			UserApi.generateOrderNo(sessionId)
 				.success(function(data) {
