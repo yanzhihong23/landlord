@@ -445,6 +445,8 @@ $seize-inner-size: 110px;
       margin: 0;
       border-top: 0;
       border-radius: 10px;
+      min-height: 300px;
+      max-height: 308px;
       .slider-slide{
         padding: 3px;
       }

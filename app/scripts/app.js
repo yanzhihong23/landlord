@@ -24,13 +24,18 @@ angular
     $httpProvider.defaults.timeout = 5000;
     $httpProvider.interceptors.push('httpInterceptor');
   })
-  .run(function($rootScope, $ionicNavBarDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
+  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if($rootScope.modal && $rootScope.modal._isShown) {
         $rootScope.modal.hide();
       }
 
   		switch(toState.name) {
+        case 'tabs.startup':
+          if(fromState.name === 'tabs.home') {
+            event.preventDefault();
+          }
+          break;
         case 'account.info':
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
@@ -83,6 +88,12 @@ angular
           break;
   		}
   	});
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      $timeout(function() {
+        $ionicSlideBoxDelegate.update();
+      }, 50);
+    });
 
     // auto login
     if(userConfig.isLogined()) {

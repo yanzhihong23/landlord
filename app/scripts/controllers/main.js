@@ -13,8 +13,9 @@ angular.module('landlordApp')
 		$scope.order = {};
 		$scope.pay = {};
 	})
-	.controller('StartupCtrl', function($scope, $state, $timeout) {
+	.controller('StartupCtrl', function($scope, $state, $timeout, utils) {
 		$timeout(function() {
+			utils.disableBack();
 			$state.go('tabs.home');
 		}, 3000);
 	})
