@@ -126,6 +126,7 @@ angular.module('landlordApp')
 						} else {
 							self.setAccountInfo(data.data);
 							if(broadcast) $rootScope.$broadcast('loginSuc');
+							console.log('----------- autoLogin success -----------');
 						}
 					});
 			}
@@ -133,8 +134,13 @@ angular.module('landlordApp')
 
 		this.autoLogin = function() {
 			autoLogin();
-			if(!auto) {
-				auto = $interval(autoLogin, 18000000); // 30 min
+			worker.postMessage('startTicker');
+			worker.onmessage = function(evt) {
+				autoLogin();
 			}
+
+			// if(!auto) {
+			// 	auto = $interval(autoLogin, 1200000); // 20 min
+			// }
 		};
 	})

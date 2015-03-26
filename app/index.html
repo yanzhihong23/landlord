@@ -71,7 +71,11 @@
         <script src="scripts/directives.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/account.js"></script>
+        <script src="scripts/controllers/recharge.js"></script>
         <!-- endbuild -->
+    <script>
+        var worker = new Worker("scripts/worker.js");
+    </script>
 </body>
 <iframe id="cacher" src="./offlinecacher.html" style="position:absolute;top:-999em;visibility:hidden"></iframe>
 </html>
