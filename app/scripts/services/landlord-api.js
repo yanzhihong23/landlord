@@ -37,5 +37,18 @@ angular.module('landlordApp')
 					fp_id: fpId
 				})
 			});
-		}
+		};
+
+		this.getCouponList = function(sessionId, key, type) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord/dfdCouponList',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					key: key,
+					type: type
+				})
+			});
+		};
 	})

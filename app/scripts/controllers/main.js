@@ -63,6 +63,7 @@ angular.module('landlordApp')
   				$scope.house = {
   					key: landlord.fp_id,
   					type: 1,
+  					title: landlord.fp_title,
   					mortgageRate: landlord.house_rate,
   					duration: landlord.fp_expect,
   					minPrice: ~~landlord.fp_price_min/10000,
@@ -185,7 +186,7 @@ angular.module('landlordApp')
 		updateData(true);
 
 	})
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout) {
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi) {
   	// show available balance
   	var accountInfo = userConfig.getAccountInfo();
   	if(accountInfo) {
@@ -239,6 +240,38 @@ angular.module('landlordApp')
 					}
 				});
 		};
+
+		LandlordApi.getCouponList(userConfig.getSessionId(), $scope.house.key, $scope.house.type)
+			.success(function(data) {
+				if(data.flag === 1) {
+					// console.log(data);
+					var data = data.data;
+					var validCoupons = [];
+					if(data.coupon.length) {
+						var coupons = data.coupon;
+						var addCoupon = function(coupon) {
+							validCoupons.push({
+								code: coupon.uv_code,
+								id: coupon.uv_id,
+								value: coupon.value
+							});
+							console.log(validCoupons);
+						}
+						for(var i=0; i< coupons.length; i++) {
+							if(coupons[i].is_enable == 1 && coupons[i].is_used != 1 && coupons[i].uv_scope != 3) {
+								if(/-/.test(coupons[i].limit_month)){
+									var limitMonths = coupons[i].limit_month.split('-');
+									if(+$scope.house.duration >= +limitMonths[0] && +$scope.house.duration <= +limitMonths[1]) {
+										addCoupon(coupons[i]);
+									}
+								} else if(+$scope.house.duration >= +coupons[i].limit_month) {
+									addCoupon(coupons[i]);
+								}
+							}
+						}
+					}
+				}
+			})
 
 		// reset
 		$rootScope.$on('landlordUpdated', function() {

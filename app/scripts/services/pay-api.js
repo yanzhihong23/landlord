@@ -70,7 +70,7 @@ angular.module('landlordApp')
 		};
 
 		// bind and pay
-		this.bindAndPay = function(mId, sessionId, extRefNo, storablePan, count, vcode, token, payMode, payCode, key, type, realname, idNo, bankCardNo, bankCode, mobile, bankId) {
+		this.bindAndPay = function(mId, sessionId, extRefNo, storablePan, count, vcode, token, payMode, payCode, key, type, realname, idNo, bankCardNo, bankCode, mobile, coupon, interest) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/doPay',
@@ -81,7 +81,7 @@ angular.module('landlordApp')
 					externalRefNumber: extRefNo,
 					storablePan: storablePan,
 					count: count,
-					validCode: vcode,
+					validCode: vcode || '',
 					token: token,
 					payMode: payMode,
 					key: key,
@@ -91,13 +91,14 @@ angular.module('landlordApp')
 					bankCardNo: bankCardNo,
 					bankcode: bankCode,
 					mobile: mobile,
-					// bankid: bankId,
-					paycode: payCode
+					paycode: payCode,
+					coupon: coupon || '', // uv_code:uv_id:value
+					interest: interest || ''
 				})
 			})
 		};
 
-		this.quickPay = function(mId, sessionId, extRefNo, storablePan, count, key, type, payMode, payCode, payPassword) {
+		this.quickPay = function(mId, sessionId, extRefNo, storablePan, count, key, type, payMode, payCode, payPassword, coupon, interest) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/quickPay',
@@ -112,7 +113,9 @@ angular.module('landlordApp')
 					type: type,
 					payMode: payMode,
 					paycode: payCode,
-					paypassword: payPassword
+					paypassword: payPassword,
+					coupon: coupon || '',
+					interest: interest || ''
 				})
 			})
 		};
