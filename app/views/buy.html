@@ -1,6 +1,10 @@
 <ion-view view-title="{{house.title}}">
   <ion-content class="padding">
   	<div class="card padding align-center" id="buy_card">
+  		<div class="padding align-center fs-xs limit-desc">
+  			仅剩<span class="accent fs-md">{{house.remain}}</span>万元可投资，购买上限<span class="accent">{{item.limit}}</span>万元
+  		</div>
+
   		<div class="row cal">
   			<div class="col-33 col-center">投资金额</div>
   			<div class="col-50">
@@ -18,43 +22,50 @@
   			</div>
   			<div class="col-30 col-center">万元</div>
   		</div>
-		  
 
-		  <div class="padding align-center fs-xs limit-desc">
-		  	仅剩<span class="accent fs-md">{{house.remain}}</span>万元可投资，购买上限<span class="accent">{{item.limit}}</span>万元
+  		<div class="fs-xs">
+		  	收益期限：{{house.startDate}} ~ {{house.endDate}}
 		  </div>
 
-		  <div class="row" style="margin-top: 15px">
-		  	<div class="col-50">
-		  		<div class="pre-box align-center">
-		  			<div class="title">预估 · 月收益</div>
-		  			<div class="content">
-		  				<div class="accent">{{buy.mIncome}}</div>
-		  				<div class="unit fs-xs">元/月</div>
-		  			</div>
-		  		</div>
-		  	</div>
-		  	<div class="col-50">
+		  <div class="row">
+		  	<div class="col">
 		  		<div class="pre-box align-center">
 		  			<div class="title">预估 · 到期收益</div>
 		  			<div class="content">
-		  				<div class="accent">{{buy.total}}</div>
-		  				<div class="unit fs-xs">元</div>
+		  				<div><span class="accent">{{buy.total}}</span><span class="fs-xs">元</span></div>
 		  			</div>
 		  		</div>
 		  	</div>
 		  </div>
-		  <div class="fs-xs padding-top">
-		  	收益期限：{{house.startDate}} ~ {{house.endDate}}
-		  </div>
-		  <div class="padding fs-xs" ng-init="tos=true">
+
+		  <div class="padding-bottom fs-xs align-center" ng-init="tos=true">
 		  	<input type="checkbox" class="small" ng-model="tos"> 同意<a class="blue" href="#/tab/tos">《投资协议书》</a>
 		  </div>
+		  
+		  <section class="align-left coupon-info black">
+		  	<div class="coupon-type interest" ng-init="showInterest=true">加息券<span class="fs-xs">（到期一次性支付加息）</span><i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest"></i><i class="ion-ios-information-outline blue bold" hidden></i></div> 
+		  	<div class="row" ng-show="showInterest">
+		  		<label class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}">
+		  			<input type="radio" name="interest" ng-model="selection.interest" ng-value="$index" ng-disabled="interest.disabled"> {{interest.value}}<span class="fs-xs">%加息券</span>
+		  		</label>
+		  	</div>
+		  	
+		  	<div class="coupon-type" ng-init="showCoupon=true">现金券<span class="fs-xs">（用于抵扣投资金额）</span><i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon"></i></div>
+		  	<div class="row" ng-show="showCoupon">
+		  		<label class="col-50" ng-repeat="coupon in validCoupons" ng-class="{gray:coupon.disabled}">
+		  			<input type="checkbox" class="small" ng-model="selection.coupon[coupon.id]" ng-checked="coupon.checked" ng-disabled="coupon.disabled"> {{coupon.value}}元
+		  		</label>
+		  	</div>
+
+		  	<!-- <pre ng-bind="selection | json"></pre> -->
+		  </section>
   	</div>
+
+
 
 		<button class="button button-full" ng-click="buyNow()" ng-disabled="!tos">立即投资</button>
 
   </ion-content>
 
-  <publicity></publicity>
+  <!-- <publicity></publicity> -->
 </ion-view>

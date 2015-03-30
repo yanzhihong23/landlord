@@ -228,6 +228,33 @@ angular.module('landlordApp')
 
 			// for tos
 			$rootScope.landlord.total = val*10000;
+
+
+			// coupons check
+			if($scope.validInterests.length) {
+				for(var i=0; i<$scope.validInterests.length; i++) {
+					if(+$scope.validInterests[i].minimum > +val*10000) {
+						$scope.validInterests[i].disabled = true;
+						if($scope.selection.interest == i) {
+							$scope.selection.interest = null;
+						}
+						// $scope.validInterests[i].checked = false;
+					} else {
+						$scope.validInterests[i].disabled = false;
+					}
+				}
+			}
+
+			if($scope.validCoupons.length) {
+				for(var j=0; j<$scope.validCoupons.length; j++) {
+					if(+$scope.validCoupons[j].minimum > +val*10000) {
+						$scope.validCoupons[j].disabled = true;
+						$scope.validCoupons[j].checked = false;
+					} else {
+						$scope.validCoupons[j].disabled = false;
+					}
+				}
+			}
 		});
 
 		$scope.buyNow = function() {
@@ -241,37 +268,74 @@ angular.module('landlordApp')
 				});
 		};
 
+		$scope.validInterests = [];
+		$scope.selection = {
+			coupon: {},
+			interest: null
+		}
+
 		LandlordApi.getCouponList(userConfig.getSessionId(), $scope.house.key, $scope.house.type)
 			.success(function(data) {
 				if(data.flag === 1) {
-					// console.log(data);
 					var data = data.data;
-					var validCoupons = [];
+					var validCoupons = [],
+							validInterests = [];
+					var pushItem = function(arr, item) {
+						arr.push({
+							code: item.uv_code,
+							id: item.uv_id,
+							value: item.value,
+							minimum: item.minimum,
+							disabled: item.disabled,
+							sum: item.uv_code + ':' + item.uv_id + ':' + item.value
+						});
+						console.log(item.uv_code + ':' + item.uv_id + ':' + item.value)
+					};
+
 					if(data.coupon.length) {
-						var coupons = data.coupon;
-						var addCoupon = function(coupon) {
-							validCoupons.push({
-								code: coupon.uv_code,
-								id: coupon.uv_id,
-								value: coupon.value
-							});
-							console.log(validCoupons);
-						}
-						for(var i=0; i< coupons.length; i++) {
-							if(coupons[i].is_enable == 1 && coupons[i].is_used != 1 && coupons[i].uv_scope != 3) {
-								if(/-/.test(coupons[i].limit_month)){
-									var limitMonths = coupons[i].limit_month.split('-');
-									if(+$scope.house.duration >= +limitMonths[0] && +$scope.house.duration <= +limitMonths[1]) {
-										addCoupon(coupons[i]);
-									}
-								} else if(+$scope.house.duration >= +coupons[i].limit_month) {
-									addCoupon(coupons[i]);
-								}
+						for(var i=0; i< data.coupon.length; i++) {
+							if(+data.coupon[i].minimum > +$scope.buy.volume*10000) {
+								data.coupon[i].disabled = true;
+							} else {
+								$scope.selection.coupon[data.coupon[i].uv_id] = true;
+								data.coupon[i].checked = true;
+								// $scope.selection.coupon[i] = true;
 							}
+							pushItem(validCoupons, data.coupon[i]);
 						}
 					}
+
+					$scope.validCoupons = validCoupons;
+
+					if(data.interest.length) {
+						var checkedItem = null;
+						for(var j=0; j<data.interest.length; j++) {
+							if(data.interest[j].minimum > $scope.buy.volume*10000) {
+								data.interest[j].disabled = true;
+							} else {
+								if(checkedItem === null || +data.interest[j].value > +data.interest[checkedItem].value) {
+									checkedItem = j;
+								}
+							}
+							pushItem(validInterests, data.interest[j]);
+						}
+						$scope.selection.interest = checkedItem;
+					}
+
+					$scope.validInterests = validInterests;
 				}
-			})
+			});
+
+		$scope.$watch('selection.coupon', function(val, old) {
+			console.log('coupon change')
+			console.log(val);
+		}, true);
+
+
+		$scope.$watch('selection.interest', function(val, old) {
+			console.log('interest change')
+			console.log(val);
+		}, true);
 
 		// reset
 		$rootScope.$on('landlordUpdated', function() {
@@ -387,8 +451,10 @@ angular.module('landlordApp')
 		var payMode = $scope.$parent.pay.payMode;
 		var payPassword = md5.createHash($scope.user.payPassword);
 
+		var coupon = ['ZC5010Mar1800004:372726:50.10','zktest31:373868:100.00'];
+
 		$ionicLoading.show();
-		PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword)
+		PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword, coupon)
 			.success(function(data) {
 				$ionicLoading.hide();
 				if(data.flag === 1) {

@@ -24,7 +24,20 @@
 input[type="checkbox"]{
   @include checkbox(18px, $accent);
   &.small{
-    @include checkbox(13px, $accent);
+    @include checkbox(14px, $accent);
+  }
+  &:disabled:before,&.small:disabled:before{
+    border-color: $gray-light;
+  }
+}
+
+input[type="radio"]{
+  @include radio(16px, $accent);
+  &.small{
+    @include radio(13px, $accent);
+  }
+  &:disabled{
+    border-color: $gray-light;
   }
 }
 
@@ -91,4 +104,12 @@ a, a:hover, a:active, a:focus{
 
 a.blue{
   color: $blue !important;
+}
+
+i{
+  font-size: 20px;
+}
+
+.row{
+  -webkit-flex-flow: row wrap;
 }

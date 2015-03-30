@@ -337,9 +337,9 @@ $seize-inner-size: 110px;
     .count{
       .button{
         width: 100%;
-        height: 28px;
-        min-height: 28px;
-        line-height: 28px;
+        height: 40px;
+        min-height: 40px;
+        line-height: 40px;
         border-radius: 0;
         font-size: 14px;
         font-weight: bold;
@@ -352,8 +352,8 @@ $seize-inner-size: 110px;
         width: 100%;
         border-top: solid 1px $gray-light;
         border-bottom: solid 1px $gray-light;
-        height: 28px;
-        line-height: 28px;
+        height: 40px;
+        line-height: 40px;
         font-size: 18px;
         color: $accent;
         padding: 0 0 0 12px;
@@ -362,24 +362,24 @@ $seize-inner-size: 110px;
     }
   }
   .limit-desc{
-    padding: 8px 0 16px;
+    padding: 8px 0 0;
     margin: auto 10px;
-    border-bottom: solid 1px $gray-light;
+    // border-bottom: solid 1px $gray-light;
   }
   .pre-box{
     border: solid 1px $gray-light;
     margin: 0 10%;
-    height: 100px;
+    // height: 100px;
     .title{
       font-size: 12px;
       height: 22px;
       line-height: 22px;
-      background-color: $gray-light;
+      background-color: #ada081;
       color: $white;
     }
     .content{
       font-size: 16px;
-      padding: 1em;
+      padding: 4%;
     }
   }
   input[type="checkbox"].small{
@@ -388,6 +388,21 @@ $seize-inner-size: 110px;
   }
   a.tos{
     color: $gray;
+  }
+  section.coupon-info{
+    padding: 4%;
+    border-top: dashed 1px $gray-light;
+    .coupon-type{
+      line-height: 26px;
+      &+.row label{
+        line-height: 28px;
+      }
+      &.interest+.row{
+        input[type="radio"]{
+          top: 2px;
+        }
+      }
+    }
   }
 }
 
