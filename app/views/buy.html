@@ -49,7 +49,7 @@
 		  	<div class="coupon-type interest">
 		  		加息券<span class="fs-xs">（到期一次性支付加息）</span>
 		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest" ng-show="validInterests.length"></i>
-		  		<i class="ion-ios-information-outline blue pull-right" ng-hide="validInterests.length"></i>
+		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validInterests.length"></i>
 	  		</div> 
 		  	<div class="row" ng-show="showInterest">
 		  		<div class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}" ng-click="selectInterest($index)">
@@ -60,7 +60,7 @@
 		  	<div class="coupon-type">
 		  		现金券<span class="fs-xs">（用于抵扣投资金额）</span>
 		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon" ng-show="validCoupons.length"></i>
-		  		<i class="ion-ios-information-outline blue pull-right" ng-hide="validCoupons.length"></i>
+		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validCoupons.length"></i>
 	  		</div>
 		  	<div class="row" ng-show="showCoupon">
 		  		<label class="col-50" ng-repeat="coupon in validCoupons" ng-class="{gray:coupon.disabled}">

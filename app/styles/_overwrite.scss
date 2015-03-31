@@ -9,6 +9,10 @@
   }
 }
 
+#toast-container > div{
+  opacity: 1;
+}
+
 .modal-backdrop.active {
   background-color: rgba(0, 0, 0, 0.5); 
 }

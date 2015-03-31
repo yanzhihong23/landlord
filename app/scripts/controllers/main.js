@@ -186,7 +186,7 @@ angular.module('landlordApp')
 		updateData(true);
 
 	})
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window) {
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster) {
   	// show available balance
   	var accountInfo = userConfig.getAccountInfo();
   	if(accountInfo) {
@@ -202,6 +202,10 @@ angular.module('landlordApp')
 
 		$scope.buy = angular.copy($scope.item);
 		$scope.buy.volume = 1;
+
+		$scope.showInfo = function() {
+			toaster.pop('info', '关注“大房东投资计划”微信公众号，获取最新活动内容，即有机会获得加息券和现金券。');
+		};
 
 		$scope.increase = function() {
 			$scope.buy.volume += 1;
