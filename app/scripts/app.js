@@ -172,6 +172,15 @@ angular
         }
       }
     })
+    .state('tabs.QuickPayTos', {
+      url: "/quickPayTos",
+      views: {
+        'home-tab': {
+          templateUrl: "views/tos-quickpay.html",
+          controller: 'TosCtrl'
+        }
+      }
+    })
     .state('account', {
     	url: "/account",
     	abstract: true,

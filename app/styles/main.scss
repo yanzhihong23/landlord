@@ -179,19 +179,15 @@ ion-content.padding{
   }
   input::-webkit-input-placeholder { color: #666; }
   .item-input.vcode{
-    border-bottom: 0;
-    width: 70%;
-    .input-label{
-      width: 30%;
-    }
     input{
-      max-width: 70%;
+      max-width: 35%;
       padding-right: 5px;
     }
     +.button{
       position: absolute;
       bottom: 8px;
       right: 10px;
+      z-index: 1000;
     }
   }
   .submit{

@@ -34,13 +34,16 @@
 				  </div>
 				  <div class="item item-input vcode">
 				    <span class="input-label">验证码</span>
-				    <input type="number" ng-model="pay.vcode" ng-pattern="/^[0-9]{6}$/" placeholder="" clear-input required>
+				    <input type="number" ng-model="pay.vcode" ng-pattern="/^[0-9]{6}$/" placeholder=""required>
 				  </div>
 				  <button type="button" class="button button-small" ng-click="sendSms()" ng-disabled="!pay.cardNo || !pay.name || !pay.id || !pay.phone || resendCountdown">
 				  	<span ng-hide="resendCountdown">获取验证码</span>
 				  	<span ng-show="resendCountdown">{{resendCountdown}}秒后重新获取</span>
 				  </button>
 				</div>
+				<div class="padding-bottom fs-xs align-center" ng-init="tos=true">
+			  	<input type="checkbox" class="small" ng-model="tos"> 同意<a class="blue" href="#/tab/quickPayTos">《快钱快捷支付协议》</a>
+			  </div>
 			</div>
 
 			<div class="submit">
