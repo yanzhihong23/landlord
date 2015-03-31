@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="submit">
-				<button type="submit" class="button button-full" ng-disabled="payForm.$invalid">绑定并支付</button>
+				<button type="submit" class="button button-full" ng-disabled="payForm.$invalid || !tos">绑定并支付</button>
 			</div>
 		</form>
 		
