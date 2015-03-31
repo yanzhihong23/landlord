@@ -186,7 +186,7 @@ angular.module('landlordApp')
 		updateData(true);
 
 	})
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi) {
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window) {
   	// show available balance
   	var accountInfo = userConfig.getAccountInfo();
   	if(accountInfo) {
@@ -333,7 +333,7 @@ angular.module('landlordApp')
 					}
 
 					$scope.validCoupons = validCoupons;
-					$scope.showCoupon = validCoupons.length < 2;
+					$scope.showCoupon = validCoupons.length < 2 || $window.innerHeight > 568; // 568 iphone5
 					calcTotalPay();
 
 					// init interest data
@@ -354,7 +354,7 @@ angular.module('landlordApp')
 					}
 
 					$scope.validInterests = validInterests;
-					$scope.showInterest = validInterests.length < 2;
+					$scope.showInterest = validInterests.length < 2 || $window.innerHeight > 568;
 					calcExtraEarn();
 				}
 			});

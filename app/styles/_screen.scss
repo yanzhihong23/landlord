@@ -1,11 +1,14 @@
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-height : 480px) { 
+and (max-device-height : 480px) { // iphone 4
 	#house_card{
 		min-height: 280px;
 		margin-top: 0;
 		.progress-bar{
 			margin: 10px auto;
 		}
+	}
+	#buy_card{
+		margin-top: 0;
 	}
 }
