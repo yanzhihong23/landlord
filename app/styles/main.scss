@@ -364,12 +364,10 @@ $seize-inner-size: 110px;
   .limit-desc{
     padding: 8px 0 0;
     margin: auto 10px;
-    // border-bottom: solid 1px $gray-light;
   }
   .pre-box{
     border: solid 1px $gray-light;
-    margin: 0 10%;
-    // height: 100px;
+    margin: 0 6%;
     .title{
       font-size: 12px;
       height: 22px;
@@ -392,9 +390,10 @@ $seize-inner-size: 110px;
   section.coupon-info{
     padding: 4%;
     border-top: dashed 1px $gray-light;
+    border-bottom: dashed 1px $gray-light;
     .coupon-type{
       line-height: 26px;
-      &+.row label{
+      &+.row>div, &+.row>label{
         line-height: 28px;
       }
       &.interest+.row{

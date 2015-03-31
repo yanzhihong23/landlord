@@ -32,7 +32,10 @@
 		  		<div class="pre-box align-center">
 		  			<div class="title">预估 · 到期收益</div>
 		  			<div class="content">
-		  				<div><span class="accent">{{buy.total}}</span><span class="fs-xs">元</span></div>
+		  				<div>
+		  					<span class="accent">{{buy.total | currency:''}}</span><span class="fs-xs">元</span>
+		  					<span ng-show="buy.extraEarn"><span class="accent"> + {{buy.extraEarn | currency:''}}</span><span class="fs-xs">元</span></span>
+	  					</div>
 		  			</div>
 		  		</div>
 		  	</div>
@@ -43,21 +46,32 @@
 		  </div>
 		  
 		  <section class="align-left coupon-info black">
-		  	<div class="coupon-type interest" ng-init="showInterest=true">加息券<span class="fs-xs">（到期一次性支付加息）</span><i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest"></i><i class="ion-ios-information-outline blue bold" hidden></i></div> 
+		  	<div class="coupon-type interest">
+		  		加息券<span class="fs-xs">（到期一次性支付加息）</span>
+		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest" ng-show="validInterests.length"></i>
+		  		<i class="ion-ios-information-outline blue pull-right" ng-hide="validInterests.length"></i>
+	  		</div> 
 		  	<div class="row" ng-show="showInterest">
-		  		<label class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}">
-		  			<input type="radio" name="interest" ng-model="selection.interest" ng-value="$index" ng-disabled="interest.disabled"> {{interest.value}}<span class="fs-xs">%加息券</span>
-		  		</label>
+		  		<div class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}" ng-click="selectInterest($index)">
+		  			<input type="radio" name="interest" ng-model="interest.checked"  ng-disabled="interest.disabled" ng-checked="interest.checked"> {{interest.value}}<span class="fs-xs">%加息券</span>
+		  		</div>
 		  	</div>
 		  	
-		  	<div class="coupon-type" ng-init="showCoupon=true">现金券<span class="fs-xs">（用于抵扣投资金额）</span><i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon"></i></div>
+		  	<div class="coupon-type">
+		  		现金券<span class="fs-xs">（用于抵扣投资金额）</span>
+		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon" ng-show="validCoupons.length"></i>
+		  		<i class="ion-ios-information-outline blue pull-right" ng-hide="validCoupons.length"></i>
+	  		</div>
 		  	<div class="row" ng-show="showCoupon">
 		  		<label class="col-50" ng-repeat="coupon in validCoupons" ng-class="{gray:coupon.disabled}">
-		  			<input type="checkbox" class="small" ng-model="selection.coupon[coupon.id]" ng-checked="coupon.checked" ng-disabled="coupon.disabled"> {{coupon.value}}元
+		  			<input type="checkbox" class="small" ng-model="coupon.checked" ng-checked="coupon.checked" ng-disabled="coupon.disabled"> {{coupon.value}}<span class="fs-xs">元</span>
 		  		</label>
 		  	</div>
 
 		  	<!-- <pre ng-bind="selection | json"></pre> -->
+		  </section>
+		  <section class="align-center accent fs-md padding">
+	  		合计：{{order.total | currency:''}}元
 		  </section>
   	</div>
 
