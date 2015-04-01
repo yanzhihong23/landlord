@@ -33,6 +33,13 @@ angular.module('landlordApp')
       }
     };
   })
+  .directive('bankRec', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'templates/bank-recommend.html'
+    }
+  })
 	// .directive('autofocus', function($timeout) {
 	//   return {
 	//     restrict: 'A',

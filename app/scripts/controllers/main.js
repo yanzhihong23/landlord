@@ -298,6 +298,8 @@ angular.module('landlordApp')
 					if(data.flag === 1) {
 						$scope.orderNo = data.data;
 						$scope.$parent.pay.extRefNo = data.data;
+						$scope.$parent.pay.earning = +$scope.buy.total + ($scope.buy.extraEarn || 0);
+
 						$state.go('tabs.order');
 					}
 				});
@@ -406,8 +408,9 @@ angular.module('landlordApp')
 			$scope.buy.volume = 1;
 		});
 	})
-.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5) {
+.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet) {
 	var init = function() {
+		console.log('init')
 		$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
 		$scope.order.balance = $scope.order.balanceUsable;
 		$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
@@ -423,7 +426,7 @@ angular.module('landlordApp')
 					for(var i=0; i<arr.length; i++) {
 						var card = {
 							value: arr[i].kuaiq_short_no, // storablePan
-							label: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
+							text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
 						};
 						
 					}
@@ -431,21 +434,51 @@ angular.module('landlordApp')
 				} 
 
 				$scope.bankCards.push({
-					label: '添加银行卡',
+					text: '添加银行卡',
 					value: 'add'
 				});
 
 				$scope.order.bankCard = $scope.bankCards[0].value;
+				$scope.showBankRec = /工商|广大|民生/.test($scope.bankCards[0].text);
+				$scope.order.bankCardShow = $scope.bankCards[0].text;
 			}); 
 	};
 
 	init();
 
-	
+	$scope.selectBank = function() {
+		if(!$scope.order.useCard) return;
+
+		if($scope.bankCards.length === 1) {
+			$state.go('tabs.pay');
+			return;
+		}
+
+		var hideSheet = $ionicActionSheet.show({
+			buttons: $scope.bankCards,
+			cancelText: '取消',
+			buttonClicked: function(index) {
+				if(index === $scope.bankCards.length-1) {
+					$state.go('tabs.pay');
+				} else {
+					$scope.order.bankCard = $scope.bankCards[index].value;
+					hideSheet();
+				}
+     	}
+		})
+	};
 
 	$scope.$watch('order.bankCard', function(val, oldVal) {
 		if(val !== oldVal && val === 'add' && $scope.order.useCard) {
 			$state.go('tabs.pay');
+			$scope.showBankRec = false;
+		} else {
+			for(var i=0; i<$scope.bankCards.length; i++) {
+				if(val == $scope.bankCards[i].value) {
+					$scope.showBankRec = /工商|广大|民生/.test($scope.bankCards[i].text);
+					break;
+				}
+			}
 		}
 	});
 
@@ -536,7 +569,7 @@ angular.module('landlordApp')
 		init();
 	}); 
 })
-.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils) {
+.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet) {
 	var accountInfo = userConfig.getAccountInfo();
 	var sessionId = userConfig.getSessionId();
 	var mId = accountInfo && accountInfo.m_id, storablePan, token;
@@ -561,10 +594,29 @@ angular.module('landlordApp')
 	PayApi.getBankListForKQ(userConfig.getSessionId())
 		.success(function(data) {
 			if(data.flag === 1) {
-				$scope.pay.bankCode = "1"; // icbc as default
-				$scope.bankList = data.data;
+				$scope.bankList = data.data.map(function(obj) {
+					return {
+						text: obj.name,
+						value: obj.id
+					};
+				});
+
+				$scope.pay.bankCode = $scope.bankList[0].id;
+				$scope.pay.bankName = $scope.bankList[0].text;
 			}
 		});
+
+	$scope.selectBank = function() {
+		var hideSheet = $ionicActionSheet.show({
+			buttons: $scope.bankList,
+			cancelText: '取消',
+			buttonClicked: function(index) {
+				$scope.pay.bankCode = $scope.bankList[index].value;
+				$scope.pay.bankName = $scope.bankList[index].text;
+				hideSheet();
+     	}
+		});
+	}
 
 	$scope.sendSms = function() {
 		PayApi.getPayVcode(

@@ -12,3 +12,17 @@ and (max-device-height : 480px) { // iphone 4
 		margin-top: 0;
 	}
 }
+
+@media only screen 
+and (min-device-height : 640px) {
+	.action-sheet-group{
+	  max-height: 470px; // 10 items
+	}
+}
+
+@media only screen 
+and (min-device-height : 736px) { // iphone 6 plus
+	.action-sheet-group{
+	  max-height: 564px; // 10 items
+	}
+}

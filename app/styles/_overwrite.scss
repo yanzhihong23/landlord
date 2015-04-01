@@ -38,6 +38,10 @@
   	min-height: 36px;
   	line-height: 36px;
   }
+  &.disabled,&[disabled] {
+    opacity: 1;
+    background-color: $gray-light;
+  }
 }
 
 .scroll{
@@ -50,6 +54,14 @@
 
 .bar .button.button-icon{
   font-size: 13px;
+}
+
+.bar-header .back-button{
+  font-size: 13px !important;
+  i{
+    font-size: 26px;
+    padding-left: 6px;
+  }
 }
 
 .card{
@@ -138,16 +150,21 @@ input::-webkit-input-placeholder{
   }
 }
 
-
-.action-sheet .button{
-  font-size: 15px;
-  font-weight: normal;
-  border-top: solid 1px $gray-light;
-  .platform-android &{
+.action-sheet-group{
+  overflow: scroll;
+  max-height: 376px; // 8 items
+}
+.action-sheet{
+  .button{
     font-size: 15px;
-    text-align: center;
-    border-color: $gray-light;
-    color: $blue;
+    font-weight: normal;
+    border-top: solid 1px $gray-light;
+    .platform-android &{
+      font-size: 15px;
+      text-align: center;
+      border-color: $gray-light;
+      color: $blue;
+    }
   }
 }
 

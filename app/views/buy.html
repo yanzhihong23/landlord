@@ -51,7 +51,7 @@
 		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest" ng-show="validInterests.length"></i>
 		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validInterests.length"></i>
 	  		</div> 
-		  	<div class="row" ng-show="showInterest">
+		  	<div class="row" ng-show="showInterest && validInterests.length">
 		  		<div class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}" ng-click="selectInterest($index)">
 		  			<input type="radio" name="interest" ng-model="interest.checked"  ng-disabled="interest.disabled" ng-checked="interest.checked"> {{interest.value}}<span class="fs-xs">%加息券</span>
 		  		</div>
@@ -62,7 +62,7 @@
 		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon" ng-show="validCoupons.length"></i>
 		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validCoupons.length"></i>
 	  		</div>
-		  	<div class="row" ng-show="showCoupon">
+		  	<div class="row" ng-show="showCoupon && validCoupons.length">
 		  		<label class="col-50" ng-repeat="coupon in validCoupons" ng-class="{gray:coupon.disabled}">
 		  			<input type="checkbox" class="small" ng-model="coupon.checked" ng-checked="coupon.checked" ng-disabled="coupon.disabled"> {{coupon.value}}<span class="fs-xs">元</span>
 		  		</label>
@@ -81,5 +81,5 @@
 
   </ion-content>
 
-  <!-- <publicity></publicity> -->
+  <publicity></publicity>
 </ion-view>

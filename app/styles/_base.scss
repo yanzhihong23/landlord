@@ -117,3 +117,24 @@ i{
 p.text-indent{
   text-indent: 2em;
 }
+
+i.bank-icon{
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  margin: auto 5px;
+  vertical-align: middle;
+  &.ccb{
+    background: url(../images/bank/bank_icon_ccb_jianshe.png) no-repeat;
+    background-size: contain;
+  }
+  &.cmb{
+    background: url(../images/bank/bank_icon_cmb_zhaoshang.png) no-repeat;
+    background-size: contain;
+  }
+  &.pingan{
+    background: url(../images/bank/bank_icon_pingan.jpg) no-repeat;
+    background-size: contain;
+  }
+
+}

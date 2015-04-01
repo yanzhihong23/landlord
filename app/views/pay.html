@@ -3,10 +3,9 @@
 		<form name="payForm" ng-submit="doPay()">
 			<div class="card padding">
 				<div class="list">
-				  <label class="item item-input item-select">
+				  <label class="item item-input item-select" ng-click="selectBank()">
 				    <span class="input-label">银行</span>
-				    <select ng-model="pay.bankCode" ng-options="bank.id as bank.name for bank in bankList">
-		        </select>
+		        <span class="select">{{pay.bankName}}</span>
 				  </label>
 				  <label class="item item-input">
 				    <span class="input-label">卡号</span>

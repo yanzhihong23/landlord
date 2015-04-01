@@ -31,6 +31,7 @@ ion-content.padding{
   z-index: -1;
   font-weight: bold;
   font-size: 13px;
+  opacity: .5;
   img{
     vertical-align: middle;
     margin-right: 3px;
@@ -392,7 +393,7 @@ $seize-inner-size: 110px;
     border-top: dashed 1px $gray-light;
     border-bottom: dashed 1px $gray-light;
     .coupon-type{
-      line-height: 26px;
+      line-height: 30px;
       &+.row>div, &+.row>label{
         line-height: 28px;
       }
@@ -520,7 +521,37 @@ $seize-inner-size: 110px;
 
 
 #order_view{
+  .summary{
+    background: $accent;
+  }
+  .calc{
+    line-height: 23px;
+    background: rgba(178,140,65,.5);
+    .col{
+      position: relative;
+      &:first-child:after{
+        content: '=';
+        position: absolute;
+        top: 50%;
+        right: -7px;
+      }
+    }
+    .col:nth-child(2):after{
+      content: '+';
+      position: absolute;
+      top: 50%;
+      right: -4px;
+    }
+  }
+  form{
+    padding: 15px 20px;
+    .align{
+      margin-top: 15px;
+      margin-left: 4%;
+    }
+  }
   .card {
+    margin: 5px 0 20px;
     .title{
       line-height: 46px;
       font-size: 20px;
@@ -540,44 +571,11 @@ $seize-inner-size: 110px;
     }
     .payment-select{
       padding-top: 6%;
-      padding-bottom: 8%;
-      .balance{
-        display: block;
-        text-align: left;
-        line-height: 34px;
-        span{
-          display: inline-block;
-          width: 15%;
-          text-align: center;
-          margin-right: 10px;
-          input[type="checkbox"] {
-            top: 2px;
-          }
-        }
-      }
-      .item-input{
-        padding-top: 12px;
-        border-bottom: solid 1px $accent;
-        margin-left: 4%;
-        margin-right: 4%;
-      }
-      .item-select{
-        padding: 0;
-        border: 0;
-        .input-label{
-          line-height: 27px;
-          max-width: 15%;
-          padding-right: 0;
-          input[type="checkbox"] {
-            top: 4px;
-          }
-        }
-        select{
-          padding: 13px 31px 10px 10px;
-          max-width: 90%;
-          width: 85%;
-          direction: ltr;
-        }
+      padding-bottom: 4%;
+      .row{
+        margin: 10px -10px;
+        padding-left: 0;
+        padding-right: 0;
       }
       .card-pay{
         margin-left: 15%;
@@ -635,6 +633,24 @@ $cmd-size: 136px;
 
 .item-select span.select{
   font-size: 14px;
+}
+
+.c-select{
+  position: relative;
+  &:after{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid;
+    border-right: 5px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    color: #999;
+    content: "";
+    pointer-events: none;
+  }
 }
 
 

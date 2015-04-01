@@ -94,7 +94,7 @@ angular.module('landlordApp')
 						hideSheet();
 					}
 	     	}
-			})
+			});
 		};
 
 		$scope.quickRecharge = function() {
