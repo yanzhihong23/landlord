@@ -59,8 +59,12 @@
 .bar-header .back-button{
   font-size: 13px !important;
   i{
-    font-size: 26px;
+    font-size: 13px;
     padding-left: 6px;
+    padding-right: 2px;
+    &:before{
+      -webkit-transform: scale(2);
+    }
   }
 }
 
