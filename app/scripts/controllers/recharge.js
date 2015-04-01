@@ -46,9 +46,8 @@ angular.module('landlordApp')
 								value: arr[i].kuaiq_short_no, // storablePan
 								text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
 							};
-							
+							$scope.bankCards.push(card);
 						}
-						$scope.bankCards.push(card);
 					} 
 
 					$scope.bankCards.push({
@@ -92,6 +91,7 @@ angular.module('landlordApp')
 						$state.go('account.rechargeNew');
 					} else {
 						$scope.recharge.bankCard = $scope.bankCards[index].value;
+						$scope.recharge.bankCardShow = $scope.bankCards[index].text;
 						hideSheet();
 					}
 	     	}

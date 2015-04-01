@@ -40,7 +40,7 @@ angular.module('landlordApp')
 			}
 		};
 	})
-  .controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils) {
+  .controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window) {
   	$scope.countdown = 0;
 
   	$scope.goToInfo = function() {
@@ -177,6 +177,10 @@ angular.module('landlordApp')
 		$scope.doRefresh = function() {
 			var restartCountdown = !$scope.countdown;
 			updateData(restartCountdown);
+		};
+
+		$scope.reload = function() {
+			$window.location.reload(true);
 		};
 
 		$rootScope.$on('landlordUpdated', function() {
@@ -428,9 +432,8 @@ angular.module('landlordApp')
 							value: arr[i].kuaiq_short_no, // storablePan
 							text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
 						};
-						
+						$scope.bankCards.push(card);
 					}
-					$scope.bankCards.push(card);
 				} 
 
 				$scope.bankCards.push({
@@ -462,6 +465,7 @@ angular.module('landlordApp')
 					$state.go('tabs.pay');
 				} else {
 					$scope.order.bankCard = $scope.bankCards[index].value;
+					$scope.order.bankCardShow = $scope.bankCards[index].text;
 					hideSheet();
 				}
      	}
