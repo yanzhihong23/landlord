@@ -66,16 +66,17 @@ angular.module('landlordApp')
 		PayApi.getBankListForKQ(userConfig.getSessionId())
 			.success(function(data) {
 				if(data.flag === 1) {
-					$scope.recharge.bankCode = "1"; // icbc as default
-					$scope.bankList = data.data;
+					$scope.bankList = data.data.map(function(obj) {
+						return {
+							text: obj.name,
+							value: obj.id
+						};
+					});
+
+					$scope.recharge.bankCode = $scope.bankList[0].id;
+					$scope.recharge.bankName = $scope.bankList[0].text;
 				}
 			});
-
-		$scope.$watch('recharge.bankCard', function(val, oldVal) {
-			if(val !== oldVal && val === 'add') {
-				// $state.go('account.rechargeNew');
-			}
-		});
 
 		$scope.selectBank = function() {
 			if($scope.bankCards.length === 1) {
@@ -96,6 +97,18 @@ angular.module('landlordApp')
 	     	}
 			});
 		};
+
+		$scope.selectBankNew = function() {
+			var hideSheet = $ionicActionSheet.show({
+				buttons: $scope.bankList,
+				cancelText: '取消',
+				buttonClicked: function(index) {
+					$scope.recharge.bankCode = $scope.bankList[index].value;
+					$scope.recharge.bankName = $scope.bankList[index].text;
+					hideSheet();
+	     	}
+			});
+		}
 
 		$scope.quickRecharge = function() {
 			$ionicLoading.show();

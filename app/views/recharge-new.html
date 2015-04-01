@@ -8,9 +8,9 @@
 				    <span class="input-label">充值金额</span>
 				    <input type="text" ng-model="recharge.amount" placeholder="请输入充值金额" required>
 				  </label>
-				  <label class="item item-input item-select">
+				  <label class="item item-input item-select" ng-click="selectBankNew()">
 				    <span class="input-label">银行</span>
-				    <select ng-model="recharge.bankCode" ng-options="bank.id as bank.name for bank in bankList">
+				    <span class="select">{{recharge.bankName}}</span>
 		        </select>
 				  </label>
 				  <label class="item item-input">
