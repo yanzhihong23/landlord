@@ -30,6 +30,10 @@ angular
         $rootScope.modal.hide();
       }
 
+      if($rootScope.alertModal && $rootScope.alertModal._isShown) {
+        $rootScope.alertModal.hide();
+      }
+
   		switch(toState.name) {
         case 'tabs.startup':
           if(fromState.name === 'tabs.home') {

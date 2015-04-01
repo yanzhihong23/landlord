@@ -191,21 +191,58 @@ angular.module('landlordApp')
 
 	})
 	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster) {
-  	// show available balance
-  	var accountInfo = userConfig.getAccountInfo();
-  	if(accountInfo) {
-  		$scope.balance = ~~accountInfo.balanceUsable/10000;
-  	}
+		var init = function() {
+			console.log('----------- init BuyCtrl -----------');
+	  	var accountInfo = userConfig.getAccountInfo();
+	  	if(accountInfo) {
+	  		$scope.balance = ~~accountInfo.balanceUsable/10000;
+	  	}
 
-  	var annual = $scope.house.annualYield*$scope.house.minPrice*100;
-		$scope.item = {
-			mIncome: (annual/12).toFixed(2) || 0,
-			total: (annual/12*$scope.house.duration).toFixed(2) || 0,
-			limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1
+	  	var annual = $scope.house.annualYield*$scope.house.minPrice*100;
+			$scope.item = {
+				mIncome: (annual/12).toFixed(2) || 0,
+				total: (annual/12*$scope.house.duration).toFixed(2) || 0,
+				limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1
+			};
+
+			$scope.buy = angular.copy($scope.item);
+			$scope.buy.volume = 1;
+
+			$scope.validInterests = [];
+			$scope.validCoupons = [];
+
+			LandlordApi.getCouponList(userConfig.getSessionId(), $scope.house.key, $scope.house.type)
+				.success(function(data) {
+					if(data.flag === 1) {
+						var data = data.data;
+						var filter = function(obj) {
+							return {
+								code: obj.uv_code,
+								id: obj.uv_id,
+								value: obj.value,
+								minimum: obj.minimum,
+								sum: obj.uv_code + ':' + obj.uv_id + ':' + obj.value
+							};
+						}
+
+						// init coupon data
+						if(data.coupon && data.coupon.length) {
+							$scope.validCoupons = data.coupon.map(filter);
+							couponsInit();
+						}
+						$scope.showCoupon = $scope.validCoupons.length < 2 || $window.innerHeight > 568; // 568 iphone5
+						calcTotalPay();
+
+						// init interest data
+						if(data.interest && data.interest.length) {
+							$scope.validInterests = data.interest.map(filter);
+							interestsInit();
+						}
+						$scope.showInterest = $scope.validInterests.length < 2 || $window.innerHeight > 568;
+						calcExtraEarn();
+					}
+				});
 		};
-
-		$scope.buy = angular.copy($scope.item);
-		$scope.buy.volume = 1;
 
 		$scope.showInfo = function() {
 			toaster.pop('info', '关注“大房东投资计划”微信公众号，获取最新活动内容，即有机会获得加息券和现金券。');
@@ -301,40 +338,7 @@ angular.module('landlordApp')
 				});
 		};
 
-		$scope.validInterests = [];
-		$scope.validCoupons = [];
-
-		LandlordApi.getCouponList(userConfig.getSessionId(), $scope.house.key, $scope.house.type)
-			.success(function(data) {
-				if(data.flag === 1) {
-					var data = data.data;
-					var filter = function(obj) {
-						return {
-							code: obj.uv_code,
-							id: obj.uv_id,
-							value: obj.value,
-							minimum: obj.minimum,
-							sum: obj.uv_code + ':' + obj.uv_id + ':' + obj.value
-						};
-					}
-
-					// init coupon data
-					if(data.coupon && data.coupon.length) {
-						$scope.validCoupons = data.coupon.map(filter);
-						couponsInit();
-					}
-					$scope.showCoupon = $scope.validCoupons.length < 2 || $window.innerHeight > 568; // 568 iphone5
-					calcTotalPay();
-
-					// init interest data
-					if(data.interest && data.interest.length) {
-						$scope.validInterests = data.interest.map(filter);
-						interestsInit();
-					}
-					$scope.showInterest = $scope.validInterests.length < 2 || $window.innerHeight > 568;
-					calcExtraEarn();
-				}
-			});
+		
 
 		$scope.$watch('validInterests', function() {
 			calcExtraEarn();
@@ -382,12 +386,14 @@ angular.module('landlordApp')
 
 		// reset
 		$rootScope.$on('landlordUpdated', function() {
-			$scope.buy.volume = 1;
+			init();
 		});
+
+		init();
 	})
-.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet) {
+.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal) {
 	var init = function() {
-		console.log('init')
+		console.log('----------- init OrderCtrl -----------');
 		$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
 		$scope.order.balance = $scope.order.balanceUsable;
 		$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
@@ -419,8 +425,6 @@ angular.module('landlordApp')
 				$scope.order.bankCardShow = $scope.bankCards[0].text;
 			}); 
 	};
-
-	init();
 
 	$scope.selectBank = function() {
 		if(!$scope.order.useCard) return;
@@ -466,6 +470,7 @@ angular.module('landlordApp')
 				$scope.order.bank = $scope.order.total - $scope.order.balance;
 
 				$scope.order.cardDisabled = false;
+				$scope.order.useCard = true;
 
 				$scope.$parent.pay.payMode = 3;
 			} else {
@@ -480,14 +485,13 @@ angular.module('landlordApp')
 		} else {
 			$scope.order.balance = 0;
 			$scope.order.bank = $scope.order.total;
-			if($scope.bankCards.length > 1) $scope.order.useCard = true;
-
+			$scope.order.useCard = true;
 			$scope.order.cardDisabled = false;
 
 			$scope.$parent.pay.payMode = 1;
 		}
 
-		console.log($scope.$parent.pay.payMode)
+		console.log('payMode: ' + $scope.$parent.pay.payMode);
 	});
 
 	$scope.$watch('order.useCard', function(val, oldVal) {
@@ -514,7 +518,8 @@ angular.module('landlordApp')
 				
 			}
 		}
-		console.log($scope.$parent.pay.payMode)
+
+		console.log('payMode: ' + $scope.$parent.pay.payMode);
 	});
 
 	$scope.quickPay = function() {
@@ -525,8 +530,6 @@ angular.module('landlordApp')
 		var payMode = $scope.$parent.pay.payMode;
 		var payPassword = md5.createHash($scope.user.payPassword);
 
-		// var coupon = ['ZC5010Mar1800004:372726:50.10','zktest31:373868:100.00'];
-
 		$ionicLoading.show();
 		PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword, $scope.pay.coupons, $scope.pay.interest)
 			.success(function(data) {
@@ -536,15 +539,39 @@ angular.module('landlordApp')
 					$scope.user.payPassword = null; // clear password
 					$rootScope.$broadcast('landlordUpdated');
 					$state.go('account.info');
+				} else if(data.flag === -1) { // wrong password
+					$ionicModal.fromTemplateUrl('views/wrong-password.html', {
+						scope: $scope,
+						animation: 'slide-in-up'
+					}).then(function(modal) {
+						$rootScope.alertModal = modal;
+						$rootScope.alertModal.show();
+					});
 				} else {
 					toaster.pop('error', data.msg);
 				}
 			});
 	};
 
+	$scope.closeModal = function() {
+    $rootScope.alertModal.hide();
+  };
+
+  $scope.retrievePassword = function() {
+  	$rootScope.alertModal.hide();
+  	$state.go('tabs.retrievePayPassword');
+  }
+
+	$scope.$on('modal.hidden', function() {
+    // Execute action
+    $scope.user.payPassword = null;
+  });
+
 	$rootScope.$on('balanceUpdated', function() {
 		init();
 	}); 
+
+	init();
 })
 .controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet) {
 	var accountInfo = userConfig.getAccountInfo();
