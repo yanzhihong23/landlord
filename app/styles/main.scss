@@ -384,6 +384,7 @@ $seize-inner-size: 110px;
   input[type="checkbox"].small{
     top: 1px;
     right: 3px;
+    margin-left: 3px;
   }
   a.tos{
     color: $gray;
@@ -393,7 +394,12 @@ $seize-inner-size: 110px;
     border-top: dashed 1px $gray-light;
     border-bottom: dashed 1px $gray-light;
     .coupon-type{
+      position: relative;
+      padding-left: 25px;
       line-height: 30px;
+      &+.row{
+        padding-left: 25px;
+      }
       &+.row>div, &+.row>label{
         line-height: 28px;
       }
@@ -401,6 +407,24 @@ $seize-inner-size: 110px;
         input[type="radio"]{
           top: 2px;
         }
+      }
+
+      &:before{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 5px;
+        left: 0;
+      }
+      &.interest:before{
+        background: url(../images/interest.png) no-repeat center;
+        background-size: contain;
+      }
+      &.coupon:before{
+        background: url(../images/coupon.png) no-repeat center;
+        background-size: contain;
       }
     }
   }
