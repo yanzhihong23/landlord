@@ -8,6 +8,7 @@ angular.module('landlordApp')
 			$scope.order.balance = $scope.order.balanceUsable;
 			$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
 			$scope.bankCards = [];
+			$scope.order.bankCard = null;
 			$scope.user = {payPassword: ''};
 
 			$scope.order.useBalance = !!$scope.order.balance;
