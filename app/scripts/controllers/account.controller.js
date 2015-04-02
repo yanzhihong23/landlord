@@ -43,9 +43,11 @@ angular.module('landlordApp')
 
 		$scope.sendSms = function(resend) {
 			$scope.clicked = true;
+			$ionicLoading.show();
 			UserApi.sendSms($scope.account.phone)
 				.success(function(data, status, headers, config) {
 					$scope.clicked = false;
+					$ionicLoading.hide();
 	  			if(data.flag === 1) {
 	  				$scope.account.sessionId = data.data.session_id;
 	  				!resend && $state.go('account.register');
