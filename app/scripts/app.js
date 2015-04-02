@@ -20,6 +20,9 @@ angular
   .constant('serverConfig', {
     url: 'https://m-test.nonobank.com/msapi'
   })
+  .constant('$ionicLoadingConfig', {
+    template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
+  })
   .config(function($httpProvider) {
     $httpProvider.defaults.timeout = 5000;
     $httpProvider.interceptors.push('httpInterceptor');
