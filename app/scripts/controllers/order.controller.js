@@ -67,7 +67,7 @@ angular.module('landlordApp')
 
 		$scope.$watch('order.bankCard', function(val, oldVal) {
 			if(val !== oldVal && val === 'add' && $scope.order.useCard) {
-				$state.go('tabs.pay');
+				// $state.go('tabs.pay');
 				$scope.showBankRec = false;
 			} else {
 				for(var i=0; i<$scope.bankCards.length; i++) {
