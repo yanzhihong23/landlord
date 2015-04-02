@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster) {
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster, $ionicLoading) {
 		var init = function() {
 			console.log('----------- init BuyCtrl -----------');
 	  	var accountInfo = userConfig.getAccountInfo();
@@ -137,8 +137,10 @@ angular.module('landlordApp')
 		});
 
 		$scope.buyNow = function() {
+			$ionicLoading.show();
 			UserApi.generateOrderNo(userConfig.getSessionId())
 				.success(function(data, status, headers, config) {
+					$ionicLoading.hide();
 					if(data.flag === 1) {
 						$scope.orderNo = data.data;
 						$scope.$parent.pay.extRefNo = data.data;
