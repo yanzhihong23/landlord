@@ -41,7 +41,7 @@ angular.module('landlordApp')
 			});
 		}
 
-		this.register = function(mobile, vcode, password, sessionId, borrowtype) {
+		this.register = function(mobile, vcode, password, sessionId, borrowtype, approach) {
 			return $http({
 				method: 'POST',
 				url: server + '/user/register',
@@ -51,7 +51,8 @@ angular.module('landlordApp')
 					validatemobile: vcode,
 					password: password,
 					sessionId: sessionId,
-					borrowtype: borrowtype || '理财'
+					borrowtype: borrowtype || '理财',
+					approach: approach || 'dfd'
 				})
 			}); 
 		};
