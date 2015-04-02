@@ -58,6 +58,7 @@
 	  				<span ng-hide="item.endDate">正在匹配中</span>
   				 &nbsp;&nbsp;&nbsp; 
 	  				<a ng-click="goToTos($index)" class="blue">电子合同</a>
+	  				<div ng-repeat="interest in item.interests">加息券：{{interest.value}}%(本金{{interest.amount}}万元)</div>
 	  			</div>
 	  			<div class="col col-center" ng-click="item.showDesc=false">
 	  				<i class="ion-chevron-right"></i>

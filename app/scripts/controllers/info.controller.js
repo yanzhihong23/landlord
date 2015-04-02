@@ -81,12 +81,25 @@ angular.module('landlordApp')
   										if(data.next_expect_ba.ba_expect) {
   											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(data.next_expect_ba.ba_price, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + '期)';
   										}
+
+                      var interests = data.vipAccounts[0].vfInfo.filter(function(obj) {
+                        return obj.ir_p_type == '1';
+                      });
+
+                      interests = interests.map(function(obj) {
+                        return {
+                          amount: (+obj.vf_amount)/10000,
+                          value: obj.value
+                        }
+                      });
+
   										var item = {
   											invest: data.invest/10000,
   											earnings: data.earnings || 0,
   											images: data.landlord_atts,
   											desc: desc,
   											endDate: data.baList.length && data.baList[data.baList.length-1].ba_time_formate,
+                        interests: interests,
   											showDesc: true
   										};
 
