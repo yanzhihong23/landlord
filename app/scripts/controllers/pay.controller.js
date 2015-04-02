@@ -32,8 +32,10 @@ angular.module('landlordApp')
 						};
 					});
 
-					$scope.pay.bankCode = $scope.bankList[0].id;
-					$scope.pay.bankName = $scope.bankList[0].text;
+					if(!$scope.pay.bankCode)  {
+						$scope.pay.bankCode = $scope.bankList[0].id;
+						$scope.pay.bankName = $scope.bankList[0].text;
+					}
 				}
 			});
 

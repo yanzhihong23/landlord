@@ -15,14 +15,17 @@ angular.module('landlordApp')
 			UserApi.getBoundBankList(userConfig.getSessionId())
 				.success(function(data) {
 					if(data.flag === 1) {
-						var arr = data.data;
-						for(var i=0; i<arr.length; i++) {
-							var card = {
-								value: arr[i].kuaiq_short_no, // storablePan
-								text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
-							};
-							$scope.bankCards.push(card);
-						}
+						$scope.bankCards = data.data.map(function(obj) {
+							if(!$scope.order.bankCard && /建设|招商|平安/.test(obj.banks_cat)) {
+								$scope.order.bankCard = obj.kuaiq_short_no;
+								$scope.order.bankCardShow = obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）';
+							}
+
+							return {
+								value: obj.kuaiq_short_no,
+								text: obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）'
+							}
+						});
 					} 
 
 					$scope.bankCards.push({
@@ -30,9 +33,11 @@ angular.module('landlordApp')
 						value: 'add'
 					});
 
-					$scope.order.bankCard = $scope.bankCards[0].value;
-					$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[0].text);
-					$scope.order.bankCardShow = $scope.bankCards[0].text;
+					if(!$scope.order.bankCard) {
+						$scope.order.bankCard = $scope.bankCards[0].value;
+						$scope.order.bankCardShow = $scope.bankCards[0].text;
+						$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[0].text);
+					}
 				}); 
 		};
 
@@ -66,7 +71,7 @@ angular.module('landlordApp')
 			} else {
 				for(var i=0; i<$scope.bankCards.length; i++) {
 					if(val == $scope.bankCards[i].value) {
-						$scope.showBankRec = /工商|广大|民生/.test($scope.bankCards[i].text);
+						$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[i].text);
 						break;
 					}
 				}
@@ -149,7 +154,7 @@ angular.module('landlordApp')
 						$scope.user.payPassword = null; // clear password
 						$rootScope.$broadcast('landlordUpdated');
 						$state.go('account.info');
-					} else if(data.flag === -1) { // wrong password
+					} else if(/密码错误/.test(data.msg)) { // wrong password
 						$ionicModal.fromTemplateUrl('views/wrong-password.html', {
 							scope: $scope,
 							animation: 'slide-in-up'
@@ -171,6 +176,25 @@ angular.module('landlordApp')
 	  	$rootScope.alertModal.hide();
 	  	$state.go('tabs.retrievePayPassword');
 	  }
+
+	  $scope.recommend = function(name) {
+	  	switch(name) {
+	  		case 'ccb':
+	  			$scope.pay.bankCode = 4;
+	  			$scope.pay.bankName = '中国建设银行';
+	  			break;
+  			case 'cmb':
+  				$scope.pay.bankCode = 5;
+  				$scope.pay.bankName = '招商银行';
+  				break;
+				case 'pingan':
+					$scope.pay.bankCode = 33;
+					$scope.pay.bankName = '平安银行';
+					break;
+	  	}
+
+	  	$state.go('tabs.pay');
+	  };
 
 		$scope.$on('modal.hidden', function() {
 	    // Execute action
