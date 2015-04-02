@@ -1,13 +1,15 @@
 <ion-view view-title="房东信息" id="login_view">
-	<div class="logo-part"></div>
-	<div class="card padding">
-		<form name="loginForm" ng-submit="login()">
-			<div class="padding align-center fs-xs">您已经是大房东的用户，请您登录</div>
-			<div class="item item-input">
-		    <input type="password" ng-model="account.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="请输入登录密码" clear-input required>
-		  </div>
-		  <a class="pull-right padding fs-xs blue" href="#/account/retrievePassword">忘记密码?</a>
-		  <button type="submit" class="button button-full" ng-disabled="loginForm.$invalid">登录</button>
-		</form>
-	</div>
+	<ion-content>
+		<div class="logo-part"></div>
+		<div class="card padding">
+			<form name="loginForm" ng-submit="login()">
+				<div class="padding align-center fs-xs">您已经是大房东的用户，请您登录</div>
+				<div class="item item-input">
+			    <input type="password" ng-model="account.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="请输入登录密码" clear-input required>
+			  </div>
+			  <a class="pull-right padding fs-xs blue" href="#/account/retrievePassword">忘记密码?</a>
+			  <button type="submit" class="button button-full" ng-disabled="loginForm.$invalid">登录</button>
+			</form>
+		</div>
+	</ion-content>
 </ion-view>

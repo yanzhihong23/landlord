@@ -1,20 +1,22 @@
 <ion-view view-title="房东信息" id="register_view">
-	<div class="logo-part"></div>
-	<div class="card padding">
-		<form name="registerForm" ng-submit="register()">
-			<div class="padding align-center fs-xs">为了您的账户安全，请设置您的登录密码</div>
-			<div class="item item-input-inset">
-		    <label class="item-input-wrapper">
-		      <input type="text" ng-model="account.vcode" ng-minlength="4" placeholder="短信验证码" rquired>
-		    </label>
-		    <button type="button" class="button button-small" ng-click="resendSms()" ng-disabled="resendCountdown">
-		      <span ng-show="resendCountdown">{{resendCountdown}}秒后</span>重新发送
-		    </button>
-		  </div>
-			<div class="item item-input">
-		    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" clear-input required>
-		  </div>
-		  <button type="submit" class="button button-full" ng-disabled="registerForm.$invalid || invalidPassword || clicked">设置登录密码</button>
-		</form>
-	</div>
+	<ion-content>
+		<div class="logo-part"></div>
+		<div class="card padding">
+			<form name="registerForm" ng-submit="register()">
+				<div class="padding align-center fs-xs">为了您的账户安全，请设置您的登录密码</div>
+				<div class="item item-input-inset">
+			    <label class="item-input-wrapper">
+			      <input type="text" ng-model="account.vcode" ng-minlength="4" placeholder="短信验证码" rquired>
+			    </label>
+			    <button type="button" class="button button-small" ng-click="resendSms()" ng-disabled="resendCountdown">
+			      <span ng-show="resendCountdown">{{resendCountdown}}秒后</span>重新发送
+			    </button>
+			  </div>
+				<div class="item item-input">
+			    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" clear-input required>
+			  </div>
+			  <button type="submit" class="button button-full" ng-disabled="registerForm.$invalid || invalidPassword || clicked">设置登录密码</button>
+			</form>
+		</div>
+	</ion-content>
 </ion-view>

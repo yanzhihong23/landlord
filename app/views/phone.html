@@ -4,14 +4,15 @@
 	    <button class="button button-icon" ng-click="backToHome()">首页</button>
 	  </a>
 	</ion-nav-buttons>
-	<div class="logo-part"></div>
-	<div class="card padding">
-		<form name="phoneForm" ng-submit="sendSms()">
-			<div class="item item-input white">
-		    <input type="number" ng-model="account.phone" placeholder="房东大人，请填写手机号" ng-pattern="/^[0-9]{11}$/" ng-trim=true clear-input required>
-		  </div>
-		  <button type="submit" class="button button-full" ng-disabled="phoneForm.$invalid || clicked">下一步</button>
-		</form>
-		
-	</div>
+	<ion-content>
+		<div class="logo-part"></div>
+		<div class="card padding">
+			<form name="phoneForm" ng-submit="sendSms()">
+				<div class="item item-input white">
+			    <input type="number" ng-model="account.phone" placeholder="房东大人，请填写手机号" ng-pattern="/^[0-9]{11}$/" ng-trim=true clear-input required>
+			  </div>
+			  <button type="submit" class="button button-full" ng-disabled="phoneForm.$invalid || clicked">下一步</button>
+			</form>
+		</div>
+	</ion-content>
 </ion-view>
