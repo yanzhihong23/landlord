@@ -59,6 +59,8 @@ angular.module('landlordApp')
 	      return count >= 2;
 			},
 			resendCountdown: function($scope) {
+				$scope.resendCountdown = 0;
+				
 				return function() {
 					$scope.resendCountdown = 60;
 					var countdown = function() {

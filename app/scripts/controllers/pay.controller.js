@@ -5,7 +5,6 @@ angular.module('landlordApp')
 		var accountInfo = userConfig.getAccountInfo();
 		var sessionId = userConfig.getSessionId();
 		var mId = accountInfo && accountInfo.m_id, storablePan, token;
-		$scope.resendCountdown = 0;
 		var resendCountdown = utils.resendCountdown($scope);
 
 		$scope.pay = $scope.$parent.pay;

@@ -11,7 +11,6 @@ angular.module('landlordApp')
 				storablePan,
 				token;
 
-		$scope.resendCountdown = 0;
 		var resendCountdown = utils.resendCountdown($scope);
 
 		$scope.bankCards = [];

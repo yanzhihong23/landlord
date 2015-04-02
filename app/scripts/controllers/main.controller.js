@@ -43,9 +43,8 @@ angular.module('landlordApp')
 	.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 		var sessionId = userConfig.getSessionId();
 		var mobile = userConfig.getAccountInfo().mobilenum;
-		$scope.invalidPassword = false;
-		$scope.resendCountdown = 0;
 		var resendCountdown = utils.resendCountdown($scope);
+		$scope.invalidPassword = false;
 		$scope.user = {
 			vcode: '',
 			password: ''

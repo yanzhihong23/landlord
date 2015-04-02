@@ -2,9 +2,8 @@
 
 angular.module('landlordApp')
 	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout, $ionicLoading) {
-		$scope.account = {};
-		$scope.resendCountdown = 0;
 		var resendCountdown = utils.resendCountdown($scope);
+		$scope.account = {};
 		$scope.clicked = false;
 		$scope.invalidPassword = false;
 
@@ -27,7 +26,6 @@ angular.module('landlordApp')
   				$ionicLoading.hide();
 					if(data.flag === 1) {
 						userConfig.setAccountInfo(data.data);
-						// toaster.pop('success', data.msg);
 						// clear password
 						$scope.account.password = null;
 
@@ -128,7 +126,6 @@ angular.module('landlordApp')
 		};
 	})
 	.controller('RetrievePasswordCtrl', function($scope, UserApi, toaster, userConfig, md5, utils, $ionicLoading) {
-		$scope.resendCountdown = 0;
 		var resendCountdown = utils.resendCountdown($scope);
 		$scope.sendRetrieveSms = function() {
 			UserApi.sendSmsForRetrievePassword($scope.account.phone)
