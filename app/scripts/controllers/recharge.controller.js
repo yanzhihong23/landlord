@@ -14,9 +14,12 @@ angular.module('landlordApp')
 		var resendCountdown = utils.resendCountdown($scope);
 
 		$scope.bankCards = [];
-		$scope.recharge = {};
+		$scope.recharge = {
+			amount: $rootScope.amount
+		};
 
 		var init = function() {
+			console.log('---------- init RechargeCtrl ------');
 			accountInfo = userConfig.getAccountInfo();
 			sessionId = userConfig.getSessionId();
 			mId = accountInfo.m_id;
@@ -78,6 +81,7 @@ angular.module('landlordApp')
 
 		$scope.selectBank = function() {
 			if($scope.bankCards.length === 1) {
+				$rootScope.amount = $scope.recharge.amount;
 				$state.go('account.rechargeNew');
 				return;
 			}
@@ -87,6 +91,7 @@ angular.module('landlordApp')
 				cancelText: '取消',
 				buttonClicked: function(index) {
 					if(index === $scope.bankCards.length-1) {
+						$rootScope.amount = $scope.recharge.amount;
 						$state.go('account.rechargeNew');
 					} else {
 						$scope.recharge.bankCard = $scope.bankCards[index].value;
