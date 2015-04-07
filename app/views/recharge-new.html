@@ -39,7 +39,7 @@
 				  </div>
 				  <div class="item item-input vcode">
 				    <span class="input-label">验证码</span>
-				    <input type="text" ng-model="recharge.vcode" ng-pattern="/^[0-9]{6}$/" placeholder="" clear-input required>
+				    <input type="text" ng-model="recharge.vcode" ng-pattern="/^[\s\S]{6}$/" placeholder="" clear-input required>
 				  </div>
 				  <button type="button" class="button button-small" ng-click="sendSms()" ng-disabled="!recharge.cardNo || !recharge.name || !recharge.id || !recharge.phone || resendCountdown || clicked">
 				  	<span ng-hide="resendCountdown">获取验证码</span>

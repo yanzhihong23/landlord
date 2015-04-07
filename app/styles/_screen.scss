@@ -7,6 +7,9 @@ and (max-device-height : 480px) { // iphone 4
 	#buy_card{
 		margin-top: 0;
 	}
+	#preview_modal .card .item-image{
+		height: 77%;
+	}
 }
 
 @media only screen 

@@ -111,12 +111,12 @@ input::-webkit-input-placeholder{
     right: 0;
   }
   &.white{
-    border-bottom-color: $gray;
+    border-bottom-color: $white;
     input, input::-webkit-input-placeholder{ 
       color: $white; 
     }
     &:before,&:after{
-      background: $gray;
+      background: $white;
     }
   }
 }

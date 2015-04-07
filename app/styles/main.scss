@@ -325,10 +325,10 @@ $seize-inner-size: 90px;
       display: -webkit-box;
       color: $white;
       font-size: 13px;
-      height: 70px;
+      height: 78px;
       overflow: hidden;
       text-overflow: ellipsis;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
     }
   }
@@ -526,6 +526,9 @@ $seize-inner-size: 90px;
 #register_view, #login_view{
   .card{
     padding: 2% 15px;
+  }
+  .tip{
+    margin: -5px 0 10px;
   }
 }
 
