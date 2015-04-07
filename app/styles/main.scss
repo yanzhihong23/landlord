@@ -682,6 +682,27 @@ input[clear-input]:focus+i{
   }
 }
 
+#startup{
+  background: #000;
+  .slider{
+    height: 100%;
+  }
+  .page{
+    background: url(../images/home-2.png) no-repeat;
+    background-size: 100% 100%;
+    button{
+      height: 10%;
+      width: 100%;
+      position: absolute;
+      bottom: 4%;
+      background: transparent;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+}
+
 
 
 @import "screen";

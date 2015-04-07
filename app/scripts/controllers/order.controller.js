@@ -2,9 +2,9 @@
 
 angular.module('landlordApp')
 	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal) {
-		var init = function() {
+		var init = function(amount) {
 			console.log('----------- init OrderCtrl -----------');
-			$scope.order.balanceUsable = userConfig.getAccountInfo().balanceUsable;
+			$scope.order.balanceUsable = +userConfig.getAccountInfo().balanceUsable + (amount || 0);
 			$scope.order.balance = $scope.order.balanceUsable;
 			$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
 			$scope.bankCards = [];
@@ -179,6 +179,10 @@ angular.module('landlordApp')
 	  };
 
 	  $scope.recharge = function() {
+	  	$rootScope.$on('rechargeSuc', function(event, amount) {
+	  		init(amount);
+	  	});
+
   		$state.go('account.recharge');
   	};
 

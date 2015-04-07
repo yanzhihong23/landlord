@@ -14,10 +14,14 @@ angular.module('landlordApp')
 		$scope.pay = {};
 	})
 	.controller('StartupCtrl', function($scope, $state, $timeout, utils) {
-		$timeout(function() {
+		// $timeout(function() {
+		// 	$scope.goHome();
+		// }, 5000);
+
+		$scope.goHome = function() {
 			utils.disableBack();
 			$state.go('tabs.home');
-		}, 3000);
+		};
 	})
 	.controller('TosCtrl', function($scope, $rootScope, $state, $ionicHistory, utils, userConfig) {
 		var accountInfo = userConfig.getAccountInfo();

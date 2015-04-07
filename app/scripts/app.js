@@ -40,16 +40,17 @@ angular
   		switch(toState.name) {
         case 'tabs.startup':
           if(fromState.name === 'tabs.home') {
-            event.preventDefault();
+            // event.preventDefault();
           }
           break;
         case 'account.info':
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
 
-            $rootScope.$on('loginSuc', function() {
+            var callMeOffFn = $rootScope.$on('loginSuc', function() {
               utils.disableBack();
               $state.go(toState.name);
+              callMeOffFn();
             });
 
             utils.disableBack();
@@ -60,13 +61,14 @@ angular
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
 
-            $rootScope.$on('loginSuc', function() {
+            var callMeOffFn = $rootScope.$on('loginSuc', function() {
               utils.disableBack();
               $state.go('tabs.home');
 
               $timeout(function() {
                 $state.go(toState.name);
-              }, 10);
+              }, 100);
+              callMeOffFn();
             });
 
             utils.disableBack();
@@ -265,5 +267,5 @@ angular
 
     
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/home');
+    $urlRouterProvider.otherwise('/tab/startup');
   });

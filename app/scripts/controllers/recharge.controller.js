@@ -121,6 +121,7 @@ angular.module('landlordApp')
 				.success(function(data) {
 					$ionicLoading.hide();
 					if(data.flag === 1) {
+						$rootScope.$broadcast('rechargeSuc', $scope.recharge.amount);
 						// reset
 						$scope.recharge.amount = null;
 						$rootScope.amount = null;
@@ -198,6 +199,7 @@ angular.module('landlordApp')
 			.success(function(data) {
 				$ionicLoading.hide();
 				if(data.flag === 1) {
+					$rootScope.$broadcast('rechargeSuc', $scope.recharge.amount);
 					// reset
 					$scope.recharge.amount = null;
 					$rootScope.amount = null;

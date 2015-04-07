@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils) {
+	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory) {
 		$scope.isNoRecord = false;
 
   	if(!userConfig.isLogined()) {
@@ -21,6 +21,10 @@ angular.module('landlordApp')
   	};
 
   	$scope.recharge = function() {
+      var callMeOffFn = $rootScope.$on('rechargeSuc', function(event, amount) {
+        init();
+        callMeOffFn();
+      })
   		$state.go('account.recharge');
   	};
 
@@ -117,6 +121,9 @@ angular.module('landlordApp')
 		};
 
 		$scope.logout = function() {
+      $ionicHistory.clearHistory();
+      $ionicHistory.clearCache();
+
 			userConfig.logout();
 			utils.disableBack();
 			$state.go('account.phone');
