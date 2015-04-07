@@ -1,9 +1,9 @@
 <ion-view view-title="充值" cache-view="fasle">
 	<ion-content id="pay">
 		<form name="rechargeNewForm" ng-submit="rechargeNew()">
-			<div class="card padding">
-				<div class="list padding-top">
-					<div class="padding" style="padding-left:16px">账户余额（{{balanceUsable | currency: ''}}元）</div>
+			<div class="card transparent-bg">
+				<div class="padding align-center accent-bg white">账户余额（{{balanceUsable | currency: ''}}元）</div>
+				<div class="list padding-horizontal white-bg">
 				  <label class="item item-input">
 				    <span class="input-label">充值金额</span>
 				    <input type="text" ng-model="recharge.amount" placeholder="请输入充值金额" required>
@@ -46,6 +46,9 @@
 				  	<span ng-show="resendCountdown">{{resendCountdown}}秒后重新获取</span>
 				  </button>
 				</div>
+				<div class="padding-bottom fs-xs align-center" ng-init="tos=true">
+			  	<input type="checkbox" class="small tos" ng-model="tos"> 同意<a class="blue" href="#/tab/quickPayTos">《快钱快捷支付协议》</a>
+			  </div>
 			</div>
 
 			<div class="submit">
@@ -53,6 +56,4 @@
 			</div>
 		</form>
 	</ion-content>
-
-	<!-- <publicity></publicity> -->
 </ion-view>

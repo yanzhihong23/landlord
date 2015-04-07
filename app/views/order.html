@@ -1,6 +1,6 @@
 <ion-view view-title="{{house.title}}" id="order_view">
   <ion-content>
-    <section class="white summary">
+    <section class="white blue-bg">
       <div class="row align-center">
         <div class="col">
           <div>投资金额</div>
@@ -39,7 +39,7 @@
               <input type="checkbox" ng-model="order.useBalance" ng-disabled="!order.balanceUsable">
             </label>
             <div class="col-60">账户余额（{{order.balanceUsable | currency:''}}元）</div>
-            <div class="col-20 align-right"><a href="#/account/recharge" class="blue">充值</a></div>
+            <div class="col-20 align-right"><a class="blue"  ng-click="recharge()">充值</a></div>
           </div>
           <div class="row">
             <label class="col-20 align-center">
@@ -63,6 +63,4 @@
     </form>
   	
   </ion-content>
-
-  <publicity></publicity>
 </ion-view>

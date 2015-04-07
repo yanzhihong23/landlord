@@ -2,11 +2,7 @@
 and (min-device-width : 320px) 
 and (max-device-height : 480px) { // iphone 4
 	#house_card{
-		min-height: 280px;
-		margin-top: 0;
-		.progress-bar{
-			margin: 10px auto;
-		}
+		margin-bottom: 140px;
 	}
 	#buy_card{
 		margin-top: 0;
@@ -18,11 +14,17 @@ and (min-device-height : 640px) {
 	.action-sheet-group{
 	  max-height: 470px; // 10 items
 	}
+	#house_card .preview-img{
+		height: 180px;
+	}
 }
 
 @media only screen 
 and (min-device-height : 736px) { // iphone 6 plus
 	.action-sheet-group{
 	  max-height: 564px; // 10 items
+	}
+	#house_card .preview-img{
+		height: 200px;
 	}
 }

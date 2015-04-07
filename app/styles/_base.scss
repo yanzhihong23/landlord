@@ -93,6 +93,34 @@ input[type="radio"]{
   color: $blue;
 }
 
+.blue-bg{
+  background: $blue-bg;
+}
+
+.accent{
+  color: $accent;
+}
+
+.accent-light{
+  color: $accent-light;
+}
+
+.accent-bg{
+  background: $accent-bg;
+}
+
+.transparent-bg{
+  background: transparent;
+}
+
+.white-bg{
+  background: $white;
+}
+
+.no-padding{
+  padding: 0;
+}
+
 html, body{
   height: 100%;
 }
@@ -141,4 +169,51 @@ i.bank-icon{
     background-size: contain;
   }
 
+}
+
+.dot{
+  position: relative;
+  &:before{
+    content: '.';
+    display: block;
+    width: 6px;
+    height: 6px;
+    color: transparent;
+    background: $accent-light;
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    margin-top: -3px;
+  }
+}
+
+$cmd-size: 102px;
+$cmd-size-space: 8px;
+.cmd{
+  width: $cmd-size;
+  height: $cmd-size;
+  border-radius: $cmd-size/2;
+  background-color: $white;
+  color: transparent;
+  position: absolute;
+  left: 50%;
+  margin-left: -$cmd-size/2;
+  bottom: -$cmd-size/2;
+  font-size: 24px;
+  font-weight: bold;
+  border: solid 1px $button-default-bg;
+  &:before{
+    width: $cmd-size - $cmd-size-space*2;
+    height: $cmd-size - $cmd-size-space*2;
+    line-height: $cmd-size - $cmd-size-space*2;
+    color: $white;
+    content: '去考察';
+    background: $button-default-bg;
+    display: block;
+    position: absolute;
+    border-radius: $cmd-size/2 - $cmd-size-space;
+    box-shadow: inset 0px -3px 0px 0 $accent;
+    left: $cmd-size-space - 1;
+    top: $cmd-size-space - 1;
+  }
 }

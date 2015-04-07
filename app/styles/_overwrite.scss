@@ -27,10 +27,6 @@
   background-color: rgba(0, 0, 0, 0.5); 
 }
 
-.accent{
-  color: $accent;
-}
-
 .spinner.spinner-accent{
   stroke: $accent;
   fill: $accent;
@@ -52,10 +48,11 @@
   &.button-full{
   	min-height: 36px;
   	line-height: 36px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
   }
   &.disabled,&[disabled] {
     opacity: 1;
-    background-color: $gray-light;
+    background-color: $button-disabled-bg;
   }
 }
 

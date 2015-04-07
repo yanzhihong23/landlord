@@ -1,11 +1,15 @@
 $accent: 						#b28c41;
-$button-default-bg: #a17817;
+$accent-light:      #f1a31a;
+$accent-bg:         rgba(220, 168, 77, .8);
+$button-default-bg: rgba(246, 179, 62,.95);
+$button-disabled-bg: rgba(204,204,204,.85);
 $white:							#fff;
 $black:							#000;
 $gray-dark: 				#6f7680;
 $gray: 							#808080;
 $gray-light: 				#ccc;
 $blue:              #007aff;
+$blue-bg:           rgba(86,115,175,.8);
 
 $border-radius-size:  6px;
 

@@ -93,56 +93,49 @@ ion-content.padding{
 
 #house_card{
   background: rgba(255,255,255,0.9);
-  min-height: 300px;
-  .desc{
-    font-size: 16px;
-    border-bottom: solid 1px $accent;
-    padding: 10px;
+  min-height: 355px;
+  margin: 8%;
+  .preview-img{
+    width: 100%;
+    height: 135px;
   }
-  .btn{
-    display: inline-block;
-    min-width: 5em;
-    min-height: 28px;
-    text-align: center;
-    color: $accent;
-    background-color: $white;
-    font-size: .9em;
-    padding: 3px 5px;
-    border: solid 1px $accent;
-    border-radius: 4px;
+  .cmd:before{
+    content: '抢';
+    font-size: 52px;
+  }
+  .name{
+    margin: 4% auto 3%;
   }
   .predict{
-    padding-top: 1em;
+    padding-top: .5em;
   }
   .percent{
-    color: $accent;
-    font-size: 2.5em;
-    font-family: italic;
-    padding-top: .4em;
+    color: $accent-light;
+    font-size: 40px;
+    padding-top: 4%;
     .per{
       font-size: .6em;
     }
   }
-  .preview{
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
-    img{
-      cursor: pointer;
-    }
-  }
   .progress-bar{
-    width: 66%;
-    height: 10px;
-    background-color: #bfbfbf;
+    width: 85%;
+    height: 5px;
+    background-color: #dcdcdc;
     border-radius: 10px;
-    margin: 20px auto;
+    margin: 10px auto 0px;
     span{
       display: block;
       width: 60%;
       height: 100%;
-      background-color: $accent;
+      background-color: $accent-light;
       border-radius: 10px;
+    }
+    + .row{
+      padding: 0 7%;
+      margin-bottom: 50px;
+      .col{
+        padding: 0;
+      }
     }
   }
 }
@@ -201,24 +194,30 @@ ion-content.padding{
 }
 
 .arrow{
+  content: '';
   position: absolute;
-  background: $white;
-  width: 15px;
-  height: 14px;
-  bottom: 63px;
+  top: -13px;
   left: 50%;
-  margin-left: -8px;
-  transform: rotate(-55deg) skew(-20deg,0deg);
-  box-shadow: 2px -2px 6px 1px #999;
+  margin-left: -10px;
+  width: 0;
+  height: 0;
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-bottom-width: 14px;
+  border-color: transparent;
+  border-style: solid;
+  border-top-width: 0;
+  border-bottom-color: #f6b33e;
+  background: transparent;
 }
 
-$seize-size: 140px;
-$seize-inner-size: 110px;
+$seize-size: 106px;
+$seize-inner-size: 90px;
 .seize-wrapper{
   position: absolute;
   left: 50%;
   margin-left: -$seize-size/2;
-  bottom: -$seize-size/2;
+  bottom: -$seize-size/2 - 8;
   display: flex;
   align-items: center;
   width: $seize-size;
@@ -226,14 +225,15 @@ $seize-inner-size: 110px;
   border-radius: 73px;
   background-color: $white;
   text-align: center;
-  box-shadow: 0 0 6px 1px #999;
+  // box-shadow: 0 0 6px 1px #999;
+  border: solid 1px $accent-light;
   .seize{
     width: $seize-inner-size;
     height: $seize-inner-size;
     border-radius: $seize-inner-size/2;
     margin: auto;
-    box-shadow: 3px 3px 10px 2px #999;
-    background-color: $accent;
+    box-shadow: inset 0px -3px 0px 0 $accent;
+    background-color: #f6b33e;
     font-size: 46px;
     line-height: $seize-inner-size;
     font-weight: bold;
@@ -242,10 +242,6 @@ $seize-inner-size: 110px;
       vertical-align: middle;
       padding-bottom: 17px;
     }
-    &.disabled{
-      background: $gray;
-      font-size: 20px;
-    }
     a, a:focus, a:hover{
       display: block;
       color: $white;
@@ -253,19 +249,33 @@ $seize-inner-size: 110px;
     .countdown{
       position: absolute;
       width: 100%;
-      bottom: 22%;
+      bottom: 19%;
       left: 0;
-      font-size: 14px;
+      font-size: 12px;
       color: $white;
       line-height: 1;
+      .odometer{
+        width: 5px;
+      }
     }
   }
-  &:after{
-    content: '';
+  &.disabled{
+    border-color: $gray;
+    &:before{
+      border-bottom-color: $gray;
+    }
+    .seize{
+      background: $gray;
+      font-size: 20px;
+      box-shadow: none;
+    }
+  }
+  &:before,&:after{
     @extend .arrow;
-    top: -7px;
-    bottom: auto;
-    box-shadow: none;
+  }
+  &:after{
+    border-bottom-color: #fff;
+    top: -11px
   }
 }
 
@@ -280,7 +290,7 @@ $seize-inner-size: 110px;
   left: 6%;
   top: 13%;
   border-radius: $border-radius-size;
-  background-color: $accent;
+  background-color: $accent-light;
   .card{
     margin: 0;
     height: 100%;
@@ -299,7 +309,7 @@ $seize-inner-size: 110px;
         width: 50px;
         height: 50px;
         border-radius: 30px;
-        background: $accent;
+        background: $accent-light;
         border: solid 2px $white;
         color: $white;
         font-weight: bold;
@@ -370,11 +380,8 @@ $seize-inner-size: 110px;
     border: solid 1px $gray-light;
     margin: 0 6%;
     .title{
-      font-size: 12px;
       height: 22px;
       line-height: 22px;
-      background-color: #ada081;
-      color: $white;
     }
     .content{
       font-size: 16px;
@@ -432,51 +439,36 @@ $seize-inner-size: 110px;
 
 #my_info{
   .balance-info{
-    background: rgba(161,120,23,0.8);
+    background: rgba(219,168,76,.85);
     color: $white;
-    padding: 0 10px;
-    .tip{
-      font-size: 13px;
-      i{
-        position: absolute;
-        left: -12px;
-        padding-left: 18px;
-        &:before{
-          font-size: 22px;
-          transform: rotate(-15deg);
-        }
-      }
-      span{
-        padding-left: 18px;
-      }
+    padding-left: 5%;
+    padding-right: 10%;
+    .earning{
+      padding-left: 30%;
     }
     >.row{
-      padding: 10px 12px;
-    }
-    .tip+.row{
-      &, .row{
-        padding-top: 0;
-        padding-bottom: 0;
-      }
+      position: relative;
+      border-top: dashed 1px $white;
     }
     .plus-btn{
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
       background: #fff;
-      border-radius: 20px;
-      border: gray 1px dashed;
+      border-radius: 30px;
       display: block;
       margin: auto;
       color: $accent;
-      font-size: 16px;
-      float: right;
+      font-size: 18px;
+      position: absolute;
+      right: -20px;
+      top: -30px;
     }
   }
   .card{
     padding-top: 0;
     .title{
-      background-color: $accent;
+      background-color: $accent-bg;
       line-height: 34px;
       color: $white;
     }
@@ -545,12 +537,9 @@ $seize-inner-size: 110px;
 
 
 #order_view{
-  .summary{
-    background: $accent;
-  }
   .calc{
     line-height: 23px;
-    background: rgba(178,140,65,.5);
+    background: rgba(219,168,76,.7);
     .col{
       position: relative;
       &:first-child:after{
@@ -624,36 +613,21 @@ input[clear-input]:focus+i{
   padding: 0 10px;
 }
 
-
-$cmd-size: 136px;
 #no_record{
-  margin-top: 8%;
-  background-color: rgba(255,255,255,0.7);
+  margin: 10% 14%;
+  background-color: rgba(255,255,255,0.9);
   .name{
-    font-size: 22px;
-    font-style: italic;
+    font-size: 20px;
     margin: 10% 0;
   }
   .content{
     font-size: 18px;
     margin-bottom: 30%;
   }
-  .cmd{
-    width: $cmd-size;
-    height: $cmd-size;
-    border-radius: $cmd-size/2;
-    background-color: $accent;
-    color: $white;
-    position: absolute;
-    left: 50%;
-    margin-left: -$cmd-size/2;
-    bottom: -$cmd-size/2;
-    line-height: $cmd-size;
-    font-size: 36px;
-    box-shadow: 3px 8px 10px 0px #444;
+  .cmd:before{
+    content: '去考察'
   }
 }
-
 
 .item-select span.select{
   font-size: 14px;

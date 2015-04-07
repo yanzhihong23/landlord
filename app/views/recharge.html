@@ -1,9 +1,10 @@
 <ion-view view-title="充值" cache-view="fasle">
 	<ion-content id="pay">
+		<div class="logo-part"></div>
 		<form name="rechargeForm" ng-submit="quickRecharge()">
-			<div class="card padding">
-				<div class="list padding-top">
-					<div class="padding" style="padding-left:16px">账户余额（{{balanceUsable | currency: ''}}元）</div>
+			<div class="card transparent-bg">
+				<div class="padding align-center accent-bg white">账户余额（{{balanceUsable | currency: ''}}元）</div>
+				<div class="list padding-horizontal white-bg">
 				  <label class="item item-input">
 				    <span class="input-label">充值金额</span>
 				    <input type="text" ng-model="recharge.amount" placeholder="0.00" required>
@@ -24,6 +25,4 @@
 			</div>
 		</form>
 	</ion-content>
-
-	<!-- <publicity></publicity> -->
 </ion-view>

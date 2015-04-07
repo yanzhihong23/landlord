@@ -12,27 +12,26 @@
 	<ion-content has-bouncing="false">
 		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
     </ion-refresher>
-		<section class="balance-info bold white">
-			<div class="padding-top tip" ng-if="showTip">
-				<i class="ion-ios-bell-outline"></i>
-				<span>账户余额{{info.balance | currency:'￥'}}元，要生锈啦，赶紧买！</span>
+
+		<section class="balance-info white">
+			<div class="padding earning">
+				<div>当前收益</div>
+				<div class="fs-lg">{{info.earnings | currency:'￥'}}</div>
 			</div>
 			<div class="row">
-				<div class="col-80">
-					<div class="row">
-						<div class="col-33 col-center">在投资产</div>
-						<div class="col fs-lg">{{info.invest | currency:'￥'}}</div>
-					</div>
-					<div class="row">
-						<div class="col-33 col-center">当前收益</div>
-						<div class="col fs-md">{{info.earnings | currency:'￥'}}</div>
-					</div>
+				<div class="col">
+					<div>在投资产</div>
+					<div>{{info.invest | currency:'￥'}}</div>
 				</div>
-				<div class="col-20 col-center"><a class="plus-btn align-center" ng-click="recharge()">充值</a></div>
+				<div class="col">
+					<div>账户余额</div>
+					<div>{{info.balance | currency:'￥'}}</div>
+				</div>
+				<a class="plus-btn align-center" ng-click="recharge()">充值</a>
 			</div>
 		</section>
 
-		<div class="card align-center" id="no_record" ng-show="isNoRecord">
+		<div class="card align-center accent bold" id="no_record" ng-show="isNoRecord">
 			<div class="name fs-large">尊贵的房东大人</div>
 			<div class="content">好项目常在，恭候您考察</div>
 			<div class="cmd" ng-click="backToHome()">去考察</div>
@@ -66,6 +65,4 @@
     	</div>
     </div>
 	</ion-content>
-
-	<publicity></publicity>
 </ion-view>
