@@ -9,8 +9,9 @@
     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
     </ion-refresher>
     <div class="card align-center" id="house_card">
-    	<div ng-click="openModal()">
+    	<div class="relative" ng-click="openModal()">
        <img src="images/preview.jpg" class="preview-img" ng-src="{{house.previews[0].path}}" alt="" height="135" width="100%"> 
+       <div class="img-tip align-center fs-xs accent">点击图片查看详情</div>
       </div>
       <div class="fs-lg bold name">大房东投资计划 </div>
       <div class="row padding-horizontal">
