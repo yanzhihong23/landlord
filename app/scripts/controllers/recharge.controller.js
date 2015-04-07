@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet) {
+	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet, $ionicModal) {
 		var accountInfo,
 				sessionId,
 				mId,
@@ -129,11 +129,33 @@ angular.module('landlordApp')
 
 						toaster.pop('success', data.msg);
 						utils.goBack();
+					} else if(/密码错误/.test(data.msg)) { // wrong password
+						$ionicModal.fromTemplateUrl('views/wrong-password.html', {
+							scope: $scope,
+							animation: 'slide-in-up'
+						}).then(function(modal) {
+							$rootScope.alertModal = modal;
+							$rootScope.alertModal.show();
+						});
 					} else {
 						toaster.pop('error', data.msg);
 					}
 				})
 		};
+
+		$scope.$on('modal.hidden', function() {
+	    // Execute action
+	    $scope.recharge.password = null;
+	  });
+
+		$scope.closeModal = function() {
+	    $rootScope.alertModal.hide();
+	  };
+
+	  $scope.retrievePassword = function() {
+	  	$rootScope.alertModal.hide();
+	  	$state.go('tabs.retrievePayPassword');
+	  };
 
 		$scope.sendSms = function() {
 			$scope.clicked = true;
@@ -205,7 +227,7 @@ angular.module('landlordApp')
 					$rootScope.amount = null;
 					$scope.recharge.cardNo = null;
 					$scope.recharge.vcode = null;
-					
+
 					toaster.pop('success', data.msg);
 					utils.goBack(2);
 				} else {
