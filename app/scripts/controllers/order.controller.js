@@ -176,7 +176,11 @@ angular.module('landlordApp')
 	  $scope.retrievePassword = function() {
 	  	$rootScope.alertModal.hide();
 	  	$state.go('tabs.retrievePayPassword');
-	  }
+	  };
+
+	  $scope.recharge = function() {
+  		$state.go('account.recharge');
+  	};
 
 	  $scope.recommend = function(name) {
 	  	switch(name) {

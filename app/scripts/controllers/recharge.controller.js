@@ -121,9 +121,13 @@ angular.module('landlordApp')
 				.success(function(data) {
 					$ionicLoading.hide();
 					if(data.flag === 1) {
+						// reset
+						$scope.recharge.amount = null;
+						$rootScope.amount = null;
+						$scope.recharge.password = null;
+
 						toaster.pop('success', data.msg);
-						$rootScope.$broadcast('landlordUpdated');
-						$state.go('account.info');
+						utils.goBack();
 					} else {
 						toaster.pop('error', data.msg);
 					}
@@ -194,9 +198,14 @@ angular.module('landlordApp')
 			.success(function(data) {
 				$ionicLoading.hide();
 				if(data.flag === 1) {
+					// reset
+					$scope.recharge.amount = null;
+					$rootScope.amount = null;
+					$scope.recharge.cardNo = null;
+					$scope.recharge.vcode = null;
+					
 					toaster.pop('success', data.msg);
-					$rootScope.$broadcast('landlordUpdated');
-					$state.go('account.info');
+					utils.goBack(2);
 				} else {
 					toaster.pop('error', data.msg);
 				}

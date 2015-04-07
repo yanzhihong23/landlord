@@ -44,6 +44,18 @@ angular.module('landlordApp')
 				  disableBack: true
 				});
 			},
+			goBack: function(depth) {
+				if(depth) {
+					// get the right history stack based on the current view
+					var historyId = $ionicHistory.currentHistoryId();
+					var history = $ionicHistory.viewHistory().histories[historyId];
+					// set the view 'depth' back in the stack as the back view
+					var targetViewIndex = history.stack.length - 1 - depth;
+					$ionicHistory.backView(history.stack[targetViewIndex]);
+				}
+				// navigate to it
+				$ionicHistory.goBack();
+			},
 			isPasswordValid: function(password) {
 				var minMaxLength = /^[\s\S]{6,16}$/,
 	        letter = /[a-zA-Z]/,
