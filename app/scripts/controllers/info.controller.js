@@ -40,7 +40,7 @@ angular.module('landlordApp')
   			fp_rate_min: item.finance_plan.fp_rate_min,
   			fp_publish_date: utils.getDate(item.finance_plan.fp_publish_date.split(' ')[0]),
   			va_extno: item.vipAccounts[0].va_extno,
-  			joinDate: utils.getDate(item.vipAccounts[0].vfInfo[0].vf_service_time)
+  			joinDate: utils.getDate(item.vipAccounts[0].vfInfo[0].vf_service_time.split(' ')[0])
   		}
   		utils.disableBack();
   		$state.go('tabs.tos');

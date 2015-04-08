@@ -2,7 +2,7 @@
 	<ion-nav-buttons side="right">
     <button class="button button-icon fs-sm" ng-click="close()">关闭</button>
 	</ion-nav-buttons>
-  <ion-content class="padding white fs-xs">
+  <ion-content class="padding white" id="tos_content">
 协议编号：VIP{{landlord.va_extno}} <br>
 甲方：{{userInfo.realname}} <br>
 身份证件号码：{{userInfo.id}} <br>
@@ -21,11 +21,11 @@ b. 甲方自愿同意加入本次服务计划，并自愿遵守乙方网站现�
 2. 服务计划金额 <br>
 （1） 甲方以下列自有合法资金加入本次服务计划：<br>
 申请加入时间（{{landlord.joinDate}}） 加入金额 {{(landlord.total) | currency:''}}（单位:元）<br>
-总计： <br>
+金额总计： {{(landlord.total) | currency:''}}（单位:元）<br>
 （2） 甲方加入本次服务计划后，乙方将按照甲方首次加入计划的时间先后顺序，将甲方加入计划的金额在乙方平台安排进入优先自动投标。<br>
 <br>
 3. 本次服务计划的具体内容和要求如下：<br>
-（1） 名称：{{landlord.fp_title}}（上	下文均称"本次服务计划"）。<br>
+（1） 名称：{{landlord.fp_title}}（上下文均称"本次服务计划"）。<br>
 （2） 描述：甲方加入本次服务计划后，在锁定期内，加入服务计划的金额将被优先安排自动投标。锁定期结束，系统将会在锁定期的最后一日开始结算，结算完成后的资金将自动划转至用户普通账户中。<br>
 （3） 优先自动投标范围：乙方平台上发布的【实地认证标】【机构担保标】。<br>
 （4） 加入金额要求：最低加入金额为人民币【10,000.00】元，并以人民币【10,000.00】元整数倍递增，最高不超过人民币【{{landlord.fp_price_max | currency:''}}】元。<br>
