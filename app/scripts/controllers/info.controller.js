@@ -38,7 +38,7 @@ angular.module('landlordApp')
   			fp_end_date: utils.getDate(utils.addMonth(new Date(item.finance_plan.fp_start_date), ~~item.finance_plan.fp_expect)),
   			fp_expect: item.finance_plan.fp_expect,
   			fp_rate_min: item.finance_plan.fp_rate_min,
-  			fp_publish_date: utils.getDate(item.finance_plan.fp_publish_date),
+  			fp_publish_date: utils.getDate(item.finance_plan.fp_publish_date.split(' ')[0]),
   			va_extno: item.vipAccounts[0].va_extno,
   			joinDate: utils.getDate(item.vipAccounts[0].vfInfo[0].vf_service_time)
   		}
@@ -47,6 +47,7 @@ angular.module('landlordApp')
   	};
 
   	var init = function() {
+      console.log('------------- init InfoCtrl --------------');
   		LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
   			.success(function(data) {
   				$scope.$broadcast('scroll.refreshComplete');

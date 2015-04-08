@@ -13,7 +13,7 @@
        <img src="images/preview.jpg" class="preview-img" ng-src="{{house.previews[0].path}}" alt="" height="135" width="100%"> 
        <div class="img-tip align-center fs-xs accent">点击图片查看详情</div>
       </div>
-      <div class="fs-lg bold name">大房东投资计划 </div>
+      <div class="fs-lg bold name">{{house.title}} </div>
       <div class="row padding-horizontal">
       	<div class="col no-padding">
       		<span class="fs-xs dot">{{house.duration}}个月/{{house.minPrice}}万起投</span>
@@ -32,7 +32,7 @@
       <div class="row fs-xs gray">
         <div class="col align-left">共{{+house.price/10000}}万</div>
         <div class="col align-right" ng-show="house.remain">仅剩{{house.remain}}万</div>
-        <div class="col align-right" ng-hide="house.remain">已售罄</div>
+        <div class="col align-right" ng-show="house.status==1">已售罄</div>
       </div>
 
       <div class="seize-wrapper" ng-cloak ng-class="{disabled: house.status!=3}">

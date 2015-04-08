@@ -10,6 +10,7 @@ angular.module('landlordApp')
   	}
 
   	var updateData = function(restartCountdown) {
+      console.log('---------- update landlord -------------');
   		// get current
   		$ionicLoading.show();
   		LandlordApi.getLandlord().success(function(data, status, headers, config) {
@@ -19,7 +20,7 @@ angular.module('landlordApp')
   				var landlord = data.data.landlord;
   				// for tos
   				$rootScope.landlord = landlord;
-  				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date);
+  				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date.split(' ')[0]);
 
   				$scope.house = {
   					key: landlord.fp_id,
@@ -44,14 +45,21 @@ angular.module('landlordApp')
 
   				$scope.$parent.house = $scope.house;
 
-  				// countdown
-  				if(/-/.test(landlord.fp_finish_date_remain) || landlord.fp_status != '3') {
-  					$scope.countdown = 0;
-  				} else {
-  					var remainArr = landlord.fp_finish_date_remain.split(':');
-  					$scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
-  				}
-  				
+          // countdown
+          if(landlord.status == 1) {
+            $scope.countdown = 0;
+          } else {
+            var remainStr = landlord.fp_status == 3 ? landlord.fp_finish_date_remain : landlord.fp_publish_remain;
+            if(/-/.test(remainStr)) {
+              $scope.countdown = 0;
+            } else {
+              var remainArr = remainStr.split(':');
+              $scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
+              if($scope.countdown > 86400) { // 24h
+                $scope.countdown = 0;
+              }
+            }
+          }
   				restartCountdown && countdown();
   			} else {
   				console.log('fail');
@@ -112,6 +120,9 @@ angular.module('landlordApp')
   		if($scope.countdown) {
   			$timeout(function() {
   				$scope.countdown += -1;
+          if(!$scope.countdown && $scope.house.status == 0) {
+            updateData(true);
+          }
   				countdown();
   			}, 1000);
   		}

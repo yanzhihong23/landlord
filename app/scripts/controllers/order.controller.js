@@ -4,7 +4,7 @@ angular.module('landlordApp')
 	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal) {
 		var init = function(amount) {
 			console.log('----------- init OrderCtrl -----------');
-			$scope.order.balanceUsable = +userConfig.getAccountInfo().balanceUsable + (amount || 0);
+			$scope.order.balanceUsable = +userConfig.getAccountInfo().balanceUsable + (+amount || 0);
 			$scope.order.balance = $scope.order.balanceUsable;
 			$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
 			$scope.bankCards = [];

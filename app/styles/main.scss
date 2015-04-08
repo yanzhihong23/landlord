@@ -686,9 +686,20 @@ input[clear-input]:focus+i{
   background: #000;
   .slider{
     height: 100%;
+    .slider-pager{
+      top: auto;
+    }
   }
-  .page{
-    background: url(../images/home-2.png) no-repeat;
+  .s-1{
+    background: url(../images/guide-01.png) no-repeat;
+    background-size: 100% 100%;
+  }
+  .s-2{
+    background: url(../images/guide-02.png) no-repeat;
+    background-size: 100% 100%;
+  }
+  .s-3{
+    background: url(../images/guide-03.png) no-repeat;
     background-size: 100% 100%;
     button{
       height: 10%;

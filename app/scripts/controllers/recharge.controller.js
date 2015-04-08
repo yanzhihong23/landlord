@@ -59,7 +59,6 @@ angular.module('landlordApp')
 
 					$scope.recharge.bankCard = $scope.bankCards[0].value;
 					$scope.recharge.bankCardShow = $scope.bankCards[0].text;
-					console.log($scope.bankCards);
 				}); 
 		};
 
@@ -237,4 +236,8 @@ angular.module('landlordApp')
 		};
 
 		init();
+
+		$rootScope.$on('balanceUpdated', function() {
+			init();
+		});
 	})
