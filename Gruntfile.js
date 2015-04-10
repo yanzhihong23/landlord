@@ -178,7 +178,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       app: {
-        src: ['<%= yeoman.app %>/index.html'],
+        src: ['<%= yeoman.app %>/main.html'],
         ignorePath:  /\.\.\//
       },
       test: {
@@ -249,7 +249,7 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
+      html: '<%= yeoman.app %>/main.html',
       options: {
         dest: '<%= yeoman.dist %>',
         flow: {
@@ -425,7 +425,7 @@ module.exports = function (grunt) {
       dist: {
         options: {
           basePath: '<%= yeoman.dist %>',
-          network: ['http://*', 'https://*'],
+          network: ['index.html', 'http://*', 'https://*'],
           // fallback: ['/ /offline.html'],
           exclude: [
             // 'index.html'
@@ -436,7 +436,8 @@ module.exports = function (grunt) {
           hash: true
         },
         src: [
-          'index.html',
+          'offlinecacher.html',
+          // 'main.html',
           'views/**/*.html',
           'templates/**/*.html',
           'scripts/**/*.js',

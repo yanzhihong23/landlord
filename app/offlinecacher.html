@@ -5,6 +5,43 @@
 	<title>Offline</title>
 </head>
 <body>
-	
+	<script>
+		window.applicationCache.ondownloading = function () {
+		  window.parent.postMessage("ondownloading", "*");
+		}
+
+		window.applicationCache.onerror = function () {
+		  window.parent.postMessage("onerror", "*");
+		}
+
+		window.applicationCache.onupdateready = function () {
+		  window.parent.postMessage("onupdateready", "*");
+		}
+
+		window.applicationCache.oncached = function () {
+		  window.parent.postMessage("oncached", "*");
+		}
+
+		window.applicationCache.onnoupdate = function () {
+		  window.parent.postMessage("onnoupdate", "*");
+		}
+
+		window.applicationCache.onobsolete = function () {
+		  window.parent.postMessage("onobsolete", "*");
+		}
+
+		//This function is special cause it's using the 'e' param
+		window.applicationCache.onprogress = function (e) {
+		  if (e.lengthComputable) {
+		    var percent = Math.round(e.loaded / e.total * 100);
+		    //Tell parent about the progress
+		    window.parent.postMessage("onprogress" + percent, "*");
+		  }
+		}
+
+		window.applicationCache.onchecking = function () {
+		  window.parent.postMessage("onchecking", "*");
+		}
+	</script>
 </body>
 </html>

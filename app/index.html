@@ -5,82 +5,113 @@
     <title>大房东</title>
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-
-    <!-- safari full screen -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta id="apple-mobile-web-app-title" name="apple-mobile-web-app-title" content="大房东投资">
-
-    <link type="image/x-icon" href="landlord.ico" rel="icon">
-    <link type="image/x-icon" href="landlord.ico" rel="shortcut icon">
-
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/ionic/release/css/ionic.css" />
-    <link rel="stylesheet" href="/bower_components/angularjs-toaster/toaster.min.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/lib/odometer-theme-default.css">
-    <!-- endbuild -->
+    <style>
+      html,body{height: 100%}
+      body,div{padding: 0;margin: 0}
+      body{background: -webkit-linear-gradient(top, #c98841 0%,#ffdb9c 100%);}
+      .logo{
+        height: 55%;
+        background: url(images/logo-01.png) no-repeat center; 
+        background-size: contain;
+        margin: 0 8%;
+      }
+      .slogan{
+        height: 20%;
+        background: url(images/slogan.png) no-repeat center top;
+        background-size: contain;
+        margin: 0 20%;
+      }
+      .loading{
+        text-align: center;
+        color: rgb(158,100,38);
+        font-size: 13px;
+      }
+      .invisible {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+      }
+    </style>
   </head>
-  <body ng-app="landlordApp">
-    <ion-nav-bar class="bar-dark" align-title="center">
-      <ion-nav-back-button class="button-clear">
-        <i class="ion-ios-arrow-left"></i> 返回
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <ion-nav-view></ion-nav-view>
-
-    <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-
-    <script id="templates/tabs.html" type="text/ng-template">
-      <ion-nav-view name="home-tab"></ion-nav-view>
-    </script>
-
-    <script id="templates/account.html" type="text/ng-template">
-      <ion-nav-view name="home-tab"></ion-nav-view>
-    </script>
-
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-animate/angular-animate.js"></script>
-    <script src="/bower_components/angular-touch/angular-touch.js"></script>
-    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="/bower_components/ionic/release/js/ionic.js"></script>
-    <script src="/bower_components/ionic/release/js/ionic-angular.js"></script>
-    <script src="/bower_components/angular-md5/angular-md5.js"></script>
-    <script src="/bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-    <script src="/bower_components/angularjs-toaster/toaster.min.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/lib/odometer.min.js"></script>
-        <script src="scripts/lib/cordova.js"></script>
-        
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/service.js"></script>
-        <script src="scripts/services/user-api.js"></script>
-        <script src="scripts/services/pay-api.js"></script>
-        <script src="scripts/services/landlord-api.js"></script>
-        <script src="scripts/directives.js"></script>
-        <script src="scripts/controllers/main.controller.js"></script>
-        <script src="scripts/controllers/home.controller.js"></script>
-        <script src="scripts/controllers/buy.controller.js"></script>
-        <script src="scripts/controllers/order.controller.js"></script>
-        <script src="scripts/controllers/pay.controller.js"></script>
-        <script src="scripts/controllers/recharge.controller.js"></script>
-        <script src="scripts/controllers/account.controller.js"></script>
-        <script src="scripts/controllers/info.controller.js"></script>
-        <!-- endbuild -->
+  <body>
+    <div class="logo"></div>
+    <div class="slogan"></div>
+    <div class="loading">稍等片刻，正在加载中，已完成<span id="progress">0</span>% ...</div>
     <script>
-        var worker = new Worker("scripts/worker.js");
+      var redirect = function() {
+        window.location = 'main.html';
+      };
+
+      var loadOfflineCacher = function() {
+        var iframe = document.createElement('iframe');
+        iframe.className = "invisible";
+        iframe.src = "offlinecacher.html";
+        document.body.appendChild(iframe);
+      };
+
+      var onProgress = function(percent) {
+        document.getElementById('progress').innerHTML = percent;
+      };
+
+      var onError = function () {
+        var retries = localStorage.getItem("update_retries");
+        if(!retries) {
+          localStorage.setItem("update_retries", 2);
+          window.location.reload();
+        } else {
+          if(parseInt(retries) > 0) {
+            localStorage.setItem("update_retries", (parseInt(retries) - 1));
+            window.location.reload();
+          } else {
+            localStorage.removeItem("update_retries");
+          }
+        }
+      };
+
+      if(!window.applicationCache) { // manifest not supported
+        redirect();
+      } else {
+        window.addEventListener('message', function(event) { // add listener for offlinecacher
+          if(event.data.indexOf("onprogress") > -1) {
+            var percent = event.data.match(/\d+/)[0];
+            if(percent) {
+              onProgress(percent);
+            }
+            return;
+          }
+
+          switch(event.data) {
+            case 'ondownloading':
+              break;
+            case 'onerror':
+              onError();
+              break;
+            case 'onupdateready':
+              console.log('----- appcache: update ready ------');
+              redirect();
+              break;
+            case 'oncached':
+              redirect();
+              break;
+            case 'onnoupdate':
+              console.log('----- appcache: no update ------');
+              onProgress(100);
+              redirect();
+              break;
+            case 'onobsolete':
+              redirect();
+              break;
+            case 'onchecking':
+              break;
+            default:
+              //onError();
+          }
+        });
+      }
+
+      window.onload = function() {
+        loadOfflineCacher();
+      }
     </script>
-</body>
-<iframe id="cacher" src="./offlinecacher.html" style="position:absolute;top:-999em;visibility:hidden"></iframe>
+  </body>
 </html>
