@@ -144,8 +144,11 @@ input::-webkit-input-placeholder{
 }
 
 // scroll refresher
-.scroll-refresher .ionic-refresher-content .text-pulling{
-  font-size: 13px;
+.scroll-refresher{
+  top: -80px;
+  .ionic-refresher-content .text-pulling{
+    font-size: 13px;
+  } 
 }
 
 // slide pager
