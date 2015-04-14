@@ -392,10 +392,17 @@ ion-content.padding{
 
 #my_info{
   .balance-info{
-    background: rgba(219,168,76,.85);
+    position: fixed;
+    width: 100%;
+    top: 44px;
+    background: rgba(219,168,76,.97);
     color: $white;
     padding-left: 5%;
     padding-right: 10%;
+    z-index: 100;
+    .platform-ios &{
+      top: 64px;
+    }
     .earning{
       padding-left: 30%;
     }
@@ -417,6 +424,12 @@ ion-content.padding{
       right: -20px;
       top: -30px;
     }
+  }
+  .scroll-refresher{
+    z-index: 99;
+  }
+  .records{
+    margin-top: 140px;
   }
   .card{
     padding-top: 0;

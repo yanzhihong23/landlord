@@ -31,7 +31,7 @@
       </div>
       <div class="row fs-xs gray">
         <div class="col align-left">共{{+house.price/10000}}万</div>
-        <div class="col align-right" ng-show="house.remain">仅剩{{house.remain}}万</div>
+        <div class="col align-right" ng-show="house.status==3">仅剩{{house.remain}}万</div>
         <div class="col align-right" ng-show="house.status==1">已售罄</div>
       </div>
 
