@@ -31,10 +31,6 @@ angular.module('landlordApp')
 			mobile: accountInfo.mobilenum
 		};
 
-		if($rootScope.landlord) {
-			$rootScope.landlord.joinDate = utils.getDate();
-		} 
-
 		$scope.close = function() {
 			if($ionicHistory.backView()) {
 				$ionicHistory.goBack();

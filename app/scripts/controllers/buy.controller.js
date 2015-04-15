@@ -55,6 +55,13 @@ angular.module('landlordApp')
 				});
 		};
 
+		$scope.goTos = function() {
+			if($rootScope.landlord) {
+        $rootScope.landlord.joinDate = utils.getDate();
+      }
+      $state.go('tabs.tos');
+		};
+
 		$scope.showInfo = function() {
 			toaster.pop('info', '关注“大房东投资计划”微信公众号，获取最新活动内容，即有机会获得加息券和现金券。');
 		};
