@@ -84,7 +84,8 @@ angular.module('landlordApp')
   										data = data.data;
   										var desc = '该笔投资正在匹配中...';
   										if(data.next_expect_ba.ba_expect) {
-  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(data.next_expect_ba.ba_price, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + '期)';
+                        var amount = data.next_expect_ba.ba_price_l + (data.next_expect_ba.ba_expect == data.baList.length ? +data.invest : 0);
+  											desc = data.next_expect_ba.ba_time_formate + ' 入账“房租” ' + $filter('currency')(amount, '') + '元 (' + (data.next_expect_ba.ba_expect + '/' + data.baList.length) + '期)';
   										}
 
                       var interests = data.vipAccounts[0].vfInfo.filter(function(obj) {
