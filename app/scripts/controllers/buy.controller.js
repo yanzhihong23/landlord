@@ -57,7 +57,10 @@ angular.module('landlordApp')
 
 		$scope.goTos = function() {
 			if($rootScope.landlord) {
-        $rootScope.landlord.joinDate = utils.getDate();
+        $rootScope.landlord.records = [{
+        	date: utils.getDate(),
+        	amount: $scope.buy.volume*10000
+        }];
       }
       $state.go('tabs.tos');
 		};
