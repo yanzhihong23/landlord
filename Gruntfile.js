@@ -380,7 +380,9 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
             'fonts/**/*',
-            'scripts/worker.js'
+            'scripts/worker.js',
+            'scripts/lib/cordova.ios.js',
+            'scripts/lib/cordova.android.js'
           ]
         }, {
           expand: true,

@@ -44,6 +44,15 @@
       <ion-nav-view name="home-tab"></ion-nav-view>
     </script>
 
+    <script>
+        if(/android/i.test(navigator.userAgent)) {
+            document.write("<script src='scripts/lib/cordova.android.js'>")
+        } else {
+            document.write("<script src='scripts/lib/cordova.ios.js'>")
+        }
+    </script>
+    <!--script src="scripts/lib/cordova.android.js"></script -->
+
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/angular/angular.js"></script>
@@ -61,7 +70,6 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/lib/odometer.min.js"></script>
-        <script src="scripts/lib/cordova.js"></script>
         
         <script src="scripts/app.js"></script>
         <script src="scripts/services/service.js"></script>
@@ -80,8 +88,22 @@
         <!-- endbuild -->
     <script>
         var worker = new Worker("scripts/worker.js");
+        document.addEventListener("deviceready", function() {
+            console.log('--------- deviceready ------------');
+            document.addEventListener("resume", function() {
+                setTimeout(function() {
+                    console.log('--------- resume ------------');
+                },100)
+            }, false);
+            document.addEventListener("pause", function() {
+                setTimeout(function() {
+                    console.log('--------- pause ------------');
+                },100)
+            }, false);
+        }, false);
+        
     </script>
-    
+
     <!-- CNZZ -->
     <script>var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cdiv style='display:none'%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1254537754' %3E%3C/script%3E%3C/div%3E"));</script>
 </body>
