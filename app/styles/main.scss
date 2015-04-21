@@ -21,6 +21,7 @@ ion-content.padding{
 }
 
 #house_card{
+  // position: relative;
   background: rgba(255,255,255,0.9);
   min-height: 355px;
   margin: 8%;
@@ -75,11 +76,16 @@ ion-content.padding{
     padding-top: .5em;
   }
   .percent{
+    position: relative;
     color: $accent-light;
     font-size: 40px;
     padding-top: 4%;
     .per{
       font-size: .6em;
+    }
+    i{
+      position: absolute;
+      top: 8px;
     }
   }
   .progress-bar{
@@ -103,7 +109,11 @@ ion-content.padding{
       }
     }
   }
-  
+  #interest_coupon{
+    position: absolute;
+    bottom: 5px;
+    right: 8%;
+  }
 }
 
 .seize-wrapper{

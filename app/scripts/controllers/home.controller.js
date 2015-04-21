@@ -3,11 +3,22 @@
 angular.module('landlordApp')
 	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window) {
   	$scope.countdown = 0;
+    $scope.showDetail = false;
 
   	$scope.goToInfo = function() {
   		utils.disableBack();
   		$state.go('account.info');
-  	}
+  	};
+
+    $scope.showTip = function() {
+      if(!$scope.hasTip) return;
+
+      $scope.showDetail = true;
+      toaster.pop('info', '本期初始年化收益率为9.88%，您已获得' + (+$scope.house.annualYield - 9.88).toFixed(2) + '%的加息，加息所得收益不会每月平均发放，将会在到期结算后一次性发放。');
+      $timeout(function() {
+        $scope.showDetail = false;
+      }, 5000);
+    };
 
   	var updateData = function(restartCountdown) {
       console.log('---------- update landlord -------------');
@@ -42,6 +53,9 @@ angular.module('landlordApp')
   					price: landlord.fp_price,
   					remain: ~~((100 - +landlord.fp_percent)*landlord.fp_price/1000000)
   				};
+
+          // $scope.hasTip = +landlord.fp_rate_max > 9.88;
+          $scope.hasTip = false;
 
   				$scope.$parent.house = $scope.house;
 

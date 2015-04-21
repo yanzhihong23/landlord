@@ -190,6 +190,15 @@ angular
         }
       }
     })
+    .state('tabs.interestCoupon', {
+      url: "/interestCoupon",
+      views: {
+        'home-tab': {
+          templateUrl: "views/interest-coupon.html",
+          controller: 'TosCtrl'
+        }
+      }
+    })
     .state('account', {
     	url: "/account",
     	abstract: true,
