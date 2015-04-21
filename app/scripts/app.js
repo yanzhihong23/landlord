@@ -195,7 +195,7 @@ angular
       views: {
         'home-tab': {
           templateUrl: "views/interest-coupon.html",
-          controller: 'TosCtrl'
+          controller: 'InterestCouponCtrl'
         }
       }
     })

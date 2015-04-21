@@ -23,6 +23,11 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		};
 	})
+	.controller('InterestCouponCtrl', function($scope, $ionicHistory) {
+		$scope.close = function() {
+			$ionicHistory.goBack();
+		};
+	})
 	.controller('TosCtrl', function($scope, $rootScope, $state, $ionicHistory, utils, userConfig) {
 		var accountInfo = userConfig.getAccountInfo();
 		$scope.userInfo = {
