@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet) {
+	.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet, bankService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var sessionId = userConfig.getSessionId();
 		var mId = accountInfo && accountInfo.m_id, storablePan, token;
@@ -15,29 +15,17 @@ angular.module('landlordApp')
 		$scope.pay.type = $scope.house.type;
 
 		// $scope.pay.cardNo = '6228483470502762919'; // for test
-		console.log('$scope.pay.payMode = ' + $scope.pay.payMode);
-
+		console.log('payMode: ' + $scope.pay.payMode);
 
 		if(accountInfo.realname && accountInfo.idnum) {
 			$scope.disableIdEdit = true;
 		}
 
-		PayApi.getBankListForKQ(userConfig.getSessionId())
-			.success(function(data) {
-				if(data.flag === 1) {
-					$scope.bankList = data.data.map(function(obj) {
-						return {
-							text: obj.name,
-							value: obj.id
-						};
-					});
-
-					if(!$scope.pay.bankCode)  {
-						$scope.pay.bankCode = $scope.bankList[0].value;
-						$scope.pay.bankName = $scope.bankList[0].text;
-					}
-				}
-			});
+		$scope.bankList = bankService.getBankList();
+		if(!$scope.pay.bankCode)  {
+			$scope.pay.bankCode = $scope.bankList[0].value;
+			$scope.pay.bankName = $scope.bankList[0].text;
+		}
 
 		$scope.selectBank = function() {
 			var hideSheet = $ionicActionSheet.show({
@@ -118,6 +106,9 @@ angular.module('landlordApp')
 					// $scope.order = {};
 					$scope.pay = {};
 					$rootScope.$broadcast('landlordUpdated');
+					// update bankService
+					bankService.updateBoundBankList();
+					
 					$state.go('account.info');
 				} else {
 					toaster.pop('error', data.msg);

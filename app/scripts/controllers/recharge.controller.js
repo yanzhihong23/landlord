@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet, $ionicModal) {
+	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet, $ionicModal, bankService) {
 		var accountInfo,
 				sessionId,
 				mId,
@@ -38,45 +38,22 @@ angular.module('landlordApp')
 						extRefNo = data.data;
 					}
 				});
-				
-			UserApi.getBoundBankList(sessionId)
-				.success(function(data) {
-					if(data.flag === 1) {
-						var arr = data.data;
-						for(var i=0; i<arr.length; i++) {
-							var card = {
-								value: arr[i].kuaiq_short_no, // storablePan
-								text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
-							};
-							$scope.bankCards.push(card);
-						}
-					} 
 
-					$scope.bankCards.push({
-						text: '添加银行卡',
-						value: 'add'
-					});
-
-					$scope.recharge.bankCard = $scope.bankCards[0].value;
-					$scope.recharge.bankCardShow = $scope.bankCards[0].text;
-				}); 
+			// get bound bank list
+			$scope.bankCards = bankService.getBoundBankList();
+			$scope.bankCards.push({
+				text: '添加银行卡',
+				value: 'add'
+			});
+			$scope.recharge.bankCard = $scope.bankCards[0].value;
+			$scope.recharge.bankCardShow = $scope.bankCards[0].text;
 		};
 
 		// get bank list
-		PayApi.getBankListForKQ(userConfig.getSessionId())
-			.success(function(data) {
-				if(data.flag === 1) {
-					$scope.bankList = data.data.map(function(obj) {
-						return {
-							text: obj.name,
-							value: obj.id
-						};
-					});
+		$scope.bankList = bankService.getBankList();
+		$scope.recharge.bankCode = $scope.bankList[0].value;
+		$scope.recharge.bankName = $scope.bankList[0].text;
 
-					$scope.recharge.bankCode = $scope.bankList[0].value;
-					$scope.recharge.bankName = $scope.bankList[0].text;
-				}
-			});
 
 		$scope.selectBank = function() {
 			if($scope.bankCards.length === 1) {
@@ -226,6 +203,8 @@ angular.module('landlordApp')
 					$rootScope.amount = null;
 					$scope.recharge.cardNo = null;
 					$scope.recharge.vcode = null;
+					// update bankService
+					bankService.updateBoundBankList();
 
 					toaster.pop('success', data.msg);
 					utils.goBack(2);

@@ -1,45 +1,39 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal) {
+	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal, bankService) {
 		var init = function(amount) {
 			console.log('----------- init OrderCtrl -----------');
 			$scope.order.balanceUsable = +userConfig.getAccountInfo().balanceUsable + (+amount || 0);
 			$scope.order.balance = $scope.order.balanceUsable;
 			$scope.order.bank = Math.max($scope.order.total - $scope.order.balance, 0);
-			$scope.bankCards = [];
 			$scope.order.bankCard = null;
 			$scope.user = {payPassword: ''};
 
 			$scope.order.useBalance = !!$scope.order.balance;
 
-			UserApi.getBoundBankList(userConfig.getSessionId())
-				.success(function(data) {
-					if(data.flag === 1) {
-						$scope.bankCards = data.data.map(function(obj) {
-							if(!$scope.order.bankCard && /建设|招商|平安/.test(obj.banks_cat)) {
-								$scope.order.bankCard = obj.kuaiq_short_no;
-								$scope.order.bankCardShow = obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）';
-							}
+			// bank cards init start
+			$scope.bankCards = bankService.getBoundBankList();
+			for(var i = 0, len = $scope.bankCards.length; i < len; i++) {
+				var bank = $scope.bankCards[i];
+				if(/建设|招商|平安/.test(bank.text)) {
+					$scope.order.bankCard = bank.value;
+					$scope.order.bankCardShow = bank.text;
+					break;
+				}
+			}
 
-							return {
-								value: obj.kuaiq_short_no,
-								text: obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）'
-							}
-						});
-					} 
+			$scope.bankCards.push({
+				text: '添加银行卡',
+				value: 'add'
+			});
 
-					$scope.bankCards.push({
-						text: '添加银行卡',
-						value: 'add'
-					});
-
-					if(!$scope.order.bankCard) {
-						$scope.order.bankCard = $scope.bankCards[0].value;
-						$scope.order.bankCardShow = $scope.bankCards[0].text;
-						$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[0].text);
-					}
-				}); 
+			if(!$scope.order.bankCard) {
+				$scope.order.bankCard = $scope.bankCards[0].value;
+				$scope.order.bankCardShow = $scope.bankCards[0].text;
+				$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[0].text);
+			}
+			// bank cards init end
 		};
 
 		$scope.selectBank = function() {

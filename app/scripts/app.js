@@ -27,7 +27,8 @@ angular
     $httpProvider.defaults.timeout = 5000;
     $httpProvider.interceptors.push('httpInterceptor');
   })
-  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout) {
+  // service inits when involved
+  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout, bankService) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if($rootScope.modal && $rootScope.modal._isShown) {
         $rootScope.modal.hide();
