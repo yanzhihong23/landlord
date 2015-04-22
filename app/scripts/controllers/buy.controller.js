@@ -153,15 +153,13 @@ angular.module('landlordApp')
 					$ionicLoading.hide();
 					if(data.flag === 1) {
 						$scope.orderNo = data.data;
-						$scope.$parent.pay.extRefNo = data.data;
-						$scope.$parent.pay.earning = +$scope.buy.total + ($scope.buy.extraEarn || 0);
+						$scope.pay.extRefNo = data.data;
+						$scope.pay.earning = +$scope.buy.total + ($scope.buy.extraEarn || 0);
 
 						$state.go('tabs.order');
 					}
 				});
 		};
-
-		
 
 		$scope.$watch('validInterests', function() {
 			calcExtraEarn();

@@ -120,13 +120,6 @@ ion-content.padding{
   @include seize();
 }
 
-
-#my_info .button{
-  text-decoration: none;
-  color: $white;
-  font-size: 13px;
-}
-
 #pay{
   .item.item-input{
     &:before, &:after{

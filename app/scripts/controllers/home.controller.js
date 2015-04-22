@@ -37,7 +37,6 @@ angular.module('landlordApp')
   					key: landlord.fp_id,
   					type: 1,
   					title: landlord.fp_title,
-  					mortgageRate: landlord.house_rate,
   					duration: landlord.fp_expect,
   					minPrice: ~~landlord.fp_price_min/10000,
   					maxPrice: ~~landlord.fp_price_max/10000,
