@@ -73,7 +73,7 @@ angular.module('landlordApp')
 						};
 					});
 
-					$scope.recharge.bankCode = $scope.bankList[0].id;
+					$scope.recharge.bankCode = $scope.bankList[0].value;
 					$scope.recharge.bankName = $scope.bankList[0].text;
 				}
 			});
