@@ -84,7 +84,6 @@ angular.module('landlordApp')
 					.success(function(data) {
 						if(data.flag === 1) {
 							userConfig.autoLogin(); // get new account info
-							console.log(data.msg);
 							pay();
 						} else {
 							toaster.pop('error', data.msg);
