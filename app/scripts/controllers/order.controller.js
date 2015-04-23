@@ -117,7 +117,6 @@ angular.module('landlordApp')
 						$scope.$parent.pay.payMode = 1;
 					}
 					if($scope.order.bankCard === 'add' && $scope.bankCards.length === 1) {
-						// $scope.order.useCard = false;
 						$state.go('tabs.pay');
 					}
 				} else {

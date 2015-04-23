@@ -4,15 +4,14 @@ angular.module('landlordApp')
 	.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet, bankService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var sessionId = userConfig.getSessionId();
-		var mId = accountInfo && accountInfo.m_id, storablePan, token;
+		var mId = accountInfo && accountInfo.m_id, storablePan, token,
+				key = $scope.house.key, type = $scope.house.type;
 		var resendCountdown = utils.resendCountdown($scope);
 
 		$scope.pay = $scope.$parent.pay;
 		$scope.pay.name = accountInfo.realname;
 		$scope.pay.id = accountInfo.idnum;
 		$scope.pay.phone = accountInfo.mobilenum;
-		$scope.pay.key = $scope.house.key;
-		$scope.pay.type = $scope.house.type;
 
 		// $scope.pay.cardNo = '6228483470502762919'; // for test
 		console.log('payMode: ' + $scope.pay.payMode);
@@ -48,9 +47,7 @@ angular.module('landlordApp')
 				$scope.pay.cardNo,
 				$scope.pay.phone,
 				$scope.pay.count,
-				$scope.pay.key,
-				$scope.pay.type,
-				1, $scope.pay.payMode)
+				key, type, 1, $scope.pay.payMode)
 			.success(function(data) {
 				if(data.flag === 1) {
 					resendCountdown();
@@ -89,9 +86,7 @@ angular.module('landlordApp')
 				$scope.pay.vcode, 
 				token, 
 				$scope.pay.payMode, 
-				1, 
-				$scope.house.key, 
-				$scope.house.type, 
+				1, key, type, 
 				$scope.pay.name, 
 				$scope.pay.id, 
 				$scope.pay.cardNo, 
@@ -103,12 +98,11 @@ angular.module('landlordApp')
 				$ionicLoading.hide();
 				if(data.flag === 1) {
 					toaster.pop('success', data.msg);
-					// $scope.order = {};
 					$scope.pay = {};
 					$rootScope.$broadcast('landlordUpdated');
 					// update bankService
 					bankService.updateBoundBankList();
-					
+
 					$state.go('account.info');
 				} else {
 					toaster.pop('error', data.msg);
