@@ -37,7 +37,6 @@ angular
     }
 
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      console.log('from: ' + fromState.name + ' to: ' + toState.name);
       $rootScope.isLogined = userConfig.isLogined();
       
       // close modal and popup 
@@ -116,21 +115,11 @@ angular
   	});
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      console.log('state change success to: ' + toState.name);
       if(!/tabs.home|tabs.history|tabs.info|tabs.setting/.test(toState.name)) {
         angular.element(document.querySelector('.tab-nav.tabs')).addClass('hidden');
         // $rootScope.$on('$ionicView.enter', function() {
           // angular.element(document.querySelectorAll('ion-content.has-tabs')).removeClass('has-tabs');
         // })
-
-        // if(/startup/.test(toState.name)) {
-        //   if(appConfig.getVersion() === version) {
-        //     event.preventDefault();
-        //     $state.go('tabs.home');
-        //   } else {
-        //     appConfig.setVersion(version);
-        //   }
-        // }
       } else {
         angular.element(document.querySelector('.tab-nav.tabs')).removeClass('hidden');
       }
