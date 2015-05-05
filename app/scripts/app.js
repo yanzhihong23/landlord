@@ -32,9 +32,12 @@ angular
   })
   // service inits when involved
   .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, version, appConfig, userConfig, $ionicPlatform, utils, $timeout, bankService) {
+    if(appConfig.getVersion() != version) {
+      appConfig.setVersion(version);
+    }
+
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('from: ' + fromState.name + ' to: ' + toState.name);
-      console.log(fromState);
       $rootScope.isLogined = userConfig.isLogined();
       
       // close modal and popup 
@@ -52,15 +55,8 @@ angular
 
   		switch(toState.name) {
         case 'startup':
-          // if(fromState.name === 'tabs.home') {
-            // event.preventDefault();
-          // }
-          console.log('to startup------------');
-          if(appConfig.getVersion() === version) {
-            // event.preventDefault();
-            // $state.go('tabs.home');
-          } else {
-            appConfig.setVersion(version);
+          if(fromState.name === 'tabs.home') {
+            event.preventDefault();
           }
           break;
         case 'tabs.info':
@@ -156,12 +152,6 @@ angular
       url: "/startup",
       templateUrl: "views/startup.html",
       controller: 'StartupCtrl'
-    })
-
-    .state('myCards', {
-      url: '/myCards',
-      templateUrl: "views/my-cards.html",
-      controller: 'MyCardsCtrl'
     })
 
     // ************* main tabs start **************
@@ -393,5 +383,5 @@ angular
 
     
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/startup');
+    $urlRouterProvider.otherwise('/tab/home');
   });
