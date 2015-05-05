@@ -1,14 +1,9 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window) {
+	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window, userConfig) {
   	$scope.countdown = 0;
     $scope.showDetail = false;
-
-  	$scope.goToInfo = function() {
-  		utils.disableBack();
-  		$state.go('account.info');
-  	};
 
     $scope.showTip = function() {
       if(!$scope.hasTip) return;
@@ -99,14 +94,26 @@ angular.module('landlordApp')
 	  $scope.$on('modal.hidden', function() {
 	  	if(seizeNow) {
 	  		seizeNow = false;
-	  		$state.go('tabs.buy');
+	  		buyNow();
 	  	}
     });
 
-	  $scope.seize = function() {
-	  	seizeNow = true;
-	  	$scope.modal.hide();
+	  $scope.seize = function(fromModal) {
+      if(fromModal) {
+        seizeNow = true;
+        $scope.modal.hide();
+      } else {
+        buyNow();
+      }
 	  };
+
+    var buyNow = function() {
+      if($rootScope.isLogined) {
+        $state.go('tabs.buy');
+      } else {
+        $state.go('tabs.phone');
+      }
+    };
 
 	  var el_h1 = document.querySelector('#h1'),
 	  		el_h2 = document.querySelector('#h2'),

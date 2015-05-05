@@ -147,7 +147,7 @@ angular.module('landlordApp')
 						toaster.pop('success', data.msg);
 						$scope.user.payPassword = null; // clear password
 						$rootScope.$broadcast('landlordUpdated');
-						$state.go('account.info');
+						$state.go('tabs.info');
 					} else if(/密码错误/.test(data.msg)) { // wrong password
 						$ionicModal.fromTemplateUrl('views/wrong-password.html', {
 							scope: $scope,
@@ -176,7 +176,7 @@ angular.module('landlordApp')
 	  		init(amount);
 	  	});
 
-  		$state.go('account.recharge');
+  		$state.go('tabs.recharge');
   	};
 
 	  $scope.recommend = function(name) {

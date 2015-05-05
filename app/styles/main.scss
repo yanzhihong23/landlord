@@ -12,6 +12,30 @@ ion-view{
   background-size: cover;
 }
 
+#setting{
+  .item-icon-left{
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 14px;
+  }
+  .item-arrow-right{
+    padding-right: 40px;
+    &:after{
+      font-family: "Ionicons";
+      content: '\f3d3';
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      height: 100%;
+      font-size: 20px;
+      right: 16px;
+      color: #aaa;
+    }
+  }
+}
+
 ion-content.padding{
   padding: 15px 6%;
 }

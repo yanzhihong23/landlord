@@ -103,7 +103,7 @@ angular.module('landlordApp')
 					// update bankService
 					bankService.updateBoundBankList();
 
-					$state.go('account.info');
+					$state.go('tabs.info');
 				} else {
 					toaster.pop('error', data.msg);
 				}

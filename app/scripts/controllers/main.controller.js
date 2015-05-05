@@ -19,8 +19,9 @@ angular.module('landlordApp')
 			$state.go('tabs.home');
 		};
 	})
-	.controller('InterestCouponCtrl', function($scope, $ionicHistory) {
+	.controller('InterestCouponCtrl', function($scope, $ionicHistory, utils) {
 		$scope.close = function() {
+			utils.disableBack();
 			$ionicHistory.goBack();
 		};
 	})
@@ -37,9 +38,13 @@ angular.module('landlordApp')
 				$ionicHistory.goBack();
 			} else {
 				utils.disableBack();
-				$state.go('account.info');
+				$state.go('tabs.info');
 			}
 		};
+	})
+	.controller('MyCardsCtrl', function($scope, bankService, $ionicNavBarDelegate) {
+		$scope.cardList = bankService.getBoundBankList();
+		$ionicNavBarDelegate.showBackButton(true);
 	})
 	.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 		var sessionId = userConfig.getSessionId();

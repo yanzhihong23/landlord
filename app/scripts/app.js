@@ -17,19 +17,27 @@ angular
     'LocalStorageModule',
     'toaster'
   ])
+  .constant('version', '1.0')
   .constant('serverConfig', {
     url: 'https://m-test.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
   })
-  .config(function($httpProvider) {
+  .config(function($httpProvider, $ionicConfigProvider) {
     $httpProvider.defaults.timeout = 5000;
     $httpProvider.interceptors.push('httpInterceptor');
+
+    $ionicConfigProvider.tabs.position('bottom').style('standard');
   })
   // service inits when involved
-  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout, bankService) {
+  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, version, appConfig, userConfig, $ionicPlatform, utils, $timeout, bankService) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      console.log('from: ' + fromState.name + ' to: ' + toState.name);
+      console.log(fromState);
+      $rootScope.isLogined = userConfig.isLogined();
+      
+      // close modal and popup 
       if($rootScope.modal && $rootScope.modal._isShown) {
         $rootScope.modal.hide();
       }
@@ -38,13 +46,25 @@ angular
         $rootScope.alertModal.hide();
       }
 
+      if($rootScope.popup) {
+        $rootScope.popup.close();
+      }
+
   		switch(toState.name) {
-        case 'tabs.startup':
-          if(fromState.name === 'tabs.home') {
+        case 'startup':
+          // if(fromState.name === 'tabs.home') {
             // event.preventDefault();
+          // }
+          console.log('to startup------------');
+          if(appConfig.getVersion() === version) {
+            // event.preventDefault();
+            // $state.go('tabs.home');
+          } else {
+            appConfig.setVersion(version);
           }
           break;
-        case 'account.info':
+        case 'tabs.info':
+        case 'tabs.setting':
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
 
@@ -55,7 +75,7 @@ angular
             });
 
             utils.disableBack();
-            $state.go('account.phone');
+            $state.go('tabs.phone');
           }
           break;
         case 'tabs.buy': 
@@ -73,22 +93,22 @@ angular
             });
 
             utils.disableBack();
-            $state.go('account.phone');
+            $state.go('tabs.phone');
           }
           break;
-        case 'account.phone':
-        case 'account.login':
-        case 'account.register':
-        case 'account.retrievePassword':
+        case 'tabs.phone':
+        case 'tabs.login':
+        case 'tabs.register':
+        case 'tabs.retrievePassword':
           if(userConfig.isLogined()) {
             event.preventDefault();
-            if(fromState.name !== 'account.setPayPassword') {
+            if(fromState.name !== 'tabs.setPayPassword') {
               utils.disableBack();
               $state.go('tabs.home');
             }
           }
           break;
-        case 'account.setPayPassword':
+        case 'tabs.setPayPassword':
           var accountInfo = userConfig.getAccountInfo();
           if(accountInfo && accountInfo.is_pay_password) {
             event.preventDefault();
@@ -100,6 +120,25 @@ angular
   	});
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      console.log('state change success to: ' + toState.name);
+      if(!/tabs.home|tabs.history|tabs.info|tabs.setting/.test(toState.name)) {
+        angular.element(document.querySelector('.tab-nav.tabs')).addClass('hidden');
+        // $rootScope.$on('$ionicView.enter', function() {
+          // angular.element(document.querySelectorAll('ion-content.has-tabs')).removeClass('has-tabs');
+        // })
+
+        // if(/startup/.test(toState.name)) {
+        //   if(appConfig.getVersion() === version) {
+        //     event.preventDefault();
+        //     $state.go('tabs.home');
+        //   } else {
+        //     appConfig.setVersion(version);
+        //   }
+        // }
+      } else {
+        angular.element(document.querySelector('.tab-nav.tabs')).removeClass('hidden');
+      }
+
       $timeout(function() {
         $ionicSlideBoxDelegate.update();
       }, 50);
@@ -113,20 +152,24 @@ angular
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
+    .state('startup', {
+      url: "/startup",
+      templateUrl: "views/startup.html",
+      controller: 'StartupCtrl'
+    })
+
+    .state('myCards', {
+      url: '/myCards',
+      templateUrl: "views/my-cards.html",
+      controller: 'MyCardsCtrl'
+    })
+
+    // ************* main tabs start **************
     .state('tabs', {
       url: "/tab",
       abstract: true,
       templateUrl: "templates/tabs.html",
       controller: 'MainCtrl'
-    })
-    .state('tabs.startup', {
-      url: "/startup",
-      views: {
-        'home-tab': {
-          templateUrl: "views/startup.html",
-          controller: 'StartupCtrl'
-        }
-      }
     })
     .state('tabs.home', {
       url: "/home",
@@ -134,6 +177,43 @@ angular
         'home-tab': {
           templateUrl: "views/home.html",
           controller: 'HomeCtrl'
+        }
+      }
+    })
+    .state('tabs.info', {
+      url: "/info",
+      views: {
+        'info-tab': {
+          templateUrl: "views/info.html",
+          controller: 'InfoCtrl'
+        }
+      }
+    })
+    .state('tabs.history', {
+      url: "/history",
+      views: {
+        'history-tab': {
+          templateUrl: "views/history.html",
+          controller: 'HistoryCtrl'
+        }
+      }
+    })
+    .state('tabs.setting', {
+      url: "/setting",
+      views: {
+        'setting-tab': {
+          templateUrl: "views/setting.html",
+          controller: 'SettingCtrl'
+        }
+      }
+    })
+    // ************* main tabs end **************
+    .state('tabs.myCards', {
+      url: "/myCards",
+      views: {
+        'setting-tab': {
+          templateUrl: "views/my-cards.html",
+          controller: 'MyCardsCtrl'
         }
       }
     })
@@ -182,6 +262,15 @@ angular
         }
       }
     })
+    .state('tabs.tosInfo', {
+      url: "/tosInfo",
+      views: {
+        'info-tab': {
+          templateUrl: "views/tos.html",
+          controller: 'TosCtrl'
+        }
+      }
+    })
     .state('tabs.QuickPayTos', {
       url: "/quickPayTos",
       views: {
@@ -195,60 +284,50 @@ angular
       url: "/interestCoupon",
       views: {
         'home-tab': {
-          templateUrl: "views/interest-coupon.html",
+          templateUrl: 'views/interest-coupon.html',
           controller: 'InterestCouponCtrl'
         }
       }
     })
-    .state('account', {
-    	url: "/account",
-    	abstract: true,
-    	templateUrl: "templates/account.html",
-      controller: 'AccountCtrl'
-    })
-    .state('account.info', {
-    	url: "/info",
-    	views: {
-    		'home-tab': {
-    			templateUrl: "views/info.html",
-    			controller: 'InfoCtrl'
-    		}
-    	}
-    })
-    .state('account.phone', {
+ // ************* account tabs start **************   
+    .state('tabs.phone', {
     	url: "/phone",
     	views: {
     		'home-tab': {
-    			templateUrl: "views/phone.html"
+    			templateUrl: "views/phone.html",
+          controller: 'PhoneCtrl'
     		}
     	}
     })
-    .state('account.login', {
-    	url: "/login",
+    .state('tabs.login', {
+    	url: "/login?phone",
     	views: {
     		'home-tab': {
-    			templateUrl: "views/login.html"
+    			templateUrl: "views/login.html",
+          controller: 'LoginCtrl'
     		}
     	}
     })
-    .state('account.register', {
-      url: "/register",
+    .state('tabs.register', {
+      url: "/register?phone&sessionId",
       views: {
         'home-tab': {
-          templateUrl: "views/register.html"
+          templateUrl: "views/register.html",
+          controller: 'RegisterCtrl'
         }
       }
     })
-    .state('account.setPayPassword', {
+    .state('tabs.setPayPassword', {
       url: "/setPayPassword",
       views: {
         'home-tab': {
-          templateUrl: "views/set-pay-password.html"
+          templateUrl: "views/set-pay-password.html",
+          controller: 'SetPayPasswordCtrl'
         }
       }
     })
-    .state('account.retrievePassword', {
-      url: '/retrievePassword',
+    .state('tabs.retrievePassword', {
+      url: '/retrievePassword?phone',
       views: {
         'home-tab': {
           templateUrl: 'views/retrieve-password.html',
@@ -256,7 +335,8 @@ angular
         }
       }
     })
-    .state('account.recharge', {
+// ************* account tabs end **************   
+    .state('tabs.recharge', {
       url: '/recharge',
       views: {
         'home-tab': {
@@ -265,7 +345,7 @@ angular
         }
       }
     })
-    .state('account.rechargeNew', {
+    .state('tabs.rechargeNew', {
       url: '/rechargeNew',
       views: {
         'home-tab': {
@@ -274,8 +354,44 @@ angular
         }
       }
     })
+    .state('tabs.kyc', {
+      url: '/kyc',
+      views: {
+        'setting-tab': {
+          templateUrl: 'views/kyc.html',
+          controller: 'KycCtrl'
+        }
+      }
+    })
+    .state('tabs.gesture', {
+      url: '/gesture?action',
+      views: {
+        'setting-tab': {
+          templateUrl: 'views/gesture.html',
+          controller: 'GestureCtrl'
+        }
+      }
+    })
+    .state('tabs.changePassword', {
+      url: '/changePassword',
+      views: {
+        'setting-tab': {
+          templateUrl: 'views/change-password.html',
+          controller: 'ChangePasswordCtrl'
+        }
+      }
+    })
+    .state('tabs.changePayPassword', {
+      url: '/changePayPassword',
+      views: {
+        'setting-tab': {
+          templateUrl: 'views/change-password.html',
+          controller: 'ChangePayPasswordCtrl'
+        }
+      }
+    })
 
     
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/startup');
+    $urlRouterProvider.otherwise('/startup');
   });

@@ -1,4 +1,4 @@
-<ion-view view-title="房东信息" id="login_view">
+<ion-view view-title="登录" id="login_view">
 	<ion-content>
 		<div class="logo-part"></div>
 		<div class="card padding">
@@ -7,7 +7,7 @@
 				<div class="item item-input">
 			    <input type="password" ng-model="account.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="请输入登录密码" clear-input required>
 			  </div>
-			  <a class="pull-right padding fs-xs blue" href="#/account/retrievePassword">忘记密码?</a>
+			  <a class="pull-right padding fs-xs blue" ng-click="retrievePassword()">忘记密码?</a>
 			  <button type="submit" class="button button-full" ng-disabled="loginForm.$invalid">登录</button>
 			  <div class="fs-xs gray tip">*您可以使用诺诺镑客的账户登录大房东</div>
 			</form>

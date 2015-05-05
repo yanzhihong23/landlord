@@ -1,18 +1,23 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory) {
+	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory, $ionicLoading) {
 		$scope.isNoRecord = false;
+    $scope.earnings = {
+      balance: 0,
+      invest: 0,
+      earnings: 0
+    };
 
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
   			init();
   			utils.disableBack();
-  			$state.go('account.info');
+  			$state.go('tabs.info');
   		})
 
   		utils.disableBack();
-  		$state.go('account.phone');
+  		$state.go('tabs.phone');
   	}
 
   	$scope.backToHome = function() {
@@ -25,7 +30,7 @@ angular.module('landlordApp')
         init();
         callMeOffFn();
       })
-  		$state.go('account.recharge');
+  		$state.go('tabs.recharge');
   	};
 
   	$scope.goToTos = function(index) {
@@ -49,13 +54,15 @@ angular.module('landlordApp')
         records: records
   		}
   		utils.disableBack();
-  		$state.go('tabs.tos');
+  		$state.go('tabs.tosInfo');
   	};
 
   	var init = function() {
       console.log('------------- init InfoCtrl --------------');
+      $ionicLoading.show();
   		LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
   			.success(function(data) {
+          $ionicLoading.hide();
   				$scope.$broadcast('scroll.refreshComplete');
 
   				$scope.investingItems = [];
@@ -128,21 +135,6 @@ angular.module('landlordApp')
   			});
 		};
 
-		$scope.logout = function() {
-      $ionicHistory.clearHistory();
-      $ionicHistory.clearCache();
-
-			userConfig.logout();
-			utils.disableBack();
-			$state.go('account.phone');
-
-			var callMeOffFn = $rootScope.$on('loginSuc', function() {
-				init();
-				utils.disableBack();
-				$state.go('account.info');
-				callMeOffFn(); // deregister the listener
-			});
-		}
 
 		$scope.doRefresh = function() {
 			init();

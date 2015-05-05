@@ -86,6 +86,15 @@ angular.module('landlordApp')
 			}
 		}
 	})
+	.service('appConfig', function(localStorageService) {
+		this.setVersion = function(version) {
+			localStorageService.add('version', version);
+		};
+
+		this.getVersion = function() {
+			return localStorageService.get('version');
+		};
+	})
 	.service('userConfig', function(localStorageService, UserApi, $interval, $rootScope) {
 		var self = this;
 		var auto = null;
@@ -106,7 +115,48 @@ angular.module('landlordApp')
 			return localStorageService.get('sessionId');
 		};
 
+		this.setGesture = function(gesture) {
+			var gestures = localStorageService.get('gestures') || [];
+			var user = localStorageService.get('user');
+			var stored = false;
+
+			for(var i=0, len=gestures.length; i<len; i++) {
+				if(gestures[i].username === user.username) {
+					stored = true;
+					if(!gesture) { // disable
+						gestures.splice(i, 1);
+						break;
+					} else { // change
+						gestures[i].gesture = gesture;
+						break;
+					}
+				}
+			}
+
+			if(!stored) { // new
+				gestures.push({
+					username: user.username,
+					gesture: gesture
+				});
+			}
+
+			localStorageService.add('gestures', gestures);
+		};
+
+		this.getGesture = function() {
+			var gestures = localStorageService.get('gestures') || [];
+			var user = localStorageService.get('user');
+			for(var i=0, len=gestures.length; i<len; i++) {
+				if(gestures[i].username === user.username) {
+					return gestures[i].gesture;
+				}
+			}
+
+			return null;
+		};
+
 		this.setAccountInfo = function(account) {
+			$rootScope.isLogined = true;
 			self.setLoginStatus(true);
 			self.setSessionId(account && account.session_id);
 			localStorageService.add('accountInfo', account);
@@ -117,7 +167,13 @@ angular.module('landlordApp')
 		};
 
 		this.logout = function() {
-			localStorageService.clearAll();
+			$rootScope.isLogined = false;
+			localStorageService.remove('isLogined');
+			localStorageService.remove('sessionId');
+			localStorageService.remove('accountInfo');
+			localStorageService.remove('user');
+			localStorageService.remove('boundBankList');
+			// localStorageService.clearAll();
 		};
 
 		this.setUser = function(user, broadcast) {
@@ -127,6 +183,10 @@ angular.module('landlordApp')
 			} else {
 				self.autoLogin();
 			}
+		};
+
+		this.getUser = function() {
+			return localStorageService.get('user');
 		};
 
 		function autoLogin(broadcast) {

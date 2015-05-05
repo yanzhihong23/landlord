@@ -1,9 +1,9 @@
-<ion-view view-title="大房东" class="home" hide-back-button="true">
+<ion-view view-title="大房东" class="home" hide-back-button="true" cache-view="true">
   <ion-nav-buttons side="left">
     <button class="button button-icon transparent" on-double-tap="reload()">双击刷新</button>
   </ion-nav-buttons>
 	<ion-nav-buttons side="right">
-    <button class="button button-icon" ng-click="goToInfo()">我的房产</button>
+    <a class="button button-icon" href="#/tab/phone"  ng-if="!isLogined">登录/注册</a>
 	</ion-nav-buttons>
   <ion-content>
     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
@@ -23,9 +23,7 @@
       	</div>
       </div>
 
-     <!--  <div class="percent bold" ng-hide="showDetail" ng-click="showTip()">{{house.annualYield}}<span class="per">%</span><i class="ion-help-circled pull-right" ng-show="hasTip" ng-cloak></i></div> -->
      <div class="percent bold" ng-hide="showDetail">{{house.annualYield || 9.88}}<span class="per">%</span></div>
-      <!-- <div class="percent bold" ng-show="showDetail" ng-cloak><span class="per">9.88% + </span>{{(+house.annualYield - 9.88).toFixed(2)}}<span class="per">%</span></div> -->
       <div class="predict fs-xs"><span class="dot">预期年化收益率</span></div>
       
       <div class="progress-bar">
@@ -39,7 +37,7 @@
 
       <div class="seize-wrapper" ng-cloak ng-class="{disabled: house.status!=3}">
         <div class="seize">
-          <a href="#/tab/buy" ng-show="house.status==3"><img src="images/seize.png" alt="抢" width="50"></a>
+          <a ng-show="house.status==3" ng-click="seize()"><img src="images/seize.png" alt="抢" width="50"></a>
           <a ng-show="house.status==1">收益中...</a>
           <a ng-show="house.status==0">敬请期待</a>
           <span class="countdown" ng-show="countdown">
@@ -54,7 +52,7 @@
           </span>
         </div>
       </div>
-      <a href="#/tab/interestCoupon" class="pull-right accent-light fs-xs" id="interest_coupon">什么是加息券？</a>
+      <a href="#/tab/interestCoupon" nav-direction="formward" class="pull-right accent-light fs-xs" id="interest_coupon">什么是加息券？</a>
     </div>
   </ion-content>
 </ion-view>

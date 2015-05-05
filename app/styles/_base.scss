@@ -41,6 +41,10 @@ input[type="radio"]{
   }
 }
 
+.hidden{
+  display: none !important;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -117,6 +121,10 @@ input[type="radio"]{
   background: $white;
 }
 
+.whitesmoke-bg{
+  background: whitesmoke;
+}
+
 .no-padding{
   padding: 0;
 }
@@ -156,18 +164,43 @@ i.bank-icon{
   height: 36px;
   margin: auto 5px;
   vertical-align: middle;
+  &.icbc{
+    background: url(../images/bank/bank_icon_icbc.png) no-repeat center;
+    background-size: contain;
+  }
   &.ccb{
-    background: url(../images/bank/bank_icon_ccb_jianshe.png) no-repeat;
+    background: url(../images/bank/bank_icon_ccb_jianshe.png) no-repeat center;
     background-size: contain;
   }
   &.cmb{
-    background: url(../images/bank/bank_icon_cmb_zhaoshang.png) no-repeat;
+    background: url(../images/bank/bank_icon_cmb_zhaoshang.png) no-repeat center;
     background-size: contain;
   }
   &.pingan{
-    background: url(../images/bank/bank_icon_pingan.jpg) no-repeat;
+    background: url(../images/bank/bank_icon_pingan.jpg) no-repeat center;
     background-size: contain;
   }
+  &.abc{
+    background: url(../images/bank/bank_icon_abc_nongye.png) no-repeat center;
+    background-size: contain;
+  }
+  &.boc{
+    background: url(../images/bank/bank_icon_boc_zhongguoyinhang.png) no-repeat center;
+    background-size: contain;
+  }
+  &.ceb{
+    background: url(../images/bank/bank_icon_ceb_guangda.png) no-repeat center;
+    background-size: contain;
+  }
+  &.spdb{
+    background: url(../images/bank/bank_icon_spdb.png) no-repeat center;
+    background-size: contain;
+  }
+  &.gdb{
+    background: url(../images/bank/bank_icon_gdb_guangfa.png) no-repeat center;
+    background-size: contain;
+  }
+
 
 }
 

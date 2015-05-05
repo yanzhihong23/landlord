@@ -187,3 +187,23 @@ input::-webkit-input-placeholder{
   }
 }
 
+
+.tab-item{
+  &.tab-item-active, &.active, &.activated{
+    color: $accent-light;
+  }
+}
+
+.item-icon-left, .item-icon-right{
+  .icon{
+    font-size: 28px;
+  }
+}
+
+.item{
+  font-size: 14px;
+}
+
+.tabs-light > .tabs, .tabs.tabs-light{
+  border-top: solid 1px #ddd !important;
+}

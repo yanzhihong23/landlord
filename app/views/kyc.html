@@ -1,0 +1,23 @@
+<ion-view view-title="身份认证" class="whitesmoke-bg">
+	<ion-content class="padding">
+		<form name="kycForm" ng-submit="showConfirm()">
+			<div class="list ">
+				<div class="padding-top align-center accent tip">
+					请填写本人真实信息，核实后不可更改哦~
+				</div>
+			  <div class="item item-input">
+			    <span class="input-label">真实姓名</span>
+			    <input type="text" ng-model="kyc.name" placeholder="请输入真实姓名" ng-disabled="disableIdEdit" clear-input required>
+			  </div>
+			  <div class="item item-input">
+			    <span class="input-label">身份证</span>
+			    <input type="text" ng-model="kyc.id" ng-pattern="/.{15,18}$/" placeholder="请输入身份证号码" ng-disabled="disableIdEdit" clear-input required>
+			  </div>
+			  <!-- <div ng-show="kyc.id">{{kyc.id}}</div> -->
+			</div>
+			<div class="submit">
+				<button type="submit" class="button button-full" ng-disabled="kycForm.$invalid">提交</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

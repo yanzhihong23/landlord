@@ -1,0 +1,16 @@
+<ion-view view-title="我的银行卡" class="whitesmoke-bg">
+	<ion-nav-buttons side="right">
+    <button class="button button-icon" ng-click="addNew()"><i class="icon ion-ios-plus-empty"></i></button>
+	</ion-nav-buttons>
+	<ion-content>
+		<ul class="list padding-vertical">
+			<li class="item item-icon-left" ng-repeat="card in cardList">
+				<i class="icon bank-icon" ng-class="card.shortName"></i>
+				{{card.name}}
+				<span class="item-note">
+					尾号{{card.tailNo}}
+				</span>
+			</li>
+		</ul>
+	</ion-content>
+</ion-view>

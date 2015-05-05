@@ -1,0 +1,69 @@
+<ion-view view-title="设置" hide-back-button="true" id="setting" class="whitesmoke-bg">
+	<ion-content>
+		<div class="list padding-top">
+			<a class="item item-icon-left" ng-class="{'item-arrow-right': !info.kyc}" ng-href="{{info.setKyc}}">
+		    <i class="icon ion-person positive"></i>
+		    实名信息
+		    <span class="item-note">
+	        {{info.kyc ? info.kyc : '未设置'}}
+	      </span>
+		  </a>
+
+		  <a class="item item-icon-left" href="">
+	      <i class="icon ion-iphone calm"></i>
+	      手机号码
+	      <span class="item-note">
+	        {{info.phone}}
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-arrow-right" href="#/tab/myCards">
+	      <i class="icon ion-card balanced"></i>
+	      我的银行卡
+	      <span class="item-note">
+	      	{{info.cards ? info.cards + '张' : '未绑定'}}
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-arrow-right" href="#/tab/changePassword">
+	      <i class="icon ion-locked energized"></i>
+	      登录密码
+	      <span class="item-note">
+	        修改
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-arrow-right" href="#/tab/changePayPassword">
+	      <i class="icon ion-lock-combination assertive"></i>
+	      支付密码
+	      <span class="item-note">
+	        {{info.payPwdSet ? '修改':'未设置'}}
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-toggle">
+	    	<i class="icon ion-ios-keypad-outline royal"></i>
+       	手势密码
+				<label class="toggle toggle-energized" ng-click="toggleGesture()">
+				 <input type="checkbox" ng-model="info.gesture">
+				 <div class="track">
+				   <div class="handle"></div>
+				 </div>
+				</label>
+      </a>
+      <a class="item item-icon-left item-arrow-right" ng-click="changeGesture()" ng-show="info.gesture">
+      	手势密码修改
+      </a>
+		</div>
+
+		<div class="list">
+			<div class="item accent-light align-center fs-md padding" ng-click="logout()">
+				退出登录
+			</div>
+		</div>
+
+		<!-- <div class="padding">
+			<button class="button button-full" ng-click="logout()">退出登录</button>
+		</div> -->
+	</ion-content>
+</ion-view>

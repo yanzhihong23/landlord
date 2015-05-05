@@ -11,8 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta id="apple-mobile-web-app-title" name="apple-mobile-web-app-title" content="大房东投资">
 
-    <link type="image/x-icon" href="landlord.ico" rel="icon">
-    <link type="image/x-icon" href="landlord.ico" rel="shortcut icon">
+    <link type="image/x-icon" href="/images/landlord.ico" rel="icon">
+    <link type="image/x-icon" href="/images/landlord.ico" rel="shortcut icon">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -29,16 +29,12 @@
   <body ng-app="landlordApp">
     <ion-nav-bar class="bar-dark" align-title="center">
       <ion-nav-back-button class="button-clear" ng-cloak>
-        <i class="ion-ios-arrow-left"></i> 返回
+        <i class="ion-ios-arrow-left"></i>
       </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
 
     <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-
-    <script id="templates/tabs.html" type="text/ng-template">
-      <ion-nav-view name="home-tab"></ion-nav-view>
-    </script>
 
     <script id="templates/account.html" type="text/ng-template">
       <ion-nav-view name="home-tab"></ion-nav-view>
@@ -80,6 +76,8 @@
         <script src="scripts/directives.js"></script>
         <script src="scripts/controllers/main.controller.js"></script>
         <script src="scripts/controllers/home.controller.js"></script>
+        <script src="scripts/controllers/history.controller.js"></script>
+        <script src="scripts/controllers/setting.controller.js"></script>
         <script src="scripts/controllers/buy.controller.js"></script>
         <script src="scripts/controllers/order.controller.js"></script>
         <script src="scripts/controllers/pay.controller.js"></script>
