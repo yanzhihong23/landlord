@@ -36,7 +36,7 @@ angular.module('landlordApp')
 					hideSheet();
 	     	}
 			});
-		}
+		};
 
 		$scope.sendSms = function() {
 			PayApi.getPayVcode(

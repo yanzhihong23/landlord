@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('SettingCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, utils, bankService) {
+	.controller('SettingCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, $timeout, utils, bankService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var kyc, setKyc;
 		var boundCards = bankService.getBoundBankList();
@@ -29,12 +29,14 @@ angular.module('landlordApp')
 		};
 
 		$scope.toggleGesture = function() {
-			if($scope.info.gesture) {
-				$state.go('tabs.gesture', {action: 'set'});
-			} else {
-				$state.go('tabs.gesture', {action: 'disable'});
-			}
-			$scope.info.gesture = !$scope.info.gesture;
+			$timeout(function() {
+				if($scope.info.gesture) {
+					$state.go('tabs.gesture', {action: 'set'});
+				} else {
+					$state.go('tabs.gesture', {action: 'disable'});
+				}
+				$scope.info.gesture = !$scope.info.gesture;
+			}, 350); // time for toggle animation
 		};
 
 		$scope.changeGesture = function() {

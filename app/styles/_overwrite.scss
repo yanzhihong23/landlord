@@ -90,36 +90,36 @@ input::-webkit-input-placeholder{
 	color: #111; 
 }
 
-.item.item-input, .item.item-input-inset{
-  border: 0;
-  border-bottom: solid 1px $accent;
-  background: transparent;
-  // padding-top: 11px;
-  // padding-bottom: 0;
-  &:before,&:after{
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 1px;
-    height: 6px;
-    background: $accent;
-  }
-  &:before{
-    left: 0;
-  }
-  &:after{
-    right: 0;
-  }
-  &.white{
-    border-bottom-color: $white;
-    input, input::-webkit-input-placeholder{ 
-      color: $white; 
-    }
-    &:before,&:after{
-      background: $white;
-    }
-  }
-}
+// .item.item-input, .item.item-input-inset{
+//   border: 0;
+//   border-bottom: solid 1px $accent;
+//   background: transparent;
+//   // padding-top: 11px;
+//   // padding-bottom: 0;
+//   &:before,&:after{
+//     content: '';
+//     position: absolute;
+//     bottom: 0;
+//     width: 1px;
+//     height: 6px;
+//     background: $accent;
+//   }
+//   &:before{
+//     left: 0;
+//   }
+//   &:after{
+//     right: 0;
+//   }
+//   &.white{
+//     border-bottom-color: $white;
+//     input, input::-webkit-input-placeholder{ 
+//       color: $white; 
+//     }
+//     &:before,&:after{
+//       background: $white;
+//     }
+//   }
+// }
 
 .item.item-select{
   margin-top: 1px;

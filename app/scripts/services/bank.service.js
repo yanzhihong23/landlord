@@ -68,6 +68,7 @@ angular.module('landlordApp')
 						});
 
 						localStorageService.add('boundBankList', boundBankList);
+						$rootScope.$broadcast('boundBankListUpdated');
 					}
 				});
 		};

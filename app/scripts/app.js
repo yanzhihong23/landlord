@@ -196,6 +196,15 @@ angular
         }
       }
     })
+    .state('tabs.addCard', {
+      url: "/addCard",
+      views: {
+        'setting-tab': {
+          templateUrl: "views/add-card.html",
+          controller: 'AddCardCtrl'
+        }
+      }
+    })
     .state('tabs.buy', {
       url: "/buy",
       views: {

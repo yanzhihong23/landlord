@@ -42,10 +42,6 @@ angular.module('landlordApp')
 			}
 		};
 	})
-	.controller('MyCardsCtrl', function($scope, bankService, $ionicNavBarDelegate) {
-		$scope.cardList = bankService.getBoundBankList();
-		$ionicNavBarDelegate.showBackButton(true);
-	})
 	.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 		var sessionId = userConfig.getSessionId();
 		var mobile = userConfig.getAccountInfo().mobilenum;
