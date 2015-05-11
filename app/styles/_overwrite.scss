@@ -207,3 +207,25 @@ input::-webkit-input-placeholder{
 .tabs-light > .tabs, .tabs.tabs-light{
   border-top: solid 1px #ddd !important;
 }
+
+
+.list{
+  .item{
+    margin: 0;
+    border: 0;
+    &:first-child{
+      border-top: solid 1px $gray-light;
+    }
+    &:last-child{
+      border-bottom: solid 1px $gray-light;
+    }
+    &:not(:last-child):before {
+      content: '';
+      display: block;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      border-bottom: solid 1px $gray-light;
+    }
+  }
+}
