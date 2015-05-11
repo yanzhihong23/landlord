@@ -69,7 +69,7 @@ angular.module('landlordApp')
               var remainArr = remainStr.split(':');
               $scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
               if($scope.countdown > 86400) { // 24h
-                $scope.countdown = 0;
+                // $scope.countdown = 0;
               }
             }
           }
