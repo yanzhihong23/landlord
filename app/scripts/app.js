@@ -59,7 +59,7 @@ angular
           }
           break;
         case 'tabs.info':
-        case 'tabs.setting':
+        case 'tabs.more':
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
 
@@ -115,7 +115,7 @@ angular
   	});
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      if(!/tabs.home|tabs.history|tabs.info|tabs.setting/.test(toState.name)) {
+      if(!/tabs.home|tabs.history|tabs.info|tabs.more/.test(toState.name)) {
         angular.element(document.querySelector('.tab-nav.tabs')).addClass('hidden');
         // $rootScope.$on('$ionicView.enter', function() {
           // angular.element(document.querySelectorAll('ion-content.has-tabs')).removeClass('has-tabs');
@@ -177,20 +177,47 @@ angular
         }
       }
     })
+    .state('tabs.more', {
+      url: "/more",
+      views: {
+        'more-tab': {
+          templateUrl: "views/more.html",
+          controller: 'MoreCtrl'
+        }
+      }
+    })
+    // ************* main tabs end **************
     .state('tabs.setting', {
       url: "/setting",
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: "views/setting.html",
           controller: 'SettingCtrl'
         }
       }
     })
-    // ************* main tabs end **************
+    .state('tabs.about', {
+      url: "/about",
+      views: {
+        'more-tab': {
+          templateUrl: "views/about.html",
+          // controller: 'SettingCtrl'
+        }
+      }
+    })
+    .state('tabs.feedback', {
+      url: "/feedback",
+      views: {
+        'more-tab': {
+          templateUrl: "views/feedback.html",
+          // controller: 'SettingCtrl'
+        }
+      }
+    })
     .state('tabs.myCards', {
       url: "/myCards",
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: "views/my-cards.html",
           controller: 'MyCardsCtrl'
         }
@@ -199,7 +226,7 @@ angular
     .state('tabs.addCard', {
       url: "/addCard",
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: "views/add-card.html",
           controller: 'AddCardCtrl'
         }
@@ -345,7 +372,7 @@ angular
     .state('tabs.kyc', {
       url: '/kyc',
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: 'views/kyc.html',
           controller: 'KycCtrl'
         }
@@ -354,7 +381,7 @@ angular
     .state('tabs.gesture', {
       url: '/gesture?action',
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: 'views/gesture.html',
           controller: 'GestureCtrl'
         }
@@ -363,7 +390,7 @@ angular
     .state('tabs.changePassword', {
       url: '/changePassword',
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: 'views/change-password.html',
           controller: 'ChangePasswordCtrl'
         }
@@ -372,7 +399,7 @@ angular
     .state('tabs.changePayPassword', {
       url: '/changePayPassword',
       views: {
-        'setting-tab': {
+        'more-tab': {
           templateUrl: 'views/change-password.html',
           controller: 'ChangePayPasswordCtrl'
         }

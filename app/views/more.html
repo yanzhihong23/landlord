@@ -1,0 +1,53 @@
+<ion-view view-title="更多" hide-back-button="true" id="setting" class="whitesmoke-bg">
+	<ion-content class="padding-top">
+		<div class="list padding-top">
+			<a class="item item-icon-left" ng-class="{'item-arrow-right': !info.kyc}" ng-href="{{info.setKyc}}">
+		    <i class="icon ion-person positive"></i>
+		    实名信息
+		    <span class="item-note">
+	        {{info.kyc ? info.kyc : '未设置'}}
+	      </span>
+		  </a>
+
+		  <a class="item item-icon-left" href="">
+	      <i class="icon ion-iphone calm"></i>
+	      手机号码
+	      <span class="item-note">
+	        {{info.phone}}
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-arrow-right" href="#/tab/myCards">
+	      <i class="icon ion-card balanced"></i>
+	      我的银行卡
+	      <span class="item-note">
+	      	{{info.cards ? info.cards + '张' : '未绑定'}}
+	      </span>
+	    </a>
+
+	    <a class="item item-icon-left item-arrow-right" href="#/tab/setting">
+	      <i class="icon ion-locked energized"></i>
+	      密码设置
+	    </a>
+		</div>
+
+		<div class="list">
+			<a class="item item-icon-left item-arrow-right" href="#/tab/about">
+			  关于我们
+			</a>
+			<a class="item item-icon-left item-arrow-right" href="#/tab/feedback">
+			  意见反馈
+			</a>
+		</div>
+
+		<div class="list">
+			<div class="item accent-light align-center fs-md padding" ng-click="logout()">
+				退出登录
+			</div>
+		</div>
+
+		<!-- <div class="padding">
+			<button class="button button-full" ng-click="logout()">退出登录</button>
+		</div> -->
+	</ion-content>
+</ion-view>

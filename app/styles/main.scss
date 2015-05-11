@@ -648,6 +648,18 @@ input[clear-input]:focus+i{
 }
 
 
+#feedback{
+  textarea{
+    width: 100%;
+    resize: none;
+    padding: 10px 20px;
+    line-height: 1.5;
+    border: solid 1px $gray-light;
+    border-radius: 10px;
+  }
+}
+
+
 
 @import "screen";
 
