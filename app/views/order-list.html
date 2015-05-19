@@ -1,0 +1,61 @@
+<ion-view view-title="投资记录" class="whitesmoke-bg">
+	<ion-content>
+		<section class="item padding">
+			<div class="row align-center">
+				<div class="col-50">
+					总投资额(元) 
+					<div>{{100000 | currency:''}}</div>
+				</div>
+				<div class="col-50">
+					总收益额(元) 
+					<div>{{100 | currency:''}}</div>
+				</div>
+			</div>
+		</section>
+
+		<article class="padding-top">
+			<section class="align-center padding-top" ng-repeat="item in items">
+				<div class="row item">
+					<div class="col align-left">{{item.title}}</div>
+					<div class="col align-right">{{item.duration}}个月</div>
+				</div>
+				<div class="row item">
+					<div class="col">购买时间</div>
+					<div class="col col-center">投资金额(元)</div>
+					<div class="col col-center">利率(加息)</div>
+				</div>
+				<div class="row item" ng-repeat="record in item.buyRecords">
+					<div class="col" ng-bind-html="record.date.replace(' ', '<br>')"></div>
+					<div class="col col-center">{{record.amount | currency:''}}</div>
+					<div class="col col-center">{{record.annualYield}}</div>
+				</div>
+				<div class="row item">
+					<div class="col" ng-click="showPreviews{{$index}} = !showPreviews{{$index}};showPeriods{{$index}} = false">去看房</div>
+					<div class="col" ng-click="showPeriods{{$index}} = !showPeriods{{$index}};showPreviews{{$index}} = false">回款计划</div>
+					<div class="col"><a ng-click="goToTos($index)">电子合同</a></div>
+				</div>
+				<section ng-show="showPreviews{{$index}}" class="animated padding" ng-class="{'fadeInRight': showPreviews{{$index}}, 'fadeOutRight': !showPreviews{{$index}} }">
+					<ion-slide-box show-pager="true">
+					  <ion-slide ng-repeat="preview in item.previews">
+					  	<img ng-src="{{preview}}" alt="" height="300">
+					  </ion-slide>
+					</ion-slide-box>
+				</section>
+				<section ng-show="showPeriods{{$index}}" class="animated" ng-class="{'fadeInRight': showPeriods{{$index}}, 'fadeOutRight': !showPeriods{{$index}} }">
+					<div class="row item">
+						<div class="col">日期</div>
+						<div class="col">应收本息(元)</div>
+						<div class="col">状态</div>
+					</div>
+					<div class="row item" ng-repeat="period in item.refundPeriods">
+						<div class="col">{{period.date}}</div>
+						<div class="col">{{period.amount | currency:''}}</div>
+						<div class="col">{{period.status}}</div>
+					</div>
+				</section>
+			</section>
+
+			<section class="align-center padding">I am doing testing staff.</section>
+		</article>
+	</ion-content>
+</ion-view>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.service('bankService', function($rootScope, localStorageService, userConfig, UserApi, PayApi) {
+	.service('bankService', function($rootScope, localStorageService, userConfig, UserApi, BankApi) {
 		var self = this;
 		var getBankShortName = function(fullname) {
 			switch(fullname) {
@@ -36,7 +36,7 @@ angular.module('landlordApp')
 		};
 
 		this.updateBankList = function() {
-			PayApi.getBankListForKQ(userConfig.getSessionId())
+			BankApi.getBankListForKQ(userConfig.getSessionId())
 				.success(function(data) {
 					if(data.flag === 1) {
 						console.log('----------- get bank list success -------------');
@@ -59,6 +59,7 @@ angular.module('landlordApp')
 						console.log('----------- get bound bank list success -------------');
 						var boundBankList = data.data.map(function(obj) {
 							return {
+								id: obj.banks_id,
 								name: obj.banks_cat || '中国工商银行',
 								shortName: getBankShortName(obj.banks_cat),
 								tailNo: obj.banks_account.substr(-4),

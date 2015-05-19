@@ -1,0 +1,41 @@
+'use strict';
+
+angular.module('landlordApp')
+	.controller('WithdrawCtrl', function($scope, $rootScope, $state, bankService, BankApi, userConfig) {
+		var accountInfo = userConfig.getAccountInfo(),
+				sessionId = userConfig.getSessionId();
+		$scope.balanceAvailable = +accountInfo.balanceUsable;
+		$scope.cardList = bankService.getBoundBankList();
+		if($scope.cardList && $scope.cardList.length) {
+			$scope.card = $scope.cardList[0];
+		}
+
+		$scope.withdraw = {
+			fee: 0,
+			result: 0
+		};
+
+		$scope.$watch('withdraw.amount', function(val) {
+			if(/\.$/.test(val)) return;
+			val = Math.min(parseFloat(val), $scope.balanceAvailable);
+			$scope.withdraw.amount = val;
+			$scope.withdraw.fee = +val ? getFee(+val) : 0;
+			$scope.withdraw.result = Math.max((val || 0) - $scope.withdraw.fee, 0);
+		});
+
+		var getFee = function(amount) {
+			return Math.floor(amount/49999)*3 + (amount%49999 < 20000 ? 1 : 3);
+		};
+
+		$scope.submit = function() {
+			BankApi.withdraw(sessionId, $scope.withdraw.result, $scope.card.id)
+				.success(function(data) {
+					if(data.flag === 8) { // success
+						console.log(data);
+					}
+				})
+		};
+
+		BankApi.getWithdrawList(sessionId, 10, 0);
+
+	})

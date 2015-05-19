@@ -156,7 +156,7 @@ angular.module('landlordApp')
 			}
 		};
 	})
-	.controller('RetrievePasswordCtrl', function($scope, $stateParams, UserApi, toaster, userConfig, md5, utils, $ionicLoading) {
+	.controller('RetrievePasswordCtrl', function($scope, $state, $stateParams, UserApi, toaster, userConfig, md5, utils, $ionicLoading) {
 		var resendCountdown = utils.resendCountdown($scope);
 		$scope.account = {phone: $stateParams.phone};
 

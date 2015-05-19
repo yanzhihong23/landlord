@@ -18,7 +18,7 @@ angular.module('landlordApp')
         	} else if(arr.length === 2) {
         		scope[arr[0]][arr[1]] = null;
         	}
-        	scope.$digest();
+          scope.$apply();
         });
 
         scope.$watch(attr.ngModel, function(val) {

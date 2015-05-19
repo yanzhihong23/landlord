@@ -58,7 +58,7 @@ angular.module('landlordApp')
 		$scope.selectBank = function() {
 			if($scope.bankCards.length === 1) {
 				$rootScope.amount = $scope.recharge.amount;
-				$state.go('tabs.rechargeNew');
+				/Info/.test($state.current.name) ? $state.go('tabs.rechargeNewInfo') : $state.go('tabs.rechargeNew');
 				return;
 			}
 
@@ -68,7 +68,7 @@ angular.module('landlordApp')
 				buttonClicked: function(index) {
 					if(index === $scope.bankCards.length-1) {
 						$rootScope.amount = $scope.recharge.amount;
-						$state.go('tabs.rechargeNew');
+						/Info/.test($state.current.name) ? $state.go('tabs.rechargeNewInfo') : $state.go('tabs.rechargeNew');
 					} else {
 						$scope.recharge.bankCard = $scope.bankCards[index].value;
 						$scope.recharge.bankCardShow = $scope.bankCards[index].text;

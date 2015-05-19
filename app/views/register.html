@@ -1,7 +1,7 @@
 <ion-view view-title="注册" id="register_view">
 	<ion-content>
 		<div class="logo-part"></div>
-		<div class="card padding">
+		<div class="card padding bottom-border">
 			<form name="registerForm" ng-submit="register()">
 				<div class="padding align-center fs-xs">为了您的账户安全，请设置您的登录密码</div>
 				<div class="item item-input-inset">
@@ -12,7 +12,7 @@
 			      <span ng-show="resendCountdown">{{resendCountdown}}秒后</span>重新发送
 			    </button>
 			  </div>
-				<div class="item item-input">
+				<div class="item item-input bottom-border">
 			    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" clear-input required>
 			  </div>
 			  <button type="submit" class="button button-full" ng-disabled="registerForm.$invalid || invalidPassword || clicked">设置登录密码</button>

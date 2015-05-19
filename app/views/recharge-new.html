@@ -3,7 +3,7 @@
 		<form name="rechargeNewForm" ng-submit="rechargeNew()">
 			<div class="card transparent-bg">
 				<div class="padding align-center accent-bg white">账户余额（{{balanceUsable | currency: ''}}元）</div>
-				<div class="list padding-horizontal white-bg">
+				<div class="list padding-horizontal white-bg bottom-border">
 				  <label class="item item-input">
 				    <span class="input-label">金额</span>
 				    <input type="text" ng-model="recharge.amount" placeholder="请输入充值金额" required>
@@ -21,7 +21,7 @@
 			</div>
 
 			<div class="card padding">
-				<div class="list">
+				<div class="list bottom-border">
 					<div class="padding-top align-center accent tip">
 						请填写本人真实信息，核实后不可更改哦~
 					</div>

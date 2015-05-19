@@ -1,12 +1,11 @@
-<ion-view view-title="我的房产" id="my_info" hide-back-button="true" cache-view="false">
-<!-- 	<ion-nav-buttons side="left">
-    <button class="button button-icon" ng-click="backToHome()">首页</button>
-	</ion-nav-buttons> -->
-<!-- 	<ion-nav-buttons side="right">
-    <button class="button button-icon" ng-click="logout()">退出</button>
-	</ion-nav-buttons> -->
+<ion-view view-title="我的房产" id="my_info" class="whitesmoke-bg">
+	<ion-nav-buttons side="right">
+    <button class="button button-icon" ng-click="showMenu()"><i class="ion-ios-more"></i></button>
+	</ion-nav-buttons>
 
-	<section class="balance-info white">
+	
+
+	<!-- <section class="balance-info white " hidden>
 		<div class="padding earning">
 			<div>当前收益</div>
 			<div class="fs-lg">{{info.earnings | currency:'￥'}}</div>
@@ -22,13 +21,44 @@
 			</div>
 			<a class="plus-btn align-center" ng-click="recharge()">充值</a>
 		</div>
-	</section>
+	</section> -->
 
-	<ion-content has-bouncing="false">
-		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
-    </ion-refresher>
+	<ion-content>
+		<section class="padding item">
+			<div>累计收益</div>
+			<div class="align-center fs-lg">{{info.earnings | currency:''}}</div>
+		</section>
+		<section class="padding item">
+			<div>下期收益</div>
+			<div class="row align-center">
+				<div class="col-33 col-offset-33 fs-lg">{{info.earnings | currency:''}}</div>
+				<div class="col-33">2015/5/21</div>
+			</div>
+		</section>
+		<!-- <section class="row padding item">
+			<div class="col-33">总资产（元）</div>
+			<div class="col-33 align-center">{{info.earnings | currency:''}}</div>
+		</section> -->
+		<section class="row padding align-center item">
+			<div class="col">
+				<div>账户余额（元）</div>
+				<div class="">{{info.balance | currency:''}}</div>
+			</div>
+			<div class="col">
+				<div>冻结金额（元）</div>
+				<div class="">{{info.frozen | currency:''}}</div>
+			</div>
+		</section>
 
-		<section class="records">
+		<div class="list padding-top">
+			<a class="item item-arrow-right" href="#/tab/orders">我的房产清单</a>
+			<a class="item item-arrow-right">我的预约记录</a>
+		</div>
+
+		<!-- <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
+    </ion-refresher> -->
+
+		<section class="records" hidden>
 			<div class="card align-center accent bold" id="no_record" ng-show="isNoRecord">
 				<div class="name fs-large">尊贵的房东大人</div>
 				<div class="content">好项目常在，恭候您考察</div>

@@ -119,15 +119,4 @@ angular.module('landlordApp')
 				})
 			})
 		};
-
-		this.getBankListForKQ = function(sessionId) {
-			return $http({
-				method: 'POST',
-				url: server + '/bank/getBankListForKQ',
-				headers: headers,
-				data: utils.param({
-					sessionId: sessionId
-				})
-			})
-		}
 	})

@@ -187,6 +187,8 @@ angular
       }
     })
     // ************* main tabs end **************
+
+    // ************* views in more tab start **************
     .state('tabs.setting', {
       url: "/setting",
       views: {
@@ -232,6 +234,27 @@ angular
         }
       }
     })
+    // ************* views in more tab end **************
+
+    .state('tabs.orders', {
+      url: "/orders",
+      views: {
+        'info-tab': {
+          templateUrl: "views/order-list.html",
+          controller: 'OrdersCtrl'
+        }
+      }
+    })
+    .state('tabs.withdraw', {
+      url: "/withdraw",
+      views: {
+        'info-tab': {
+          templateUrl: "views/withdraw.html",
+          controller: 'WithdrawCtrl'
+        }
+      }
+    })
+
     .state('tabs.buy', {
       url: "/buy",
       views: {
@@ -364,6 +387,24 @@ angular
       url: '/rechargeNew',
       views: {
         'home-tab': {
+          templateUrl: 'views/recharge-new.html',
+          controller: 'RechargeCtrl'
+        }
+      }
+    })
+    .state('tabs.rechargeInfo', {
+      url: '/rechargeInfo',
+      views: {
+        'info-tab': {
+          templateUrl: 'views/recharge.html',
+          controller: 'RechargeCtrl'
+        }
+      }
+    })
+    .state('tabs.rechargeNewInfo', {
+      url: '/rechargeNewInfo',
+      views: {
+        'info-tab': {
           templateUrl: 'views/recharge-new.html',
           controller: 'RechargeCtrl'
         }
