@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('OrdersCtrl', function($scope, $rootScope, $state, localStorageService, userConfig, LandlordApi, utils, $ionicSlideBoxDelegate) {
-		var ids = localStorageService.get('orderIds'),
+	.controller('OrdersCtrl', function($scope, $rootScope, $state, accountService, localStorageService, userConfig, LandlordApi, utils, $ionicSlideBoxDelegate) {
+		var ids = accountService.investingIds,
 				sessionId = userConfig.getSessionId(),
 				oItems = [];
 

@@ -3,50 +3,27 @@
     <button class="button button-icon" ng-click="showMenu()"><i class="ion-ios-more"></i></button>
 	</ion-nav-buttons>
 
-	
-
-	<!-- <section class="balance-info white " hidden>
-		<div class="padding earning">
-			<div>当前收益</div>
-			<div class="fs-lg">{{info.earnings | currency:'￥'}}</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<div>在投资产</div>
-				<div>{{info.invest | currency:'￥'}}</div>
-			</div>
-			<div class="col">
-				<div>账户余额</div>
-				<div>{{info.balance | currency:'￥'}}</div>
-			</div>
-			<a class="plus-btn align-center" ng-click="recharge()">充值</a>
-		</div>
-	</section> -->
-
 	<ion-content>
 		<section class="padding item">
 			<div>累计收益</div>
-			<div class="align-center fs-lg">{{info.earnings | currency:''}}</div>
+			<div class="align-center fs-lg">{{balance.earnings | currency:''}}</div>
 		</section>
 		<section class="padding item">
 			<div>下期收益</div>
 			<div class="row align-center">
-				<div class="col-33 col-offset-33 fs-lg">{{info.earnings | currency:''}}</div>
+				<div class="col-33 col-offset-33 fs-lg">{{balance.earnings | currency:''}}</div>
 				<div class="col-33">2015/5/21</div>
 			</div>
 		</section>
-		<!-- <section class="row padding item">
-			<div class="col-33">总资产（元）</div>
-			<div class="col-33 align-center">{{info.earnings | currency:''}}</div>
-		</section> -->
+
 		<section class="row padding align-center item">
 			<div class="col">
 				<div>账户余额（元）</div>
-				<div class="">{{info.balance | currency:''}}</div>
+				<div>{{balance.available | currency:''}}</div>
 			</div>
 			<div class="col">
 				<div>冻结金额（元）</div>
-				<div class="">{{info.frozen | currency:''}}</div>
+				<div>{{balance.frozen | currency:''}}</div>
 			</div>
 		</section>
 
@@ -54,46 +31,6 @@
 			<a class="item item-arrow-right" href="#/tab/orders">我的房产清单</a>
 			<a class="item item-arrow-right">我的预约记录</a>
 		</div>
-
-		<!-- <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
-    </ion-refresher> -->
-
-		<section class="records" hidden>
-			<div class="card align-center accent bold" id="no_record" ng-show="isNoRecord">
-				<div class="name fs-large">尊贵的房东大人</div>
-				<div class="content">好项目常在，恭候您考察</div>
-				<div class="cmd" ng-click="backToHome()">去考察</div>
-			</div>
-			
-	  	<div class="card" ng-repeat="item in investingItems" ng-show="investingItems.length">
-	  		<div class="title align-center">{{item.desc}}</div>
-	    	<div class="item item-image">
-	    		<ion-slide-box show-pager="true">
-	    		  <ion-slide ng-repeat="image in item.images">
-	    		  	<img ng-src="{{image.path}}" alt="" height="300">
-	    		  </ion-slide>
-	    		</ion-slide-box>
-	    		<div class="desc row" ng-show="!item.showDesc">
-		  			<div class="col-10 col-offset-90 col-center" ng-click="item.showDesc=true">
-		  				<i class="ion-chevron-left"></i>
-		  			</div>
-		  		</div>
-		  		<div class="desc row desc-bg animated" ng-show="item.showDesc" ng-class="{fadeInRight: item.showDesc, fadeOutRight:!item.showDesc}">
-		  			<div class="col-80 col-offset-10">
-		  				本金：{{item.invest}}万元&nbsp;&nbsp;&nbsp;<span ng-show="item.earnings">收益：{{item.earnings | currency:''}}元</span><br>
-		  				<span ng-show="item.endDate">到期：{{item.endDate}}</span>
-		  				<span ng-hide="item.endDate">正在匹配中</span>
-	  				 &nbsp;&nbsp;&nbsp; 
-		  				<a ng-click="goToTos($index)" class="blue">电子合同</a>
-		  				<div ng-repeat="interest in item.interests">加息券：{{interest.value}}%(本金{{interest.amount}}万元)</div>
-		  			</div>
-		  			<div class="col col-center" ng-click="item.showDesc=false">
-		  				<i class="ion-chevron-right"></i>
-		  			</div>
-	    	</div>
-	    </div>
-		</section>
-
 		
 	</ion-content>
 </ion-view>

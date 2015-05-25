@@ -2,10 +2,10 @@
 	<ion-content>
 		<form ng-submit="submit()" name="withdrawForm">
 			<ul class="list padding-top">
-				<li class="item item-icon-left item-arrow-right">
+				<li class="item item-icon-left item-arrow-right" ng-click="selectBank()">
 					<i class="icon bank-icon" ng-class="card.shortName"></i>
 					{{card.name}}
-					<span class="item-note">
+					<span class="item-note" ng-show="card.tailNo">
 						尾号{{card.tailNo}}
 					</span>
 				</li>
@@ -21,7 +21,7 @@
 			<ul class="list">
 				<li class="item item-input">
 					<span class="input-label">提现金额</span>
-		    	<input type="text" ng-model="withdraw.amount" placeholder="0.00" clear-input required>
+		    	<input type="text" ng-model="withdraw.amount" placeholder="≥2.00" clear-input required>
 				</li>
 			</ul>
 
@@ -30,7 +30,7 @@
 				<div class="col">实际到账 <span class="accent">{{withdraw.result | currency:''}}</span></div>
 			</div>
 			<div class="padding">
-				<button type="submit" class="button button-full" ng-disabled="withdrawForm.$invalid">提现</button>
+				<button type="submit" class="button button-full" ng-disabled="withdrawForm.$invalid || withdraw.invalid">提现</button>
 			</div>
 		</form>
 	</ion-content>
