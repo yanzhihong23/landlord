@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet, $ionicModal, bankService) {
+	.controller('RechargeCtrl', function($scope, $rootScope, $state, UserApi, PayApi, userConfig, md5, utils, toaster, $ionicLoading, $ionicActionSheet, $ionicModal, bankService, accountService) {
 		var accountInfo,
 				sessionId,
 				mId,
@@ -23,7 +23,8 @@ angular.module('landlordApp')
 			accountInfo = userConfig.getAccountInfo();
 			sessionId = userConfig.getSessionId();
 			mId = accountInfo.m_id;
-			$scope.balanceUsable = accountInfo.balanceUsable;
+			$scope.balance = accountService.balance;
+			
 			$scope.recharge.name = accountInfo.realname;
 			$scope.recharge.id = accountInfo.idnum;
 			$scope.recharge.phone = accountInfo.mobilenum;
