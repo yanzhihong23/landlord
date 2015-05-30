@@ -245,6 +245,24 @@ angular
         }
       }
     })
+    .state('tabs.house', {
+      url: "/house",
+      views: {
+        'info-tab': {
+          templateUrl: "views/house-detail.html",
+          controller: 'HouseDetailCtrl'
+        }
+      }
+    })
+    .state('tabs.refund', {
+      url: "/refund",
+      views: {
+        'info-tab': {
+          templateUrl: "views/refund.html",
+          controller: 'RefundCtrl'
+        }
+      }
+    })
     .state('tabs.withdraw', {
       url: "/withdraw",
       views: {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('OrdersCtrl', function($scope, $rootScope, $state, accountService, localStorageService, userConfig, LandlordApi, utils, $ionicSlideBoxDelegate) {
+	.controller('OrdersCtrl', function($scope, $rootScope, $state, accountService, localStorageService, userConfig, LandlordApi, utils, $ionicSlideBoxDelegate, subjectService) {
 		var ids = accountService.investingIds,
 				sessionId = userConfig.getSessionId(),
 				oItems = [];
@@ -50,18 +50,20 @@ angular.module('landlordApp')
 								previews: previews
 							});
 							oItems.push(data);
-
-							setTimeout(function() {
-								// $ionicSlideBoxDelegate.update();
-								$scope.showPreviews0 = false;
-							})
-							
 						}
 					});
 			}
 		}
 
-		$scope.showPreviews0 = true;
+		$scope.showHouse = function(index) {
+			subjectService.previews = $scope.items[index].previews;
+			$state.go('tabs.house');
+		};
+
+		$scope.showRefund = function(index) {
+			subjectService.refundPeriods = $scope.items[index].refundPeriods;
+			$state.go('tabs.refund');
+		}
 
 		$scope.goToTos = function(index) {
 			var item = oItems[index];
@@ -83,7 +85,12 @@ angular.module('landlordApp')
 				va_extno: item.vipAccounts[0].va_extno,
 	      records: records
 			}
-			// utils.disableBack();
 			$state.go('tabs.tosInfo');
 		};
+	})
+	.controller('HouseDetailCtrl', function($scope, subjectService) {
+		$scope.previews = subjectService.previews;
+	})
+	.controller('RefundCtrl', function($scope, subjectService) {
+		$scope.refundPeriods = subjectService.refundPeriods;
 	})

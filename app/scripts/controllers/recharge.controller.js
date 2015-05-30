@@ -12,6 +12,9 @@ angular.module('landlordApp')
 				token;
 
 		var resendCountdown = utils.resendCountdown($scope);
+		var goToNew = function() {
+			/Info/.test($state.current.name) ? $state.go('tabs.rechargeNewInfo') : $state.go('tabs.rechargeNew');
+		};
 
 		$scope.bankCards = [];
 		$scope.recharge = {
@@ -24,7 +27,7 @@ angular.module('landlordApp')
 			sessionId = userConfig.getSessionId();
 			mId = accountInfo.m_id;
 			$scope.balance = accountService.balance;
-			
+
 			$scope.recharge.name = accountInfo.realname;
 			$scope.recharge.id = accountInfo.idnum;
 			$scope.recharge.phone = accountInfo.mobilenum;
@@ -59,7 +62,7 @@ angular.module('landlordApp')
 		$scope.selectBank = function() {
 			if($scope.bankCards.length === 1) {
 				$rootScope.amount = $scope.recharge.amount;
-				/Info/.test($state.current.name) ? $state.go('tabs.rechargeNewInfo') : $state.go('tabs.rechargeNew');
+				goToNew();
 				return;
 			}
 
@@ -69,7 +72,7 @@ angular.module('landlordApp')
 				buttonClicked: function(index) {
 					if(index === $scope.bankCards.length-1) {
 						$rootScope.amount = $scope.recharge.amount;
-						/Info/.test($state.current.name) ? $state.go('tabs.rechargeNewInfo') : $state.go('tabs.rechargeNew');
+						goToNew();
 					} else {
 						$scope.recharge.bankCard = $scope.bankCards[index].value;
 						$scope.recharge.bankCardShow = $scope.bankCards[index].text;

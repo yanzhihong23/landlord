@@ -1,0 +1,16 @@
+<ion-view view-title="回款计划" class="whitesmoke-bg">
+	<ion-content>
+		<section class="align-center">
+			<div class="row item">
+				<div class="col">日期</div>
+				<div class="col">应收本息(元)</div>
+				<div class="col">状态</div>
+			</div>
+			<div class="row item" ng-repeat="period in refundPeriods">
+				<div class="col">{{period.date}}</div>
+				<div class="col">{{period.amount | currency:''}}</div>
+				<div class="col">{{period.status}}</div>
+			</div>
+		</section>
+	</ion-content>
+</ion-view>
