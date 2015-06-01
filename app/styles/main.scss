@@ -332,7 +332,7 @@ ion-content.padding{
     padding-left: 5%;
     padding-right: 10%;
     z-index: 100;
-    .platform-ios &{
+    .platform-ios.platform-cordova &{
       top: 64px;
     }
     .earning{
