@@ -2,6 +2,8 @@
 
 angular.module('landlordApp')
 	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster, $ionicLoading) {
+		const INCREMENT = $scope.house.increment;
+
 		var init = function() {
 			console.log('----------- init BuyCtrl -----------');
 	  	var accountInfo = userConfig.getAccountInfo();
@@ -59,7 +61,7 @@ angular.module('landlordApp')
 			if($rootScope.landlord) {
         $rootScope.landlord.records = [{
         	date: utils.getDate(),
-        	amount: $scope.buy.volume*10000
+        	amount: $scope.buy.volume*INCREMENT
         }];
       }
       $state.go('tabs.tos');
@@ -119,11 +121,13 @@ angular.module('landlordApp')
 		};
 
 		$scope.$watch('buy.volume', function(val, old) {
+			var limit = $scope.item.limit*10000/INCREMENT;
+
 			val = ~~val;
 			if(val < 1) {
 				val = 1;
-			} else if(val > $scope.item.limit) {
-				val = $scope.item.limit;
+			} else if(val > limit) {
+				val = limit;
 			}
 
 			$scope.buy.volume = val;
@@ -131,10 +135,10 @@ angular.module('landlordApp')
 			$scope.buy.total = ($scope.item.total*val).toFixed(2);
 
 			$scope.$parent.pay.count = val;
-			$scope.$parent.order.total = val*10000;
+			$scope.$parent.order.total = val*INCREMENT;
 
 			// for tos
-			$rootScope.landlord && ($rootScope.landlord.total = val*10000);
+			$rootScope.landlord && ($rootScope.landlord.total = val*INCREMENT);
 
 			interestsInit();
 
@@ -170,7 +174,7 @@ angular.module('landlordApp')
 		}, true);
 
 		var calcTotalPay = function() {
-			$scope.order.total = $scope.buy.volume*10000;
+			$scope.order.total = $scope.buy.volume*INCREMENT;
 			var coupons = [];
 			for(var i=0; i<$scope.validCoupons.length; i++) {
 				if($scope.validCoupons[i].checked) {
@@ -185,7 +189,7 @@ angular.module('landlordApp')
 			var checked = false;
 			for(var i=0; i<$scope.validInterests.length; i++) {
 				if($scope.validInterests[i].checked) {
-					$scope.buy.extraEarn = $scope.buy.volume*100*(+$scope.validInterests[i].value)/12*$scope.house.duration;
+					$scope.buy.extraEarn = $scope.buy.volume/100*INCREMENT*(+$scope.validInterests[i].value)/12*$scope.house.duration;
 					$scope.pay.interest = $scope.validInterests[i].sum;
 					checked = true;
 				}

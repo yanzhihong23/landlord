@@ -76,6 +76,8 @@ angular.module('landlordApp')
 			$rootScope.landlord = {
 				total: item.invest,
 				fp_title: item.finance_plan.fp_title,
+				fp_price_min: item.finance_plan.fp_price_min,
+        fp_price_increment: item.finance_plan.fp_price_increment,
 				fp_price_max: item.finance_plan.fp_price_max,
 				fp_start_date: item.finance_plan.fp_start_date,
 				fp_end_date: utils.getDate(utils.addMonth(new Date(item.finance_plan.fp_start_date), ~~item.finance_plan.fp_expect)),

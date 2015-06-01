@@ -24,6 +24,7 @@ angular.module('landlordApp')
   					duration: landlord.fp_expect,
   					minPrice: ~~landlord.fp_price_min/10000,
   					maxPrice: ~~landlord.fp_price_max/10000,
+            increment: ~~landlord.fp_price_increment,
   					houseType: landlord.house_type,
   					annualYield: landlord.fp_rate_max,
   					completeRate: landlord.fp_percent,

@@ -38,7 +38,7 @@ b. 甲方自愿同意加入本次服务计划，并自愿遵守乙方网站现�
 （1） 名称：{{landlord.fp_title}}（上下文均称"本次服务计划"）。<br>
 （2） 描述：甲方加入本次服务计划后，在锁定期内，加入服务计划的金额将被优先安排自动投标。锁定期结束，系统将会在锁定期的最后一日开始结算，结算完成后的资金将自动划转至用户普通账户中。<br>
 （3） 优先自动投标范围：乙方平台上发布的【实地认证标】【机构担保标】。<br>
-（4） 加入金额要求：最低加入金额为人民币【10,000.00】元，并以人民币【10,000.00】元整数倍递增，最高不超过人民币【{{landlord.fp_price_max | currency:''}}】元。<br>
+（4） 加入金额要求：最低加入金额为人民币【{{landlord.fp_price_min | currency:''}}】元，并以人民币【{{landlord.fp_price_increment | currency:''}}】元整数倍递增，最高不超过人民币【{{landlord.fp_price_max | currency:''}}】元。<br>
 （5） 匹配期：自 {{landlord.fp_publish_date}} 至 {{landlord.fp_start_date}}。<br>
 （6） 锁定期：自 {{landlord.fp_start_date}} 至 {{landlord.fp_end_date}}。<br>
 （7） 甲方收益：甲方的收益将按本次服务计划所投标的对应的《借款担保协议》分别确认。本期计划预期年化收益【{{landlord.fp_rate_min}}%】，按月收取利息，到期收取本金。<br>

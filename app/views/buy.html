@@ -2,11 +2,11 @@
   <ion-content class="padding">
   	<div class="card padding align-center" id="buy_card">
   		<div class="padding align-center fs-xs limit-desc">
-  			仅剩<span class="accent fs-md">{{house.remain}}</span>万元可投资，购买上限<span class="accent">{{item.limit}}</span>万元
+  			购买上限<span class="accent fs-md">{{item.limit}}</span>万元，每份<span class="accent fs-md">{{house.increment | currency:''}}</span>元
   		</div>
 
   		<div class="row cal">
-  			<div class="col-33 col-center">投资金额</div>
+  			<div class="col-33 col-center">购买份数</div>
   			<div class="col-50">
   				<div class="row item count">
   					<div class="col-25">
@@ -20,7 +20,7 @@
   					</div>
   				</div>
   			</div>
-  			<div class="col-30 col-center">万元</div>
+  			<div class="col-30 col-center">份</div>
   		</div>
 
   		<div class="fs-xs">
