@@ -6,7 +6,7 @@
     <button class="button button-icon" ng-click="logout()">退出</button>
 	</ion-nav-buttons>
 
-	<section class="balance-info white">
+	<section class="balance-info white align-center">
 		<div class="padding earning">
 			<div>当前收益</div>
 			<div class="fs-lg">{{info.earnings | currency:'￥'}}</div>
@@ -20,7 +20,8 @@
 				<div>账户余额</div>
 				<div>{{info.balance | currency:'￥'}}</div>
 			</div>
-			<a class="plus-btn align-center" ng-click="recharge()">充值</a>
+			<a class="plus-btn left" ng-click="recharge()">充值</a>
+			<a class="plus-btn right" ng-click="withdraw()">提现</a>
 		</div>
 	</section>
 

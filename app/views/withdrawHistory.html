@@ -1,0 +1,16 @@
+<ion-view view-title="提现记录" class="whitesmoke-bg" id="withdraw_history">
+	<ion-content>
+		<div class="item-list">
+			<div class="item" ng-repeat="record in records">
+				<div class="row">
+					<div class="col">{{record.name}}</div>
+					<div class="col align-right">{{record.date}}</div>
+				</div>
+				<div class="row">
+					<div class="col fs-md bold">{{record.amount | currency:''}}</div>
+					<div class="col align-right" ng-class="record.className">{{record.status}}</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory) {
+	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory, accountService) {
 		$scope.isNoRecord = false;
 
   	if(!userConfig.isLogined()) {
@@ -27,6 +27,10 @@ angular.module('landlordApp')
       })
   		$state.go('account.recharge');
   	};
+
+    $scope.withdraw = function() {
+      $state.go('account.withdraw');
+    };
 
   	$scope.goToTos = function(index) {
   		var item = $scope.items[index];

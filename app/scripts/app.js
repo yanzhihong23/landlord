@@ -18,7 +18,7 @@ angular
     'toaster'
   ])
   .constant('serverConfig', {
-    url: 'https://m-test.nonobank.com/msapi'
+    url: 'http://m.test.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
@@ -270,6 +270,24 @@ angular
         'home-tab': {
           templateUrl: 'views/recharge-new.html',
           controller: 'RechargeCtrl'
+        }
+      }
+    })
+    .state('account.withdraw', {
+      url: '/withdraw',
+      views: {
+        'home-tab': {
+          templateUrl: 'views/withdraw.html',
+          controller: 'WithdrawCtrl'
+        }
+      }
+    })
+    .state('account.withdrawHistory', {
+      url: '/withdrawHistory',
+      views: {
+        'home-tab': {
+          templateUrl: 'views/withdrawHistory.html',
+          controller: 'WithdrawHistoryCtrl'
         }
       }
     })

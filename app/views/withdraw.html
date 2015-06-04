@@ -1,0 +1,32 @@
+<ion-view view-title="提现">
+	<ion-nav-buttons side="right">
+    <button class="button button-icon" ng-click="history()">提现记录</button>
+	</ion-nav-buttons>
+
+	<ion-content id="pay">
+		<div class="logo-part"></div>
+		<form ng-submit="submit()" name="withdrawForm">
+			<div class="card transparent-bg">
+				<div class="padding align-center accent-bg white">可提现金额（{{balance.available | currency: ''}}元）</div>
+				<div class="list padding-horizontal white-bg">
+					<label class="item item-input item-select" ng-click="selectBank()">
+				    <span class="input-label">银行账户</span>
+           	<span class="select">{{card.text}}</span>
+				  </label>
+				  <label class="item item-input">
+				    <span class="input-label">提现金额</span>
+				    <input type="text" ng-model="withdraw.amount" placeholder="≥2.00" required>
+				  </label>
+				 	<label class="item item-input row fs-sm">
+				 		<div class="col">手续费 <span class="accent">{{withdraw.fee | currency:''}}</span></div>
+				 		<div class="col">实际到账 <span class="accent">{{withdraw.result | currency:''}}</span></div>
+				 	</label>
+				</div>
+			</div>
+
+			<div class="submit">
+				<button type="submit" class="button button-full" ng-disabled="withdrawForm.$invalid || withdraw.invalid">确认提现</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>
