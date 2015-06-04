@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('WithdrawCtrl', function($scope, $state, $ionicActionSheet, $ionicLoading, $ionicPopup, accountService, bankService, BankApi, userConfig, utils) {
+	.controller('WithdrawCtrl', function($scope, $state, $ionicActionSheet, $ionicLoading, $ionicPopup, accountService, bankService, BankApi, userConfig, utils, toaster) {
 		var accountInfo = userConfig.getAccountInfo(),
 				sessionId = userConfig.getSessionId();
 		$scope.balance = accountService.balance;
 		$scope.cardList = bankService.getBoundBankList();
 		if($scope.cardList && $scope.cardList.length) {
 			$scope.card = $scope.cardList[0];
-		}
+		} 
 
 		$scope.withdraw = {
 			fee: 0,
@@ -21,6 +21,11 @@ angular.module('landlordApp')
 		}
 
 		$scope.selectBank = function() {
+			if(!$scope.cardList.length) {
+				toaster.pop('error', '没有关联的银行账户');
+				return;
+			}
+
 			var hideSheet = $ionicActionSheet.show({
 				buttons: $scope.cardList,
 				cancelText: '取消',
