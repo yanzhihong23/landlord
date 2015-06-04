@@ -18,7 +18,7 @@ angular
     'toaster'
   ])
   .constant('serverConfig', {
-    url: 'https://m-test.nonobank.com/msapi'
+    url: 'https://m.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
@@ -76,6 +76,13 @@ angular
           }
           break;
         case 'account.phone':
+          if(!fromState.name) {
+            var callMeOffFn = $rootScope.$on('loginSuc', function() {
+              utils.disableBack();
+              $state.go('tabs.home');
+              callMeOffFn();
+            })
+          }
         case 'account.login':
         case 'account.register':
         case 'account.retrievePassword':
