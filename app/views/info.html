@@ -9,16 +9,16 @@
 	<section class="balance-info white align-center">
 		<div class="padding earning">
 			<div>当前收益</div>
-			<div class="fs-lg">{{info.earnings | currency:'￥'}}</div>
+			<div class="fs-lg">{{balance.earnings | currency:'￥'}}</div>
 		</div>
 		<div class="row">
 			<div class="col">
 				<div>在投资产</div>
-				<div>{{info.invest | currency:'￥'}}</div>
+				<div>{{balance.invest | currency:'￥'}}</div>
 			</div>
 			<div class="col">
 				<div>账户余额</div>
-				<div>{{info.balance | currency:'￥'}}</div>
+				<div>{{balance.available | currency:'￥'}}</div>
 			</div>
 			<a class="plus-btn left" ng-click="recharge()">充值</a>
 			<a class="plus-btn right" ng-click="withdraw()">提现</a>

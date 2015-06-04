@@ -4,6 +4,8 @@ angular.module('landlordApp')
 	.controller('InfoCtrl', function($scope, $rootScope, userConfig, $state, LandlordApi, $filter, utils, $ionicHistory, accountService) {
 		$scope.isNoRecord = false;
 
+    $scope.balance = accountService.balance;
+
   	if(!userConfig.isLogined()) {
   		$rootScope.$on('loginSuc', function(evt) {
   			init();
@@ -69,11 +71,6 @@ angular.module('landlordApp')
 
   				if(data.flag === 1) {
   					data = data.data;
-  					$scope.info = {
-  						balance: data.balanceUsable || 0,
-  						invest: data.invest || 0,
-  						earnings: data.earnings || 0
-  					}
   					$scope.showTip = !!data.balanceUsable;
 
   					// update balance

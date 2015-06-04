@@ -18,7 +18,7 @@ angular
     'toaster'
   ])
   .constant('serverConfig', {
-    url: 'https://m.nonobank.com/msapi'
+    url: 'http://m.test.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
