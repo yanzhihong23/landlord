@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout, $ionicLoading) {
+	.controller('AccountCtrl', function($scope, $rootScope, md5, $state, UserApi, userConfig, utils, toaster, $interval, $timeout, $ionicLoading, accountService) {
 		var resendCountdown = utils.resendCountdown($scope);
 		$scope.account = {};
 		$scope.clicked = false;
@@ -35,6 +35,8 @@ angular.module('landlordApp')
 							username: username,
 							password: password
 						});
+
+						accountService.update();
 					} else {
 						toaster.pop('error', data.msg);
 					}
@@ -86,6 +88,8 @@ angular.module('landlordApp')
 							});
 							// clear password
 							$scope.account.password = null;
+
+							accountService.update();
 		  			} else {
 		  				toaster.pop('error', data.msg);
 		  			}
