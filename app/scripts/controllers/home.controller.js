@@ -43,6 +43,7 @@ angular.module('landlordApp')
             increment: ~~landlord.fp_price_increment,
   					houseType: landlord.house_type,
   					annualYield: landlord.fp_rate_max,
+            yieldShow: landlord.fp_rate_show,
   					completeRate: landlord.fp_percent,
   					status: landlord.fp_status,	// 0: not publish, 1: end, 3: on sell,
   					slogan: landlord.fp_slogan,
@@ -51,7 +52,8 @@ angular.module('landlordApp')
   					endDate: landlord.fp_end_date && landlord.fp_end_date.replace(/-/g,'.'),
   					percent: landlord.fp_percent,
   					price: landlord.fp_price,
-  					remain: ~~((100 - +landlord.fp_percent)*landlord.fp_price/1000000)
+            // remain: ~~((100 - +landlord.fp_percent)*landlord.fp_price/1000000)
+  					remain: (landlord.fp_price - landlord.fp_price_adjust - landlord.fp_price_finish)/10000
   				};
 
           // $scope.hasTip = +landlord.fp_rate_max > 9.88;
