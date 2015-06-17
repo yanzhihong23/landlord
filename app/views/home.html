@@ -24,7 +24,8 @@
       </div>
 
      <!--  <div class="percent bold" ng-hide="showDetail" ng-click="showTip()">{{house.annualYield}}<span class="per">%</span><i class="ion-help-circled pull-right" ng-show="hasTip" ng-cloak></i></div> -->
-     <div class="percent bold" ng-hide="showDetail">{{house.annualYield || 9.88}}<span class="per">%</span></div>
+     <!-- <div class="percent bold" ng-hide="showDetail">{{house.annualYield || 9.88}}<span class="per">%</span></div> -->
+      <div class="percent bold">{{house.yieldShow}}</div>
       <!-- <div class="percent bold" ng-show="showDetail" ng-cloak><span class="per">9.88% + </span>{{(+house.annualYield - 9.88).toFixed(2)}}<span class="per">%</span></div> -->
       <div class="predict fs-xs"><span class="dot">预期年化收益率</span></div>
       
