@@ -126,6 +126,7 @@ angular.module('landlordApp')
 						$rootScope.amount = null;
 						$scope.recharge.password = null;
 
+						accountService.update();
 						toaster.pop('success', data.msg);
 						utils.goBack();
 					} else if(/密码错误/.test(data.msg)) { // wrong password
@@ -226,6 +227,8 @@ angular.module('landlordApp')
 					$rootScope.amount = null;
 					$scope.recharge.cardNo = null;
 					$scope.recharge.vcode = null;
+
+					accountService.update();
 
 					toaster.pop('success', data.msg);
 					utils.goBack(2);
