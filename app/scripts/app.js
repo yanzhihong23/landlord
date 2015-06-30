@@ -18,7 +18,7 @@ angular
     'toaster'
   ])
   .constant('serverConfig', {
-    url: 'http://m.test.nonobank.com/msapi'
+    url: 'http://m.test.nonobank.com'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
@@ -27,7 +27,7 @@ angular
     $httpProvider.defaults.timeout = 5000;
     $httpProvider.interceptors.push('httpInterceptor');
   })
-  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout, bankService) {
+  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, userConfig, $ionicPlatform, utils, $timeout, bankService, WechatService) {
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if($rootScope.modal && $rootScope.modal._isShown) {
         $rootScope.modal.hide();
@@ -203,6 +203,32 @@ angular
         'home-tab': {
           templateUrl: "views/interest-coupon.html",
           controller: 'InterestCouponCtrl'
+        }
+      }
+    })
+    .state('tabs.envoy', {
+      url: "/envoy",
+      views: {
+        'home-tab': {
+          templateUrl: "views/envoy.html",
+          controller: 'EnvoyCtrl'
+        }
+      }
+    })
+    .state('tabs.myEnvoy', {
+      url: "/myEnvoy",
+      views: {
+        'home-tab': {
+          templateUrl: "views/my-envoy.html",
+          controller: 'MyEnvoyCtrl'
+        }
+      }
+    })
+    .state('tabs.envoyRule', {
+      url: "/envoyRule",
+      views: {
+        'home-tab': {
+          templateUrl: "views/envoy-rule.html"
         }
       }
     })

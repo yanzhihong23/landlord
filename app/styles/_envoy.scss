@@ -1,0 +1,95 @@
+.envoy-rule{
+	padding: 10px;
+	font-size: 13px;
+	ol{
+		padding-left: 1.5em;
+		position: relative;
+		.list-style{
+			position: absolute;
+			left: 0;
+		}
+	}
+}
+
+.table{
+	font-size: 12px;
+	color: #444;
+	.table-caption{
+		padding: 10px;
+	}
+	.table-header{
+		background: #4676a1;
+		color: #fff;
+		padding: 8px 0;
+	}
+	.table-content{
+		.row{
+			padding: 10px 0;
+			&:nth-child(2n){
+				background: #d8e5f0;
+			}
+		}
+	}
+	.row{
+		margin: 0;
+	}
+	.col{
+		padding: 0;
+	}
+}
+
+#envoy .scroll-content .scroll{
+	.button.button-transparent{
+		&, &:active, &:hover, &.active, &.activated{
+			background: transparent;
+			color: transparent;
+			border-color: 0;
+			box-shadow: none;
+			outline: none;
+		}
+	}
+	height: 100%;
+	background: url(../images/envoy-bg2.jpg) no-repeat;
+	background-size: 100% 100%;
+	#invite{
+		width: 82%;
+	  position: absolute;
+	  bottom: 8%;
+	  margin: auto;
+	  left: 10%;
+	}
+	#rule{
+		position: absolute;
+		right: 7%;
+	  bottom: 20%;
+	}
+}
+
+#my_envoy{
+	.balance{
+		line-height: 1.42;
+		margin-bottom: 15px;
+		padding: 10% 0 12%;
+		background: -webkit-linear-gradient(#0a2a45, #0d375c);
+		background: linear-gradient(#0a2a45, #0d375c);
+		background: url(../images/sky.png) no-repeat;
+		background-size: cover;
+		.balance-amount{
+			font-size: 30px;
+		}
+	}
+}
+
+#share_modal{
+	background: transparent;
+	.share-arrow{
+		position: absolute;
+		right: 5%;
+  	top: 2%;
+		width: 124px;
+		height: 110px;
+		background: url(../images/share.png) no-repeat;
+		background-size: cover;
+	}
+}
+

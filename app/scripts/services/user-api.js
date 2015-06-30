@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('landlordApp')
-	.service('UserApi', function($http, md5, utils, serverConfig) {
-		var server = serverConfig.url,
+	.service('UserApi', function($http, md5, utils) {
+		var server = utils.getServerHost() + '/msapi',
 				v = 'm.nonobank.com/msapi/'+ utils.getDate(),
 				vMd5 = md5.createHash(v),
 				headers = {'Authorization': vMd5,'Content-Type': 'application/x-www-form-urlencoded'};

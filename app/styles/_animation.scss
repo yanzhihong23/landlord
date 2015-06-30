@@ -81,3 +81,30 @@
   -webkit-animation-name: fadeOutRight;
   animation-name: fadeOutRight;
 }
+
+.wxArrow{
+  -webkit-animation-name: actWXArrow;
+  animation-name: actWXArrow;
+}
+
+@keyframes actWXArrow{
+  0%, 100% {
+    -webkit-transform:translate(0px, 0px);
+    transform:translate(0px, 0px);
+  }
+  50% {
+    -webkit-transform:translate(-10px, 10px);
+    transform:translate(-10px, 10px);
+  }
+}
+
+@-webkit-keyframes actWXArrow{
+  0%, 100%{
+    -webkit-transform:translate(0px, 0px);
+    transform:translate(0px, 0px);
+  }
+  50% {
+    -webkit-transform:translate(-10px, 10px);
+    transform:translate(-10px, 10px);
+  }
+}

@@ -1,6 +1,7 @@
 <ion-view view-title="大房东" class="home" hide-back-button="true">
   <ion-nav-buttons side="left">
-    <button class="button button-icon transparent" on-double-tap="reload()">双击刷新</button>
+    <button class="button button-icon transparent" on-double-tap="reload()" ng-if="!showEnvoy">双击刷新</button>
+    <button class="button button-icon" ng-click="goToEnvoy()" ng-if="showEnvoy">房东特使</button>
   </ion-nav-buttons>
 	<ion-nav-buttons side="right">
     <button class="button button-icon" ng-click="goToInfo()">我的房产</button>

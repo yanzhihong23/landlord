@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet) {
+	.controller('PayCtrl', function($scope, $rootScope, $state, PayApi, userConfig, toaster, UserApi, $ionicLoading, $timeout, utils, $ionicActionSheet, accountService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var sessionId = userConfig.getSessionId();
 		var mId = accountInfo && accountInfo.m_id, storablePan, token;
@@ -118,6 +118,8 @@ angular.module('landlordApp')
 					toaster.pop('success', data.msg);
 					// $scope.order = {};
 					$scope.pay = {};
+					// update account service(balance)
+					accountService.update();
 					$rootScope.$broadcast('landlordUpdated');
 					$state.go('account.info');
 				} else {

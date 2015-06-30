@@ -90,7 +90,7 @@
             xwalk = /crosswalk/.test(userAgent),
             wechat = /micromessenger/.test(userAgent);
         if(wechat) {
-            // do nothing
+            document.write("<script src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js'><\/script>");
         } else if(ios) {
             if(standalone || !safari || !/iphone|ipod|ipad/i.test(platform)) {
                 document.write("<script src='scripts/lib/ios/cordova.js'><\/script>");
@@ -122,10 +122,12 @@
         <script src="scripts/services/service.js"></script>
         <script src="scripts/services/bank.service.js"></script>
         <script src="scripts/services/account.service.js"></script>
+        <script src="scripts/services/wechat.service.js"></script>
         <script src="scripts/services/user-api.js"></script>
         <script src="scripts/services/pay-api.js"></script>
         <script src="scripts/services/landlord-api.js"></script>
         <script src="scripts/services/bank-api.js"></script>
+        <script src="scripts/services/activity-api.js"></script>
         <script src="scripts/directives.js"></script>
         <script src="scripts/controllers/main.controller.js"></script>
         <script src="scripts/controllers/home.controller.js"></script>
@@ -136,6 +138,7 @@
         <script src="scripts/controllers/withdraw.controller.js"></script>
         <script src="scripts/controllers/account.controller.js"></script>
         <script src="scripts/controllers/info.controller.js"></script>
+        <script src="scripts/controllers/envoy.controller.js"></script>
         <!-- endbuild -->
     <script>
         var worker = new Worker("scripts/worker.js");

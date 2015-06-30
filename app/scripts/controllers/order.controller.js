@@ -153,6 +153,9 @@ angular.module('landlordApp')
 					if(data.flag === 1) {
 						toaster.pop('success', data.msg);
 						$scope.user.payPassword = null; // clear password
+						// update account service(balance)
+						accountService.update();
+						
 						$rootScope.$broadcast('landlordUpdated');
 						$state.go('account.info');
 					} else if(/密码错误/.test(data.msg)) { // wrong password

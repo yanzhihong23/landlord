@@ -1,0 +1,33 @@
+<ion-view view-title="我的特使" class="whitesmoke-bg" id="my_envoy">
+	<ion-content>
+		<section class="text-center balance white bold">
+			<div class="balance-title">特使奖金(元)</div>
+			<div class="balance-amount">{{balance.total || 0 | currency: ''}}</div>
+		</section>
+		<section>
+			<div class="table text-center">
+				<div class="table-caption row">
+					<div class="col text-left">我邀请的特使</div>
+					<div class="col text-right gray">提成每月15日左右结算</div>
+				</div>
+				<div class="table-header row">
+					<div class="col">特使手机</div>
+					<div class="col">已投金额</div>
+					<div class="col">我的提成</div>
+					<div class="col">已结算</div>
+				</div>
+				<div class="table-content">
+					<div class="row" ng-repeat="item in envoyList">
+						<div class="col">{{item.phone}}</div>
+						<div class="col">{{item.invested | currency: ''}}</div>
+						<div class="col">{{item.reward | currency: ''}}</div>
+						<div class="col">{{item.settled | currency: ''}}</div>
+					</div>
+					<div class="row" ng-show="!envoyList.length">
+						<div class="col">暂无记录</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</ion-content>
+</ion-view>

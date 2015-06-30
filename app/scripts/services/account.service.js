@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.service('accountService', function(LandlordApi, userConfig) {
+	.service('accountService', function(LandlordApi, userConfig, $rootScope) {
 		var self = this;
 
 		// export balance
@@ -43,4 +43,6 @@ angular.module('landlordApp')
 		};
 
 		self.update();
+
+		$rootScope.$on('loginSuc', self.update);
 	})

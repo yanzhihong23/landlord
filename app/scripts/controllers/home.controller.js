@@ -4,11 +4,17 @@ angular.module('landlordApp')
 	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window) {
   	$scope.countdown = 0;
     $scope.showDetail = false;
+    $scope.showEnvoy = wechat;
 
   	$scope.goToInfo = function() {
   		utils.disableBack();
   		$state.go('account.info');
   	};
+
+    $scope.goToEnvoy = function() {
+      // utils.disableBack();
+      $state.go('tabs.envoy');
+    };
 
     $scope.showTip = function() {
       if(!$scope.hasTip) return;

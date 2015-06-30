@@ -2,7 +2,7 @@
 
 angular.module('landlordApp')
 	.service('LandlordApi', function($http, md5, utils, serverConfig){
-		var server = serverConfig.url,
+		var server = utils.getServerHost() + '/msapi',
 				v = 'm.nonobank.com/msapi/'+ utils.getDate(),
 				vMd5 = md5.createHash(v),
 				headers = {'Authorization': vMd5,'Content-Type': 'application/x-www-form-urlencoded'};

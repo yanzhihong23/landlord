@@ -8,8 +8,11 @@ angular.module('landlordApp')
 			}
 		}
 	})
-	.factory('utils', function($ionicHistory, $timeout) {
+	.factory('utils', function($ionicHistory, $timeout, $location, serverConfig) {
 		return {
+			getServerHost: function() {
+				return /nonobank.com/.test($location.host()) ? $location.protocol() + '://' + $location.host() : serverConfig.url;
+			},
 			param: function(obj) {
 				var str = [];
         for(var p in obj) {
@@ -139,7 +142,8 @@ angular.module('landlordApp')
 							self.logout();
 						} else {
 							self.setAccountInfo(data.data);
-							if(broadcast) $rootScope.$broadcast('loginSuc');
+							// if(broadcast) $rootScope.$broadcast('loginSuc');
+							$rootScope.$broadcast('loginSuc');
 							console.log('----------- autoLogin success -----------');
 						}
 					});
