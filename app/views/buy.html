@@ -1,7 +1,7 @@
 <ion-view view-title="投资">
   <ion-content class="padding">
-  	<div class="card padding align-center" id="buy_card">
-  		<div class="padding align-center fs-xs limit-desc">
+  	<div class="card padding text-center" id="buy_card">
+  		<div class="padding text-center fs-xs limit-desc">
   			购买上限<span class="accent fs-md">{{item.limit}}</span>万元，每份<span class="accent fs-md">{{house.increment | currency:''}}</span>元
   		</div>
 
@@ -13,7 +13,7 @@
   						<button class="button button-small" ng-disabled="buy.volume == 1" ng-click="decrease()"><i class="ion-minus"></i></button>
   					</div>
   					<div class="col-50">
-  						<input type="number" class="align-center" placeholder="1" ng-model="buy.volume">
+  						<input type="number" class="text-center" placeholder="1" ng-model="buy.volume">
   					</div>
   					<div class="col-25">
   						<button class="button button-small" ng-disabled="buy.volume == item.limit" ng-click="increase()"><i class="ion-plus"></i></button>
@@ -29,7 +29,7 @@
 
 		  <div class="row">
 		  	<div class="col">
-		  		<div class="pre-box align-center">
+		  		<div class="pre-box text-center">
 		  			<div class="title blue-bg white fs-xs">预估 · 到期收益</div>
 		  			<div class="content">
 		  				<div>
@@ -41,11 +41,11 @@
 		  	</div>
 		  </div>
 
-		  <div class="padding-bottom fs-xs align-center" ng-init="tos=true">
+		  <div class="padding-bottom fs-xs text-center" ng-init="tos=true">
 		  	<input type="checkbox" class="small" ng-model="tos"> 同意<a class="blue" ng-click="goTos()">《投资协议书》</a>
 		  </div>
 		  
-		  <section class="align-left coupon-info black">
+		  <section class="text-left coupon-info black">
 		  	<div class="coupon-type interest">
 		  		加息券<span class="fs-xs">（到期一次性支付加息）</span>
 		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest" ng-show="validInterests.length"></i>
@@ -70,7 +70,7 @@
 
 		  	<!-- <pre ng-bind="selection | json"></pre> -->
 		  </section>
-		  <section class="align-center accent fs-md padding">
+		  <section class="text-center accent fs-md padding">
 	  		合计：{{order.total | currency:''}}元
 		  </section>
   	</div>

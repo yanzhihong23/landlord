@@ -1,7 +1,7 @@
 <ion-view view-title="支付" id="order_view">
   <ion-content>
     <section class="white blue-bg">
-      <div class="row align-center">
+      <div class="row text-center">
         <div class="col">
           <div>投资金额</div>
           <div>{{pay.count*house.increment | currency:''}}元</div>
@@ -12,7 +12,7 @@
         </div>
       </div>
     </section>
-    <section class="white align-center calc">
+    <section class="white text-center calc">
       <div class="row">
         <div class="col">
           <div>支付金额</div>
@@ -35,14 +35,14 @@
             <input type="password" placeholder="请输入支付密码" ng-model="user.payPassword" ng-pattern="/^[\s\S]{6,16}$/" required>
           </label>
           <div class="row">
-            <label class="col-20 align-center">
+            <label class="col-20 text-center">
               <input type="checkbox" ng-model="order.useBalance" ng-disabled="!order.balanceUsable">
             </label>
             <div class="col-60">账户余额（{{order.balanceUsable | currency:''}}元）</div>
-            <div class="col-20 align-right"><a class="blue"  ng-click="recharge()">充值</a></div>
+            <div class="col-20 text-right"><a class="blue"  ng-click="recharge()">充值</a></div>
           </div>
           <div class="row">
-            <label class="col-20 align-center">
+            <label class="col-20 text-center">
               <input type="checkbox" ng-model="order.useCard" ng-disabled="order.cardDisabled"> 
             </label>
             <div class="col-80" ng-click="selectBank()">
@@ -53,7 +53,7 @@
 
           <section class="align" ng-show="showBankRec">
             <bank-rec></bank-rec>
-            <div class="align-left padding-top gray fs-xs">土豪君VIP热线：<a href="tel:4000646668" class="accent">4000-646-668</a></div>
+            <div class="text-left padding-top gray fs-xs">土豪君VIP热线：<a href="tel:4000646668" class="accent">4000-646-668</a></div>
           </section>
         </section>
       </div>

@@ -1,7 +1,7 @@
 <ion-view view-title="投资记录" class="whitesmoke-bg">
 	<ion-content>
 		<section class="item padding">
-			<div class="row align-center">
+			<div class="row text-center">
 				<div class="col-50">
 					总投资额(元) 
 					<div>{{100000 | currency:''}}</div>
@@ -14,10 +14,10 @@
 		</section>
 
 		<article class="padding-top">
-			<section class="align-center padding-top" ng-repeat="item in items">
+			<section class="text-center padding-top" ng-repeat="item in items">
 				<div class="row item">
-					<div class="col align-left">{{item.title}}</div>
-					<div class="col align-right">{{item.duration}}个月</div>
+					<div class="col text-left">{{item.title}}</div>
+					<div class="col text-right">{{item.duration}}个月</div>
 				</div>
 				<div class="row item">
 					<div class="col">购买时间</div>

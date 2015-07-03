@@ -6,17 +6,17 @@
 	<ion-content>
 		<section class="padding item">
 			<div>累计收益</div>
-			<div class="align-center fs-lg">{{balance.earnings | currency:''}}</div>
+			<div class="text-center fs-lg">{{balance.earnings | currency:''}}</div>
 		</section>
 		<section class="padding item">
 			<div>下期收益</div>
-			<div class="row align-center">
+			<div class="row text-center">
 				<div class="col-33 col-offset-33 fs-lg">{{balance.earnings | currency:''}}</div>
 				<div class="col-33">2015/5/21</div>
 			</div>
 		</section>
 
-		<section class="row padding align-center item">
+		<section class="row padding text-center item">
 			<div class="col">
 				<div>账户余额（元）</div>
 				<div>{{balance.available | currency:''}}</div>

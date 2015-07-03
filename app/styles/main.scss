@@ -3,15 +3,9 @@
 
 @charset "UTF-8";
 @import "mixin";
-@import "../../bower_components/ionic/scss/ionic.scss";
 @import "base";
 @import "overwrite";
 @import "animation";
-
-ion-view{
-  background: url(../images/bg-2.jpg) no-repeat bottom center ;
-  background-size: cover;
-}
 
 #setting{
   .item-icon-left{

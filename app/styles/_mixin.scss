@@ -27,18 +27,6 @@ $border-radius-size:  6px;
   @include float(right);
 }
 
-@mixin align ($side: center) {
-  text-align: unquote($side);
-}
-
-@mixin align-left {
-  @include align(left);
-}
-
-@mixin align-right {
-  @include align(right);
-}
-
 @mixin checkbox($size: 20px, $color: red) {
   width: $size;
   height: $size;
