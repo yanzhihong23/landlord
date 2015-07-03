@@ -41,7 +41,7 @@ angular.module('landlordApp')
 
 			var obj = {
 				title: '做房东特使，不买房也能收房租', // 分享标题
-			  desc: '发现一个赚钱的神奇，不买房也能收房租，月入万元so easy，心动不如行动！赶快参与吧！ ', // 分享描述
+			  desc: '发现一个赚钱的神器，不买房也能收房租，月入万元so easy，心动不如行动！赶快参与吧！ ', // 分享描述
 			  link: HOST + '/dfd/dfdmessenger/?userfrom=' + userKey, // 分享链接
 			  imgUrl: HOST + '/landlord/images/share/share-icon.jpg', // 分享图标
 			  type: '', // 分享类型,music、video或link，不填默认为link
