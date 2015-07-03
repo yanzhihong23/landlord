@@ -45,6 +45,7 @@ angular.module('landlordApp')
 						var arr = data.data;
 						for(var i=0; i<arr.length; i++) {
 							var card = {
+								bankId: arr[i].banks_id, // bank id
 								value: arr[i].kuaiq_short_no, // storablePan
 								text: arr[i].banks_cat + '（尾号' + arr[i].banks_account.substr(-4) + '）'
 							};
@@ -57,6 +58,7 @@ angular.module('landlordApp')
 						value: 'add'
 					});
 
+					$scope.recharge.bankId = $scope.bankCards[0].bankId;
 					$scope.recharge.bankCard = $scope.bankCards[0].value;
 					$scope.recharge.bankCardShow = $scope.bankCards[0].text;
 				}); 
@@ -116,7 +118,7 @@ angular.module('landlordApp')
 		$scope.quickRecharge = function() {
 			$ionicLoading.show();
 			var password = md5.createHash($scope.recharge.password);
-			PayApi.quickPay(mId, sessionId, extRefNo, $scope.recharge.bankCard, $scope.recharge.amount, null, null, payMode, payCode, password)
+			PayApi.quickPay(mId, sessionId, extRefNo, $scope.recharge.bankCard, $scope.recharge.bankId, $scope.recharge.amount, null, null, payMode, payCode, password)
 				.success(function(data) {
 					$ionicLoading.hide();
 					if(data.flag === 1) {

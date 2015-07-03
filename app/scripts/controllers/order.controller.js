@@ -18,11 +18,13 @@ angular.module('landlordApp')
 					if(data.flag === 1) {
 						$scope.bankCards = data.data.map(function(obj) {
 							if(!$scope.order.bankCard && /建设|招商|平安/.test(obj.banks_cat)) {
+								$scope.order.bankId = obj.banks_id;
 								$scope.order.bankCard = obj.kuaiq_short_no;
 								$scope.order.bankCardShow = obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）';
 							}
 
 							return {
+								bankId: obj.banks_id,
 								value: obj.kuaiq_short_no,
 								text: obj.banks_cat + '（尾号' + obj.banks_account.substr(-4) + '）'
 							}
@@ -35,11 +37,12 @@ angular.module('landlordApp')
 					});
 
 					if(!$scope.order.bankCard) {
+						$scope.order.bankId = $scope.bankCards[0].bankId;
 						$scope.order.bankCard = $scope.bankCards[0].value;
 						$scope.order.bankCardShow = $scope.bankCards[0].text;
 						$scope.showBankRec = /工商|光大|民生/.test($scope.bankCards[0].text);
 					}
-				}); 
+				});
 		};
 
 		$scope.selectBank = function() {
@@ -147,7 +150,7 @@ angular.module('landlordApp')
 			var payPassword = md5.createHash($scope.user.payPassword);
 
 			$ionicLoading.show();
-			PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword, $scope.pay.coupons, $scope.pay.interest)
+			PayApi.quickPay(mId, sessionId, $scope.pay.extRefNo, $scope.order.bankCard, $scope.order.bankId, $scope.pay.count, $scope.house.key, $scope.house.type, payMode, payCode, payPassword, $scope.pay.coupons, $scope.pay.interest)
 				.success(function(data) {
 					$ionicLoading.hide();
 					if(data.flag === 1) {

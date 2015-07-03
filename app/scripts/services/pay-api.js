@@ -98,7 +98,7 @@ angular.module('landlordApp')
 			})
 		};
 
-		this.quickPay = function(mId, sessionId, extRefNo, storablePan, count, key, type, payMode, payCode, payPassword, coupon, interest) {
+		this.quickPay = function(mId, sessionId, extRefNo, storablePan, bankId, count, key, type, payMode, payCode, payPassword, coupon, interest) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/quickPay',
@@ -108,6 +108,7 @@ angular.module('landlordApp')
 					sessionId: sessionId,
 					externalRefNumber: extRefNo,
 					storablePan: storablePan,
+					bankid: bankId,
 					count: count,
 					key: key,
 					type: type,
