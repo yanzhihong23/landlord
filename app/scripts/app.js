@@ -22,7 +22,7 @@ angular
     url: 'http://m.test.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
-    template: '<ion-spinner icon="bubbles" class="spinner-accent"></ion-spinner>'
+    template: '<ion-spinner icon="bubbles" class="spinner-energized"></ion-spinner>'
   })
   .config(function($httpProvider, $ionicConfigProvider) {
     $httpProvider.defaults.timeout = 5000;

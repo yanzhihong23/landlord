@@ -2,7 +2,7 @@
   <ion-content class="padding">
   	<div class="card padding text-center" id="buy_card">
   		<div class="padding text-center fs-xs limit-desc">
-  			购买上限<span class="accent fs-md">{{item.limit}}</span>万元，每份<span class="accent fs-md">{{house.increment | currency:''}}</span>元
+  			购买上限<span class="energized fs-md">{{item.limit}}</span>万元，每份<span class="energized fs-md">{{house.increment | currency:''}}</span>元
   		</div>
 
   		<div class="row cal">
@@ -33,8 +33,8 @@
 		  			<div class="title blue-bg white fs-xs">预估 · 到期收益</div>
 		  			<div class="content">
 		  				<div>
-		  					<span class="accent">{{buy.total | currency:''}}</span><span class="fs-xs">元</span>
-		  					<span ng-show="buy.extraEarn"><span class="accent"> + {{buy.extraEarn | currency:''}}</span><span class="fs-xs">元</span></span>
+		  					<span class="energized">{{buy.total | currency:''}}</span><span class="fs-xs">元</span>
+		  					<span ng-show="buy.extraEarn"><span class="energized"> + {{buy.extraEarn | currency:''}}</span><span class="fs-xs">元</span></span>
 	  					</div>
 		  			</div>
 		  		</div>
@@ -70,7 +70,7 @@
 
 		  	<!-- <pre ng-bind="selection | json"></pre> -->
 		  </section>
-		  <section class="text-center accent fs-md padding">
+		  <section class="text-center energized fs-md padding">
 	  		合计：{{order.total | currency:''}}元
 		  </section>
   	</div>

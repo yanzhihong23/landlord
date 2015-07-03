@@ -1,6 +1,6 @@
-$accent: 						#b28c41;
-$accent-light:      #f1a31a;
-$accent-bg:         rgba(220, 168, 77, .8);
+$energized: 						#b28c41;
+$energized-light:      #f1a31a;
+$energized-bg:         rgba(220, 168, 77, .8);
 $button-default-bg: rgba(246, 179, 62,.95);
 $button-disabled-bg: rgba(204,204,204,.85);
 $white:							#fff;
@@ -95,13 +95,13 @@ $border-radius-size:  6px;
     border-radius: 73px;
     background-color: $white;
     text-align: center;
-    border: solid 1px $accent-light;
+    border: solid 1px $energized-light;
     .seize{
       width: $seize-inner-size;
       height: $seize-inner-size;
       border-radius: $seize-inner-size/2;
       margin: auto;
-      box-shadow: inset 0px -3px 0px 0 $accent;
+      box-shadow: inset 0px -3px 0px 0 $energized;
       background-color: #f6b33e;
       font-size: 46px;
       line-height: $seize-inner-size;

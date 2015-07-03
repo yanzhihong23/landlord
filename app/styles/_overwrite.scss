@@ -1,6 +1,8 @@
 @charset "UTF-8";
 @import "../../bower_components/ionic/scss/ionic.scss";
 
+$energized: #f1a31a;
+
 .col-60{
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 60%;
@@ -27,9 +29,9 @@
   background-color: rgba(0, 0, 0, 0.5); 
 }
 
-.spinner.spinner-accent{
-  stroke: $accent;
-  fill: $accent;
+.spinner.spinner-energized{
+  stroke: $energized;
+  fill: $energized;
 }
 
 .button{
@@ -43,7 +45,7 @@
     color: #fff;
   }
   &.button-light{
-    border: solid 1px $accent;
+    border: solid 1px $energized;
   }
   &.button-full{
   	min-height: 36px;
@@ -96,7 +98,7 @@ input::-webkit-input-placeholder{
 .bottom-border{
   .item.item-input, .item.item-input-inset{
     border: 0;
-    border-bottom: solid 1px $accent;
+    border-bottom: solid 1px $energized;
     background: transparent;
     // padding-top: 11px;
     // padding-bottom: 0;
@@ -106,7 +108,7 @@ input::-webkit-input-placeholder{
       bottom: 0;
       width: 1px;
       height: 6px;
-      background: $accent;
+      background: $energized;
     }
     &:before{
       left: 0;
@@ -196,7 +198,7 @@ input::-webkit-input-placeholder{
 
 .tab-item{
   &.tab-item-active, &.active, &.activated{
-    color: $accent-light;
+    color: $energized;
   }
 }
 

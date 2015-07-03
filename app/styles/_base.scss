@@ -10,9 +10,9 @@
 }
 
 input[type="checkbox"]{
-  @include checkbox(18px, $accent);
+  @include checkbox(18px, $energized);
   &.small{
-    @include checkbox(14px, $accent);
+    @include checkbox(14px, $energized);
   }
   &:disabled:before,&.small:disabled:before{
     border-color: $gray-light;
@@ -20,9 +20,9 @@ input[type="checkbox"]{
 }
 
 input[type="radio"]{
-  @include radio(16px, $accent);
+  @include radio(16px, $energized);
   &.small{
-    @include radio(13px, $accent);
+    @include radio(13px, $energized);
   }
   &:disabled{
     border-color: $gray-light;
@@ -89,16 +89,16 @@ input[type="radio"]{
   background: $blue-bg;
 }
 
-.accent{
-  color: $accent;
+.energized{
+  color: $energized;
 }
 
-.accent-light{
-  color: $accent-light;
+.energized-light{
+  color: $energized-light;
 }
 
-.accent-bg{
-  background: $accent-bg;
+.energized-bg{
+  background: $energized-bg;
 }
 
 .transparent-bg{
@@ -200,7 +200,7 @@ i.bank-icon{
     width: 6px;
     height: 6px;
     color: transparent;
-    background: $accent-light;
+    background: $energized-light;
     position: absolute;
     top: 50%;
     left: -10px;
@@ -233,7 +233,7 @@ $cmd-size-space: 8px;
     display: block;
     position: absolute;
     border-radius: $cmd-size/2 - $cmd-size-space;
-    box-shadow: inset 0px -3px 0px 0 $accent;
+    box-shadow: inset 0px -3px 0px 0 $energized;
     left: $cmd-size-space - 1;
     top: $cmd-size-space - 1;
   }

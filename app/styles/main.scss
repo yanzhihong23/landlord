@@ -84,7 +84,7 @@ ion-content.padding{
         border-left-width: 5px;
         border-right-width: 5px;
         border-bottom-width: 5px;
-        border-bottom-color: $accent-light;
+        border-bottom-color: $energized-light;
         position: absolute;
         bottom: -4px;
         left: -4px;
@@ -97,7 +97,7 @@ ion-content.padding{
   }
   .percent{
     position: relative;
-    color: $accent-light;
+    color: $energized-light;
     font-size: 40px;
     padding-top: 4%;
     .per{
@@ -118,7 +118,7 @@ ion-content.padding{
       display: block;
       width: 60%;
       height: 100%;
-      background-color: $accent-light;
+      background-color: $energized-light;
       border-radius: 10px;
     }
     + .row{
@@ -198,7 +198,7 @@ ion-content.padding{
   left: 6%;
   top: 13%;
   border-radius: $border-radius-size;
-  background-color: $accent-light;
+  background-color: $energized-light;
   .card{
     margin: 0;
     height: 100%;
@@ -217,7 +217,7 @@ ion-content.padding{
         width: 50px;
         height: 50px;
         border-radius: 30px;
-        background: $accent-light;
+        background: $energized-light;
         border: solid 2px $white;
         color: $white;
         font-weight: bold;
@@ -272,7 +272,7 @@ ion-content.padding{
         height: 40px;
         line-height: 40px;
         font-size: 18px;
-        color: $accent;
+        color: $energized;
         padding: 0 0 0 12px;
         border-radius: 0;
       }
@@ -371,7 +371,7 @@ ion-content.padding{
       border-radius: 30px;
       display: block;
       margin: auto;
-      color: $accent;
+      color: $energized;
       font-size: 18px;
       position: absolute;
       right: -20px;
@@ -387,7 +387,7 @@ ion-content.padding{
   .card{
     padding-top: 0;
     .title{
-      background-color: $accent-bg;
+      background-color: $energized-bg;
       line-height: 34px;
       color: $white;
     }
