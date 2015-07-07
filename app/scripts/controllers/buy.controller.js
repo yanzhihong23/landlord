@@ -11,15 +11,17 @@ angular.module('landlordApp')
 	  		$scope.balance = ~~accountInfo.balanceUsable/10000;
 	  	}
 
-	  	var annual = $scope.house.annualYield*$scope.house.minPrice*100;
+	  	var annual = $scope.house.annualYield*INCREMENT/100;
 			$scope.item = {
 				mIncome: (annual/12).toFixed(2) || 0,
 				total: (annual/12*$scope.house.duration).toFixed(2) || 0,
-				limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1
+				limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1,
+				volume: ~~($scope.house.minPrice*10000/INCREMENT)
 			};
 
 			$scope.buy = angular.copy($scope.item);
-			$scope.buy.volume = 1;
+
+			// $scope.buy.volume = $scope.buy.minVolume = ~~($scope.house.minPrice*10000/INCREMENT);
 
 			$scope.validInterests = [];
 			$scope.validCoupons = [];
@@ -124,8 +126,8 @@ angular.module('landlordApp')
 			var limit = $scope.item.limit*10000/INCREMENT;
 
 			val = ~~val;
-			if(val < 1) {
-				val = 1;
+			if(val < $scope.item.volume) {
+				val = $scope.item.volume;
 			} else if(val > limit) {
 				val = limit;
 			}
