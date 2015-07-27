@@ -82,9 +82,10 @@ angular.module('landlordApp')
 		// init
 		if(userConfig.getSessionId()) {
 			self.update();
-		} else {
-			$rootScope.$on('loginSuc', function() {
+		}
+
+		$rootScope.$on('loginSuc', function() {
+				console.log('update bankService');
 				self.update();
 			});
-		}
 	})

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal) {
+	.controller('OrderCtrl', function($scope, $rootScope, $state, $ionicLoading, UserApi, PayApi, userConfig, toaster, md5, $ionicActionSheet, $ionicModal, accountService) {
 		var init = function(amount) {
 			console.log('----------- init OrderCtrl -----------');
 			$scope.order.balanceUsable = +userConfig.getAccountInfo().balanceUsable + (+amount || 0);
