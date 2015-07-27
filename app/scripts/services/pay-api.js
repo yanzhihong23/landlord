@@ -98,24 +98,25 @@ angular.module('landlordApp')
 			})
 		};
 
-		this.quickPay = function(mId, sessionId, extRefNo, storablePan, count, key, type, payMode, payCode, payPassword, coupon, interest) {
+		this.quickPay = function(obj) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/quickPay',
 				headers: headers,
 				data: utils.param({
-					m_id: mId,
-					sessionId: sessionId,
-					externalRefNumber: extRefNo,
-					storablePan: storablePan,
-					count: count,
-					key: key,
-					type: type,
-					payMode: payMode,
-					paycode: payCode,
-					paypassword: payPassword,
-					coupon: coupon || '',
-					interest: interest || ''
+					m_id: obj.mId,
+					sessionId: obj.sessionId,
+					externalRefNumber: obj.extRefNo,
+					storablePan: obj.storablePan,
+					bankid: obj.bankId,
+					count: obj.count,
+					key: obj.key,
+					type: obj.type,
+					payMode: obj.payMode,
+					paycode: obj.payCode,
+					paypassword: obj.payPassword,
+					coupon: obj.coupon || '',
+					interest: obj.interest || ''
 				})
 			})
 		};

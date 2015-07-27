@@ -1,62 +1,94 @@
-<ion-view view-title="大房东" class="home" hide-back-button="true">
+<ion-view view-title="{{title}}" class="home whitesmoke-bg" hide-back-button="true" id="home">
   <ion-nav-buttons side="left">
     <button class="button button-icon transparent" on-double-tap="reload()">双击刷新</button>
   </ion-nav-buttons>
-	<ion-nav-buttons side="right">
-    <button class="button button-icon" ng-click="goToInfo()">我的房产</button>
-	</ion-nav-buttons>
   <ion-content>
     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()" spinner="lines">
     </ion-refresher>
-    <div class="card align-center" id="house_card">
-    	<div class="relative" ng-click="openModal()">
-       <img src="images/preview.jpg" class="preview-img" ng-src="{{house.previews[0].path}}" alt="" height="135" width="100%"> 
-       <div class="img-tip align-center fs-xs accent">点击图片查看详情</div>
-      </div>
-      <div class="fs-lg bold name">大房东投资计划<span>{{house.title.substr(7)}}</span></div>
-      <div class="row padding-horizontal">
-      	<div class="col no-padding">
-      		<span class="fs-xs dot">{{house.duration}}个月/{{house.minPrice}}万起投</span>
-      	</div>
-      	<div class="col no-padding">
-      		<span class="fs-xs dot">{{house.houseType || "地铁房"}}</span>
-      	</div>
-      </div>
 
-     <!--  <div class="percent bold" ng-hide="showDetail" ng-click="showTip()">{{house.annualYield}}<span class="per">%</span><i class="ion-help-circled pull-right" ng-show="hasTip" ng-cloak></i></div> -->
-     <!-- <div class="percent bold" ng-hide="showDetail">{{house.annualYield || 9.88}}<span class="per">%</span></div> -->
-      <div class="percent bold">{{house.yieldShow}}</div>
-      <!-- <div class="percent bold" ng-show="showDetail" ng-cloak><span class="per">9.88% + </span>{{(+house.annualYield - 9.88).toFixed(2)}}<span class="per">%</span></div> -->
-      <div class="predict fs-xs"><span class="dot">预期年化收益率</span></div>
-      
-      <div class="progress-bar">
-        <span style="width: {{house.completeRate || 0}}%"></span>
-      </div>
-      <div class="row fs-xs gray">
-        <div class="col align-left">共{{+house.price/10000}}万</div>
-        <div class="col align-right" ng-show="house.status==3">仅剩{{house.remain}}万</div>
-        <div class="col align-right" ng-show="house.status==1">已售罄</div>
-      </div>
-
-      <div class="seize-wrapper" ng-cloak ng-class="{disabled: house.status!=3}">
-        <div class="seize">
-          <a href="#/tab/buy" ng-show="house.status==3"><img src="images/seize.png" alt="抢" width="50"></a>
-          <a ng-show="house.status==1">收益中...</a>
-          <a ng-show="house.status==0">敬请期待</a>
-          <span class="countdown" ng-show="countdown">
-            <span class="odometer" id="h1"></span>
-            <span class="odometer" id="h2"></span>
-            <span class="odometer">:</span>
-            <span class="odometer" id="m1"></span>
-            <span class="odometer" id="m2"></span>
-            <span class="odometer">:</span>
-            <span class="odometer" id="s1"></span>
-            <span class="odometer" id="s2"></span>
-          </span>
+   <!--  <ion-slide-box show-pager="false" delegate-handle="homeTabs" id="homeSlides" class="full-height" enableSlide="false" on-slide-changed="onSlideChanged($index)" active-slide='0'>
+      <ion-slide> -->
+      <article ng-show='newTab'>
+        <div class="relative white-bg preview" ng-click="showDetail()">
+         <img src="images/preview.jpg" ng-src="{{current.house.previews[0]}}" height="230" width="100%">
+         <div class="hot fs-md text-center white">热</div>
         </div>
-      </div>
-      <a href="#/tab/interestCoupon" class="pull-right accent-light fs-xs" id="interest_coupon">什么是加息券？</a>
-    </div>
+
+        <section class="white-bg" ng-click="showDetail()">
+          <div class="dbl-margin-horizontal padding-vertical border-bottom item-arrow-right relative">
+            <div class="fs-18 padding-bottom">{{current.subject.title.substr(7)}} <span class="dbl-padding-left">{{current.house.name}}</span></div>
+            <div class="fs-xs gray">
+              {{current.house.type || "地铁房"}}
+            </div>
+            <div class="gray">{{current.house.city}} - {{current.house.district}} 市价{{+current.house.price/10000}}万 抵押借款{{+current.subject.amount.sum/10000}}万</div>
+          </div>
+        </section>
+
+        <section class="padding-horizontal white-bg">
+          <div class="row padding energized">
+            <div class="col-50 fs-lg">{{current.subject.annual_yield_show}}</div>
+            <div class="col-50 text-right"><span class="inline-block border-energized padding-horizontal">{{current.subject.duration}}个月</span></div>
+          </div>
+          <div class="row padding gray fs-xs">
+            <div class="col-50">预期年化收益率</div>
+            <div class="col-50 text-right">已有{{current.sale_records.length}}位房东</div>
+          </div>
+
+          <div class="padding-horizontal dbl-padding-bottom">
+            <button class="button button-block button-energized no-margin" ng-click="invest()" ng-disabled="current.subject.status!=3">投资</button>
+          </div>
+        </section>
+
+        <div class="margin-vertical white-bg">
+          <a class="item item-icon-left item-arrow-right no-border reserve" ui-sref="tabs.reserve">
+            <i class="icon i-nono-calender"></i>
+            <span class="gray">提前预约，收益再</span><span class="energized fs-md">+1%</span>
+          </a>
+        </div>
+      </article>
+      <!-- </ion-slide> -->
+
+      <!------------------ history subjects ---------------------->
+      <!-- <ion-slide> -->
+      <article ng-show='!newTab'>
+        <section ng-repeat="item in pastSubjects" class="white-bg past-subject margin-vertical" ng-click="showPastSubject($index)">
+          <div class="relative">
+            <img src="images/preview.jpg" ng-src="{{item.house.previews[0]}}"  height="270" width="100%">
+            <!-- <section hidden> -->
+              <div class="name fs-md">
+                {{item.subject.title.substr(7)}}
+                <span class="dbl-padding-left"> {{item.house.name}}</span>
+                <span> ({{item.subject.annual_yield_show}})</span>
+              </div>
+
+              <div class="desc flex-center">
+                <div class="wrapper text-center">
+                  <div>{{item.sale_records.length}}位房东预计可分到租金{{item.desc.total | currency:''}}元</div>
+                  <div>最高1人投资{{item.desc.top.amount/10000 | currency:''}}万，收入约{{item.desc.top.profit | currency:''}}元</div>
+                </div>
+              </div>
+              
+            <!-- </section> -->
+          </div>
+          <div class="row type">
+            <div class="col fs-xs">{{item.house.type || "地铁房"}}</div>
+            <div class="col text-right energized">{{current.subject.duration}}个月</div>
+          </div>
+        </section>
+        <ion-infinite-scroll
+          ng-if="moreDataCanBeLoaded()"
+          on-infinite="loadPastSubjects()"
+          icon="ion-loading-c"
+          spinner="lines"
+          immediate-check="true"
+          distance="1%">
+        </ion-infinite-scroll>
+      </article>
+      <!-- </ion-slide> -->
+    <!-- </ion-slide-box> -->
+
   </ion-content>
 </ion-view>
+
+
 

@@ -1,0 +1,20 @@
+<ion-view view-title="房产收益">
+	<ion-content>
+		<ion-list>
+			<ion-item class="init-line-height">
+				<div class="fs-18">总收入(元)</div>
+				<div class="assertive fs-36">{{info.earnings.total}}</div>
+			</ion-item>
+			<ion-item ng-repeat="item in items">
+				<div class="fs-md">
+					{{item.subject_title}}<span class="padding-left">{{item.house_name}}
+					<div class="pull-right balanced">{{item.amount | currency:'+'}}</div>
+				</div>
+				<div class="gray">
+					月度结息
+					<div class="pull-right">{{item.date}}</div>
+				</div>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

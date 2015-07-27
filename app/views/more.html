@@ -1,53 +1,38 @@
-<ion-view view-title="更多" hide-back-button="true" id="setting" class="whitesmoke-bg">
+<ion-view view-title="账户安全" id="account_security" class="whitesmoke-bg">
 	<ion-content class="padding-top">
-		<div class="list padding-top">
-			<a class="item item-icon-left" ng-class="{'item-arrow-right': !info.kyc}" ng-href="{{info.setKyc}}">
-		    <i class="icon ion-person positive"></i>
+		<div class="list margin-bottom">
+			<a class="item" ng-class="{'item-arrow-right': !info.kyc}" ng-href="{{info.setKyc}}">
 		    实名信息
 		    <span class="item-note">
-	        {{info.kyc ? info.kyc : '未设置'}}
+	        {{info.kyc ? info.kyc : '未认证'}}
 	      </span>
 		  </a>
 
-		  <a class="item item-icon-left" href="">
-	      <i class="icon ion-iphone calm"></i>
-	      手机号码
+		  <a class="item" href="">
+      手机号码
 	      <span class="item-note">
 	        {{info.phone}}
 	      </span>
 	    </a>
-
-	    <a class="item item-icon-left item-arrow-right" href="#/tab/myCards">
-	      <i class="icon ion-card balanced"></i>
-	      我的银行卡
+    </div>
+    <div class="list">
+	    <a class="item item-arrow-right" href="#/tab/changePassword">
+	      登录密码
 	      <span class="item-note">
-	      	{{info.cards ? info.cards + '张' : '未绑定'}}
+	        修改
 	      </span>
 	    </a>
 
-	    <a class="item item-icon-left item-arrow-right" href="#/tab/setting">
-	      <i class="icon ion-locked energized"></i>
-	      密码设置
+	    <a class="item item-arrow-right" href="#/tab/changePayPassword">
+	      支付密码
+	      <span class="item-note">
+	        {{info.payPwdSet ? '修改':'未设置'}}
+	      </span>
 	    </a>
 		</div>
-
-		<div class="list">
-			<a class="item item-icon-left item-arrow-right" href="#/tab/about">
-			  关于我们
-			</a>
-			<a class="item item-icon-left item-arrow-right" href="#/tab/feedback">
-			  意见反馈
-			</a>
-		</div>
-
-		<div class="list">
-			<div class="item energized-light text-center fs-md padding" ng-click="logout()">
-				退出登录
-			</div>
-		</div>
-
-		<!-- <div class="padding">
-			<button class="button button-full" ng-click="logout()">退出登录</button>
-		</div> -->
 	</ion-content>
+
+	<div class="padding logout">
+		<button class="button button-block button-light" ng-click="logout()">退出登录</button>
+	</div>
 </ion-view>

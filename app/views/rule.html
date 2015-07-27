@@ -1,0 +1,46 @@
+<ion-view view-title="详细规则" id="rule" class="whitesmoke-bg">
+	<ion-content>
+		<div class="rule-table margin text-center">
+			<div class="row">
+				<div class="col-33 col-center">年化收益率</div>
+				<div class="col-66">{{current.subject.annual_yield_show}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">收益说明</div>
+				<div class="col-66" ng-class="{'col-center':current.subject.earnings_desc}">{{current.subject.earnings_desc}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">购买期限</div>
+				<div class="col-66 col-center">{{current.subject.match_start_date}} 至 {{current.subject.interest_start_date}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">锁定期</div>
+				<div class="col-66 col-center">{{current.subject.interest_start_date}} 至 {{current.subject.interest_end_date}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">加入条件</div>
+				<div class="col-66 col-center">加入金额 {{current.subject.amount.min | currency:''}} 元起，<br>且以 {{current.subject.amount.per | currency:''}} 元的倍数递增</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">每人购买限制</div>
+				<div class="col-66"></div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">到期赎回方式</div>
+				<div class="col-66">{{current.subject.redeem_maturity_mode}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">提前赎回方式</div>
+				<div class="col-66">{{current.subject.redeem_ahead_mode}}</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">费用</div>
+				<div class="col-66 col-center">加入费率 0%，服务费率 0%，退出费率 0%。</div>
+			</div>
+			<div class="row">
+				<div class="col-33 col-center">保障方式</div>
+				<div class="col-66 col-center">{{current.subject.guarantee_mode}}</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

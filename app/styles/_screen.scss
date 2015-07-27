@@ -23,9 +23,6 @@ and (max-device-height : 480px) { // iphone 4
 				margin-bottom: 30px;
 			}
 		}
-		.seize-wrapper{
-			@include seize(96px, 80px);
-		}
 	}
 	#buy_card{
 		margin-top: 0;

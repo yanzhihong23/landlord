@@ -1,44 +1,60 @@
 'use strict';
 
 angular.module('landlordApp')
-	.service('accountService', function(LandlordApi, userConfig) {
+	.service('accountService', function($rootScope, LandlordApi, userConfig) {
 		var self = this;
 
+		this.invest = 0;
+		this.recharge = 0;
+		this.withdraw = 0;
 		// export balance
-		this.balance = {};
+		this.balance = {
+			total: 0,
+			available: 0,
+			frozen: 0
+		};
+
+		this.earnings = {
+			total: 0,
+			current_month: 0,
+			next_month: 0
+		};
 		// export investing items
-		this.investingIds = [];
+		this.investing_ids = [];
 
 		this.update = function() {
 			// reset investing ids
-			self.investingIds.splice(0, self.investingIds.length);
+			self.investing_ids.splice(0, self.investing_ids.length);
 
-			LandlordApi.getLandlordAccountInfo(userConfig.getSessionId())
+			LandlordApi.getAccountInfo(userConfig.getSessionId())
 				.success(function(data) {
 					if(data.flag === 1) {
 						data = data.data;
 
-						var investingItems = data.vipAccounts;
-  					var idObj = {};
-  					if(investingItems.length) {
-  						for(var i=0; i<investingItems.length; i++) {
-  							var id = investingItems[i].fp_id;
-  							if(!idObj[id]) {
-  								idObj[id] = 1;
-  								// update investing items
-                  self.investingIds.push(id);
-  							}
-  						}
-  					}
+						self.invest = +data.invest || 0;
+						self.recharge = +data.recharge || 0;
+						self.withdraw = +data.withdraw || 0;
 
-  					// update balance
-						self.balance.available = +data.balanceUsable || 0;
-						self.balance.frozen = +data.lockbalance || 0;
-						self.balance.invest = +data.invest || 0;
-						self.balance.earnings = +data.earnings || 0;
+						self.balance.total = +data.balance.total || 0;
+						self.balance.available = +data.balance.available || 0;
+						self.balance.frozen = +data.balance.frozen || 0;
+
+						self.earnings.total = +data.earnings.total || 0;
+						self.earnings.current_month = +data.earnings.current_month || 0;
+						self.earnings.next_month = +data.earnings.next_month || 0;
+
+						data.investing_ids && data.investing_ids.forEach(function(obj) {
+							self.investing_ids.push(obj);
+						});
+
+						self.investing_ids.reverse();
 					}
-				})
+				});
 		};
 
 		self.update();
+
+		$rootScope.$on('loginSuc', function() {
+			self.update();
+		});
 	})

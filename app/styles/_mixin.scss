@@ -1,8 +1,8 @@
-$energized: 						#b28c41;
+// $energized: 						#b28c41;
 $energized-light:      #f1a31a;
 $energized-bg:         rgba(220, 168, 77, .8);
-$button-default-bg: rgba(246, 179, 62,.95);
-$button-disabled-bg: rgba(204,204,204,.85);
+// $button-default-bg: rgba(246, 179, 62,.95);
+// $button-disabled-bg: rgba(204,204,204,.85);
 $white:							#fff;
 $black:							#000;
 $gray-dark: 				#6f7680;
@@ -12,6 +12,7 @@ $blue:              #007aff;
 $blue-bg:           rgba(86,115,175,.8);
 
 $border-radius-size:  6px;
+$border-color: #ddd;
 
 
 @mixin float ($side: left) {
@@ -80,87 +81,6 @@ $border-radius-size:  6px;
     background: $color;
     box-shadow: inset 0 0 0 $size/10*3 $white;
   }
-}
-
-@mixin seize($seize-size: 106px, $seize-inner-size: 90px) {
-  // .seize-wrapper{
-    position: absolute;
-    left: 50%;
-    margin-left: -$seize-size/2;
-    bottom: -$seize-size/2 - 8;
-    display: flex;
-    align-items: center;
-    width: $seize-size;
-    height: $seize-size;
-    border-radius: 73px;
-    background-color: $white;
-    text-align: center;
-    border: solid 1px $energized-light;
-    .seize{
-      width: $seize-inner-size;
-      height: $seize-inner-size;
-      border-radius: $seize-inner-size/2;
-      margin: auto;
-      box-shadow: inset 0px -3px 0px 0 $energized;
-      background-color: #f6b33e;
-      font-size: 46px;
-      line-height: $seize-inner-size;
-      font-weight: bold;
-      cursor: pointer;
-      a img{
-        vertical-align: middle;
-        padding-bottom: 17px;
-      }
-      a, a:focus, a:hover{
-        display: block;
-        color: $white;
-      }
-      .countdown{
-        position: absolute;
-        width: 100%;
-        bottom: 19%;
-        left: 0;
-        font-size: 12px;
-        color: $white;
-        line-height: 1;
-        .odometer{
-          width: 5px;
-        }
-      }
-    }
-    &.disabled{
-      border-color: $gray;
-      &:before{
-        border-bottom-color: $gray;
-      }
-      .seize{
-        background: $gray;
-        font-size: 20px;
-        box-shadow: none;
-      }
-    }
-    &:before,&:after{
-      content: '';
-      position: absolute;
-      top: -13px;
-      left: 50%;
-      margin-left: -10px;
-      width: 0;
-      height: 0;
-      border-left-width: 10px;
-      border-right-width: 10px;
-      border-bottom-width: 14px;
-      border-color: transparent;
-      border-style: solid;
-      border-top-width: 0;
-      border-bottom-color: #f6b33e;
-      background: transparent;
-    }
-    &:after{
-      border-bottom-color: #fff;
-      top: -11px
-    }
-  // }
 }
 
 

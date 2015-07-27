@@ -1,0 +1,13 @@
+<ion-view view-title="账户安全" class="whitesmoke-bg">
+	<ion-content>
+		<div class="padding-top">
+			<a class="item item-icon-left" ng-class="{'item-arrow-right': !info.kyc}" ng-href="{{info.setKyc}}">
+		    <i class="icon ion-person positive"></i>
+		    实名信息
+		    <span class="item-note">
+	        {{info.kyc ? info.kyc : '未设置'}}
+	      </span>
+		  </a>
+		</div>
+	</ion-content>
+</ion-view>

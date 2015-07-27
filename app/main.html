@@ -54,7 +54,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <!-- <link rel="stylesheet" href="/bower_components/ionic/release/css/ionic.css" /> -->
+    <link rel="stylesheet" href="/bower_components/ionic/release/css/ionic.css" />
     <link rel="stylesheet" href="/bower_components/angularjs-toaster/toaster.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -64,9 +64,10 @@
     <!-- endbuild -->
   </head>
   <body ng-app="landlordApp">
-    <ion-nav-bar class="bar-dark" align-title="center">
+    <div class='home-title-tabs' ng-init='newTab=true' ng-show="showHomeTabs" ng-cloak><span class='inline-block dbl-padding-horizontal' ng-class='{active:newTab}' ng-click='newTab=true;oldTab=false;alert(1)'>最新</span><span class='inline-block dbl-padding-horizontal' ng-class='{active:oldTab}' ng-click='oldTab=true;newTab=false'>往期</span></div>
+    <ion-nav-bar class="bar-energized" align-title="center">
       <ion-nav-back-button class="button-clear" ng-cloak>
-        <i class="ion-ios-arrow-left"></i>
+        <!-- <i class="ion-ios-arrow-left"></i> -->
       </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
@@ -106,6 +107,7 @@
     <script src="/bower_components/angular-md5/angular-md5.js"></script>
     <script src="/bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="/bower_components/angularjs-toaster/toaster.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -117,14 +119,19 @@
         <script src="scripts/services/account.service.js"></script>
         <script src="scripts/services/bank.service.js"></script>
         <script src="scripts/services/subject.service.js"></script>
+        <script src="scripts/services/coupon.service.js"></script>
+        <script src="scripts/services/order.service.js"></script>
         <script src="scripts/services/user-api.js"></script>
         <script src="scripts/services/pay-api.js"></script>
         <script src="scripts/services/bank-api.js"></script>
         <script src="scripts/services/landlord-api.js"></script>
         <script src="scripts/directives.js"></script>
+        <script src="scripts/filters.js"></script>
         <script src="scripts/controllers/main.controller.js"></script>
         <script src="scripts/controllers/home.controller.js"></script>
-        <script src="scripts/controllers/history.controller.js"></script>
+        <script src="scripts/controllers/subject.controller.js"></script>
+        <script src="scripts/controllers/coupon.controller.js"></script>
+        <script src="scripts/controllers/welfare.controller.js"></script>
         <script src="scripts/controllers/more.controller.js"></script>
         <script src="scripts/controllers/setting.controller.js"></script>
         <script src="scripts/controllers/buy.controller.js"></script>
@@ -136,6 +143,7 @@
         <script src="scripts/controllers/orders.controller.js"></script>
         <script src="scripts/controllers/cards.controller.js"></script>
         <script src="scripts/controllers/withdraw.controller.js"></script>
+        <script src="scripts/controllers/reserve.controller.js"></script>
         <!-- endbuild -->
     <script>
         var worker = new Worker("scripts/worker.js");

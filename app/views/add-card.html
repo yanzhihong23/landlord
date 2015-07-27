@@ -1,35 +1,47 @@
 <ion-view view-title="添加银行卡" class="whitesmoke-bg">
-	<ion-content class="padding-top" id="pay">
+	<ion-content class="padding" id="pay">
+		<div class="padding-vertical">只能添加以 <span class="bold energized">{{pay.realname}}</span> 开户的银行借记卡</div>
 		<form name="addForm" ng-submit="submit()">
 			<section class="list">
-				<label class="item item-input item-select" ng-click="selectBank()">
-			    <span class="input-label">银行</span>
-	        <span class="select">{{pay.bankName}}</span>
+				<label class="item item-input item-arrow-right" ng-click="selectBank()">
+			    <span class="input-label">{{pay.bankName}}</span>
 			  </label>
-			  <div class="item item-input">
-			    <span class="input-label">卡号</span>
-			    <input type="text" ng-model="pay.cardNo" ng-pattern="/^[0-9]{16,19}$/" placeholder="银行卡号" clear-input required>
+			  <div class="padding-top">
+			  	<div class="item item-input">
+			  	  <input type="text" ng-model="pay.cardNo" ng-pattern="/^[0-9]{16,19}$/" placeholder="银行卡号" clear-input required>
+			  	</div>
 			  </div>
-			  <div class="item item-input">
-			    <span class="input-label">手机号</span>
-			    <input type="text" ng-model="pay.phone" ng-pattern="/^[0-9]{11}$/" placeholder="银行预留手机" clear-input required>
-			  </div>
-			  <div class="item item-input vcode">
-			    <span class="input-label">验证码</span>
-			    <input type="text" ng-model="pay.vcode" ng-pattern="/^[\s\S]{6}$/" placeholder="短信验证码" required>
-			  </div>
-			  <button type="button" class="button button-small" ng-click="sendSms()" ng-disabled="!pay.cardNo || !pay.phone || resendCountdown || clicked">
-			  	<span ng-hide="resendCountdown">获取验证码</span>
-			  	<span ng-show="resendCountdown">{{resendCountdown}}秒后重新获取</span>
-			  </button>
-			</section>
-			<div class="padding-bottom fs-xs text-center" ng-init="tos=true">
-		  	<input type="checkbox" class="small tos" ng-model="tos"> 同意<a class="blue" href="#/tab/quickPayTos">《快钱快捷支付协议》</a>
-		  </div>
 
-		  <div class="submit">
-		  	<button type="submit" class="button button-full" ng-disabled="addForm.$invalid || !tos || clicked">添加</button>
-		  </div>
+			  <div class="dbl-padding-top">
+			  	<div class="padding-bottom">办卡时预留在银行的手机号</div>
+			  	<div class="item item-input">
+			  	  <input type="text" name="phone" ng-model="pay.phone" ng-pattern="/^[0-9]{11}$/" placeholder="手机号码" clear-input required>
+			  	</div>
+			  </div>
+
+			  <div class="padding-top clearfix">
+			  	<div class="pull-left" style="width: 55%">
+			  		<div class="item item-input">
+			  		  <input type="tel" ng-model="pay.vcode" ng-pattern="/^[\s\S]{6}$/"  placeholder="短信验证码" clear-input required>
+			  		</div>
+			  	</div>
+			  	<div class="pull-right" style="width: 40%">
+			  		<button type="button" class="button button-block button-energized no-margin" ng-click="sendSms()" ng-disabled="clicked || resendCountdown || addForm.phone.$invalid">
+			  		  <span ng-show="resendCountdown" class="fs-xs">{{resendCountdown}}秒后重新发送</span>
+			  		  <span ng-hide="resendCountdown">获取验证码</span>
+			  		</button>
+			  	</div>
+			  </div>
+
+			</section>
+
+
+		  <button type="submit" class="button button-block button-energized" ng-disabled="addForm.$invalid || clicked">添加</button>
+
+	  	<div class="padding gray text-center fs-xs">
+	  		添加即表示同意<a class="positive" href="#/tab/quickPayTos">《快钱快捷支付协议》</a>
+	  	</div>
+
 	  </form>
 	</ion-content>
 </ion-view>

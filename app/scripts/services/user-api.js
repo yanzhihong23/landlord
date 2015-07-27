@@ -144,6 +144,19 @@ angular.module('landlordApp')
 			})
 		};
 
+		this.doKyc = function(sessionId, realname, idNo) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/degreecard',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					myName: realname,
+					myCard: idNo
+				})
+			});
+		};
+
 		this.sendSmsForRetrievePassword = function(mobile) {
 			return $http({
 				method: 'POST',

@@ -1,15 +1,24 @@
-<ion-view view-title="我的银行卡" class="whitesmoke-bg">
-	<ion-nav-buttons side="right">
+<ion-view view-title="我的银行卡" class="whitesmoke-bg" id="my_cards">
+	<!-- <ion-nav-buttons side="right">
     <button class="button button-icon" ng-click="addNew()"><i class="icon ion-ios-plus-empty"></i></button>
-	</ion-nav-buttons>
+	</ion-nav-buttons> -->
 	<ion-content>
-		<ul class="list padding-vertical">
-			<li class="item item-icon-left" ng-repeat="card in cardList">
-				<i class="icon bank-icon" ng-class="card.shortName"></i>
-				{{card.name}}
-				<span class="item-note">
-					尾号{{card.tailNo}}
-				</span>
+		<div class="margin-vertical">
+			<ion-list>
+				<ion-item ng-repeat="card in cardList" class="item-icon-left">
+					<i class="icon bank-icon" ng-class="card.shortName"></i>
+			  	{{card.name}}<br><span class="gray">尾号{{card.tailNo}}</span>
+					<ion-option-button class="button-assertive" ng-click="delete($index)">
+			      删除
+			    </ion-option-button>
+				</ion-item>
+			</ion-list>
+		</div>
+		
+		<ul class="list">
+			<li class="item item-icon-left item-arrow-right" ng-click="addNew()">
+				<i class="icon ion-ios-plus gray-light"></i>
+				添加银行卡
 			</li>
 		</ul>
 	</ion-content>

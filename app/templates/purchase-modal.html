@@ -1,0 +1,27 @@
+<ion-modal-view id="purchase_modal">
+  <div class="card">
+  	<section class="text-center">
+      <div class="dbl-margin fs-md">请输入支付密码</div>
+      <div class="dbl-padding-bottom energized amount">{{order.pay | currency:'￥'}}</div>
+    </section>
+    <div class="item item-arrow-right" ng-hide="order.payMode == 2" ng-click="selectCard()">
+      <div class="bold">{{order.card.name}}（尾号{{order.card.tailNo}}）</div>
+      <div class="gray">限额5,000.00</div>
+    </div>
+    <div class="list list-inset">
+      <div class="item item-input">
+        <input type="password" ng-model="order.payPassword" ng-pattern="/^[\s\S]{6,16}$/" placeholder="支付密码" clear-input>
+      </div>
+    </div>
+    <section>
+      <div class="row cmds">
+        <div class="col">
+          <button class="button button-block button-stable" ng-click="modalCancel()">取消</button>
+        </div>
+        <div class="col">
+          <button class="button button-block button-balanced" ng-click="modalConfirm()" ng-disabled="!order.payPassword">确定</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</ion-modal-view>

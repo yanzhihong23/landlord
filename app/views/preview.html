@@ -1,0 +1,12 @@
+<ion-view view-title="{{preview.index}}/{{current.house.previews.length}}" id="preview" class="">
+	<ion-content>
+		<ion-slide-box show-page="false" delegate-handle="preivew" on-slide-changed="onSlideChanged($index)">
+			<ion-slide ng-repeat="p in current.house.previews">
+				<div class="box">
+					<!-- <img src="images/preview.jpg" width="100%"> -->
+					<img ng-src="{{p}}" width="100%">
+				</div>
+			</ion-slide>
+		</ion-slide-box>
+	</ion-content>
+</ion-view>

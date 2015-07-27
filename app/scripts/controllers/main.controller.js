@@ -8,10 +8,22 @@
  * Controller of the landlordApp
  */
 angular.module('landlordApp')
-	.controller('MainCtrl', function($scope) {
+	.controller('MainCtrl', function($scope, $rootScope, $state) {
 		$scope.house = {};
 		$scope.order = {};
 		$scope.pay = {};
+
+		var reset = function() {
+    	$rootScope.hideTabs = !/tabs.home|tabs.info|tabs.welfare/.test($state.current.name);
+    };
+
+    $rootScope.$on('$ionicView.beforeEnter', function() {
+      reset();
+    });
+
+    $rootScope.$on('$ionicView.afterEnter', function() {
+      reset();
+    });
 	})
 	.controller('StartupCtrl', function($scope, $state, $timeout, utils) {
 		$scope.goHome = function() {
@@ -25,7 +37,7 @@ angular.module('landlordApp')
 			$ionicHistory.goBack();
 		};
 	})
-	.controller('TosCtrl', function($scope, $rootScope, $state, $ionicHistory, utils, userConfig) {
+	.controller('TosCtrl', function($scope, $state, userConfig, localStorageService, orderService) {
 		var accountInfo = userConfig.getAccountInfo();
 		$scope.userInfo = {
 			realname: accountInfo.realname,
@@ -33,14 +45,19 @@ angular.module('landlordApp')
 			mobile: accountInfo.mobilenum
 		};
 
-		$scope.close = function() {
-			if($ionicHistory.backView()) {
-				$ionicHistory.goBack();
-			} else {
-				utils.disableBack();
-				$state.go('tabs.info');
-			}
-		};
+		$scope.current = localStorageService.get('subjectDetail');
+
+		if($state.current.name === 'tabs.tos') {
+			var amount = orderService.order && orderService.order.amount;
+			$scope.current.buy_records = [
+				{
+					date: moment().format('YYYY-MM-DD HH:mm:ss'),
+					invest: amount
+				}
+			]
+			$scope.current.invest = amount;
+		}
+
 	})
 	.controller('RetrieveTxPwdCtrl', function($scope, $state, userConfig, UserApi, toaster, md5, $ionicHistory, $timeout, utils) {
 		var sessionId = userConfig.getSessionId();

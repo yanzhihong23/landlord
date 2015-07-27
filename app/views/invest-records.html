@@ -1,0 +1,35 @@
+<ion-view view-title="房产记录" class="whitesmoke-bg" id="invest_records">
+	<ion-content>
+		<div class="card dark" ng-repeat="item in items">
+			<div class="title" ng-click="showSubject($index)">
+				<div class="name bold">{{item.subject.title.substr(7)}} <span class="padding-left">{{item.house.name}}</span></div>
+				<div><small>预期年化收益：</small>{{item.subject.annual_yield}}%    <small class="padding-left">期限：</small>{{item.subject.duration}}个月 </div>
+				<div><small>投资日期：</small>{{item.subject.interest_start_date | date:'yyyy.MM.dd'}} - {{item.subject.interest_end_date | date:'yyyy.MM.dd'}}</div>
+			</div>
+			<div class="invests">
+				<div class="row padding" ng-repeat="br in item.buy_records">
+					<div class="col-60">投资{{$index+1}}: {{br.invest | currency:'￥'}}</div>
+					<div class="col-40" ng-class="{gray: !br.coupons}">加息券: <span ng-show="!br.coupons">无</span><span ng-show="br.coupons.length"><span ng-repeat="c in br.coupons" ng-show="c.type==1">+{{c.value}}%</span></span></div>
+				</div>
+			</div>
+			<div class="row no-padding">
+				<div class="col-66 dbl-padding-horizontal padding-vertical border-right" triangle-energized ng-click="showRefund($index)">
+					<div class="status bold">
+						<span class="energized" ng-hide="item.completed">投资中</span>
+						<span class="balanced" ng-show="item.completed">已完成</span>
+					</div>
+					<div>已结收入：{{item.earning || 0 | currency:'￥'}}</div>
+				</div>
+				<div class="col-33 col-center text-center positive" ng-click="goToTos($index)">投资协议</div>
+			</div>
+		</div>
+		<ion-infinite-scroll
+		  ng-if="hasMoreData"
+		  on-infinite="loadMore()"
+		  icon="ion-loading-c"
+		  spinner="lines"
+		  immediate-check="true"
+		  distance="1%">
+		</ion-infinite-scroll>
+	</ion-content>
+</ion-view>

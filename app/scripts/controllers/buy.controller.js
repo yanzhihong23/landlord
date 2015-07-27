@@ -1,215 +1,144 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster, $ionicLoading) {
-		const INCREMENT = $scope.house.increment;
+	.controller('BuyCtrl', function($scope, userConfig, $state, $rootScope, UserApi, utils, $timeout, LandlordApi, $window, toaster, $ionicLoading, orderService, couponService) {
+		$scope.selected = couponService.selected;
+		$scope.order = {};
+		var subject = $scope.subject = orderService.subject.subject;
+		const PER = +subject.amount.per;
 
 		var init = function() {
 			console.log('----------- init BuyCtrl -----------');
-	  	var accountInfo = userConfig.getAccountInfo();
-	  	if(accountInfo) {
-	  		$scope.balance = ~~accountInfo.balanceUsable/10000;
-	  	}
 
-	  	var annual = $scope.house.annualYield*INCREMENT/100;
+	  	var annualIncome = subject.annual_yield/100*PER;
+	  	var amount = subject.amount;
 			$scope.item = {
-				mIncome: (annual/12).toFixed(2) || 0,
-				total: (annual/12*$scope.house.duration).toFixed(2) || 0,
-				limit: Math.min($scope.house.maxPrice, $scope.house.remain) || 1,
-				volume: ~~($scope.house.minPrice*10000/INCREMENT)
+				per: PER,
+				monthIncome: +(annualIncome/12).toFixed(2) || 0,
+				totalIncome: +(annualIncome/12*subject.duration).toFixed(2) || 0,
+				maxVolume: ~~(Math.min(amount.max, amount.sum - amount.complete - amount.adjust)/PER) || 1,
+				minVolume: ~~(amount.min/PER)
 			};
 
-			$scope.buy = angular.copy($scope.item);
+			$scope.order = {
+				volume: $scope.item.minVolume,
+				amount: $scope.item.minVolume*$scope.item.per,
+				income: $scope.item.minVolume*$scope.item.totalIncome
+			};
 
-			// $scope.buy.volume = $scope.buy.minVolume = ~~($scope.house.minPrice*10000/INCREMENT);
+			$scope.coupons = couponService.coupons;
 
-			$scope.validInterests = [];
-			$scope.validCoupons = [];
-
-			LandlordApi.getCouponList(userConfig.getSessionId(), $scope.house.key, $scope.house.type)
-				.success(function(data) {
-					if(data.flag === 1) {
-						var data = data.data;
-						var filter = function(obj) {
-							return {
-								code: obj.uv_code,
-								id: obj.uv_id,
-								value: obj.value,
-								minimum: obj.minimum,
-								sum: obj.uv_code + ':' + obj.uv_id + ':' + obj.value
-							};
-						}
-
-						// init coupon data
-						if(data.coupon && data.coupon.length) {
-							$scope.validCoupons = data.coupon.map(filter);
-							couponsInit();
-						}
-						$scope.showCoupon = $scope.validCoupons.length < 2 || $window.innerHeight > 568; // 568 iphone5
-						calcTotalPay();
-
-						// init interest data
-						if(data.interest && data.interest.length) {
-							$scope.validInterests = data.interest.map(filter);
-							interestsInit();
-						}
-						$scope.showInterest = $scope.validInterests.length < 2 || $window.innerHeight > 568;
-						calcExtraEarn();
-					}
-				});
+			$scope.$watch('coupons', function(val) {
+				if(val) {
+					$scope.coupons.interest = val.interest;
+					interestsInit();
+				}
+			}, true);
 		};
 
 		$scope.goTos = function() {
 			if($rootScope.landlord) {
         $rootScope.landlord.records = [{
         	date: utils.getDate(),
-        	amount: $scope.buy.volume*INCREMENT
+        	amount: $scope.order.volume*PER
         }];
       }
       $state.go('tabs.tos');
 		};
 
-		$scope.showInfo = function() {
-			toaster.pop('info', '关注“大房东投资计划”微信公众号，获取最新活动内容，即有机会获得加息券和现金券。');
-		};
-
 		$scope.increase = function() {
-			$scope.buy.volume += 1;
+			$scope.order.volume += 1;
 		};
 
 		$scope.decrease = function() {
-			$scope.buy.volume -= 1;
+			$scope.order.volume -= 1;
 		};
 
 		var interestsInit = function() {
-			if(!$scope.validInterests.length) return;
+			if(!$scope.coupons.interest.length) return;
 
-			var limit = +$scope.buy.volume*10000;
-			$scope.validInterests = $scope.validInterests.map(function(obj) {
+			var limit = +$scope.order.volume*PER;
+			$scope.coupons.interest = $scope.coupons.interest.map(function(obj) {
 				obj.checked = false;
 				obj.disabled = +obj.minimum > limit;
 
 				return obj;
 			});
 
-			var checkedItem, maxValue;
-			for(var i=0, len=$scope.validInterests.length; i<len; i++) {
-				if(!$scope.validInterests[i].disabled) {
-					if(!angular.isDefined(checkedItem) || +$scope.validInterests[i].value > maxValue) {
-						checkedItem = i;
-						maxValue = +$scope.validInterests[i].value;
-					} 
+			var maxValue;
+			$scope.selected.interest = null;
+			for(var i=0, len=$scope.coupons.interest.length; i<len; i++) {
+				if(!$scope.coupons.interest[i].disabled) {
+					if($scope.selected.interest === null || +$scope.coupons.interest[i].value > maxValue) {
+						$scope.selected.interest = i;
+						maxValue = +$scope.coupons.interest[i].value;
+					}
 				}
 			}
 
-			if(angular.isDefined(checkedItem)) $scope.validInterests[checkedItem].checked = true;
+			if($scope.selected.interest !== null) $scope.coupons.interest[$scope.selected.interest].checked = true;
 		};
 
-		var couponsInit = function() {
-			if(!$scope.validCoupons.length) return;
-
-			var limit = +$scope.buy.volume*10000;
-			$scope.validCoupons = $scope.validCoupons.map(function(obj) {
-				if(obj.minimum > limit) {
-					obj.disabled = true;
-					obj.checked = false;
-				} else {
-					obj.disabled = false;
-					obj.checked = true;
-				}
-
-				return obj;
-			});
-		};
-
-		$scope.$watch('buy.volume', function(val, old) {
-			var limit = $scope.item.limit*10000/INCREMENT;
+		$scope.$watch('order.volume', function(val, old) {
+			var limit = $scope.item.maxVolume;
 
 			val = ~~val;
-			if(val < $scope.item.volume) {
-				val = $scope.item.volume;
-			} else if(val > limit) {
+			if(val > limit) {
 				val = limit;
 			}
 
-			$scope.buy.volume = val;
-			$scope.buy.mIncome = ($scope.item.mIncome*val).toFixed(2);
-			$scope.buy.total = ($scope.item.total*val).toFixed(2);
-
-			$scope.$parent.pay.count = val;
-			$scope.$parent.order.total = val*INCREMENT;
-
-			// for tos
-			$rootScope.landlord && ($rootScope.landlord.total = val*INCREMENT);
+			$scope.order.volume = val;
+			$scope.order.income = +($scope.item.totalIncome*val).toFixed(2);
+			$scope.order.amount = $scope.item.per*val;
 
 			interestsInit();
-
-			couponsInit();
-
-			// calculate total with coupons
-			calcTotalPay();
-			// calculate extra earning with interests
 			calcExtraEarn();
 		});
 
 		$scope.buyNow = function() {
-			$ionicLoading.show();
-			UserApi.generateOrderNo(userConfig.getSessionId())
-				.success(function(data, status, headers, config) {
-					$ionicLoading.hide();
-					if(data.flag === 1) {
-						$scope.orderNo = data.data;
-						$scope.pay.extRefNo = data.data;
-						$scope.pay.earning = +$scope.buy.total + ($scope.buy.extraEarn || 0);
+			// $ionicLoading.show();
+			// UserApi.generateOrderNo(userConfig.getSessionId())
+			// 	.success(function(data, status, headers, config) {
+			// 		if(data.flag === 1) {
+			// 			$scope.orderNo = data.data;
+			// 			$scope.pay.extRefNo = data.data;
+			// 		}
+			// 	});
 
-						$state.go('tabs.order');
-					}
-				});
+			// orderService.order = $scope.order;
+
+			$state.go('tabs.order');
 		};
 
-		$scope.$watch('validInterests', function() {
+		$scope.$watch('selected', function(val) {
 			calcExtraEarn();
 		}, true);
 
-		$scope.$watch('validCoupons', function() {
-			calcTotalPay();
-		}, true);
-
-		var calcTotalPay = function() {
-			$scope.order.total = $scope.buy.volume*INCREMENT;
-			var coupons = [];
-			for(var i=0; i<$scope.validCoupons.length; i++) {
-				if($scope.validCoupons[i].checked) {
-					$scope.order.total -= +$scope.validCoupons[i].value; 
-					coupons.push($scope.validCoupons[i].sum);
-				}
-			}
-			$scope.pay.coupons = coupons;
-		};
-
 		var calcExtraEarn = function() {
-			var checked = false;
-			for(var i=0; i<$scope.validInterests.length; i++) {
-				if($scope.validInterests[i].checked) {
-					$scope.buy.extraEarn = $scope.buy.volume/100*INCREMENT*(+$scope.validInterests[i].value)/12*$scope.house.duration;
-					$scope.pay.interest = $scope.validInterests[i].sum;
-					checked = true;
-				}
+			if($scope.selected.interest === null) {
+				$scope.order.extraEarn = 0;
+				$scope.order.interest = '';
+			} else {
+				$scope.order.extraEarn = $scope.order.volume/100*PER*(+$scope.coupons.interest[$scope.selected.interest].value)/12*subject.duration;
+				$scope.order.interest = $scope.coupons.interest[$scope.selected.interest];
 			}
 
-			if(!checked) {
-				$scope.buy.extraEarn = 0;
-				$scope.pay.interest = '';
-			}
+			orderService.order = $scope.order;
+
+			console.log($scope.order);
 		};
 
 		$scope.selectInterest = function(index) {
-			if(!$scope.validInterests[index].disabled) {
-				for(var i=0; i<$scope.validInterests.length;i++) {
-					$scope.validInterests[i].checked = i===index;
+			if(!$scope.coupons.interest[index].disabled) {
+				for(var i=0; i<$scope.coupons.interest.length;i++) {
+					$scope.coupons.interest[i].checked = i===index;
 				}
 			}
-		}; 
+		};
+
+		$scope.selectInterestCoupon = function() {
+			$state.go('tabs.coupons', {type: 'interest'});
+		};
 
 		// reset
 		$rootScope.$on('landlordUpdated', function() {

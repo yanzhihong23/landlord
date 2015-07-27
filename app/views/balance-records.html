@@ -1,0 +1,33 @@
+<ion-view view-title="充值提现记录" class="whitesmoke-bg" id="balance_records">
+	<div class="row no-padding dark text-center init-line-height total">
+		<div class="col dbl-padding border-right">
+			<div>累计充值</div>
+			<div class="fs-lg balanced">{{info.recharge | currency:''}}</div>
+		</div>
+		<div class="col dbl-padding">
+			<div>累计提现</div>
+			<div class="fs-lg assertive">{{info.withdraw | currency:''}}</div>
+		</div>
+	</div>
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="item in items">
+				<div class="fs-md">
+					{{item.desc}}
+					<div class="pull-right" ng-class="{balanced: +item.amount>0, assertive: +item.amount<0}">
+						{{item.amount | currency: (+item.amount>0 ? '+':'')}}
+					</div>
+				</div>
+				<div class="fs-xs gray">{{item.date}}<div class="pull-right">余额: {{item.balance | currency:''}}</div></div>
+			</ion-item>
+		</ion-list>
+		<ion-infinite-scroll
+		  ng-if="hasMoreData"
+		  on-infinite="loadMore()"
+		  icon="ion-loading-c"
+		  spinner="lines"
+		  immediate-check="true"
+		  distance="1%">
+		</ion-infinite-scroll>
+	</ion-content>
+</ion-view>

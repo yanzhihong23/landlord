@@ -1,14 +1,29 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('MyCardsCtrl', function($scope, $rootScope, $state, bankService) {
+	.controller('MyCardsCtrl', function($scope, $rootScope, $state, bankService, utils, userConfig) {
 		var init = function() {
 			console.log('------------- init MyCardsCtrl --------------');
 			$scope.cardList = bankService.getBoundBankList();
 		};
 
 		$scope.addNew = function() {
-			$state.go('tabs.addCard');
+			var accountInfo = userConfig.getAccountInfo();
+			if(accountInfo.realname && accountInfo.idnum) {
+				$state.go('tabs.addCard');
+			} else {
+				$state.go('tabs.kyc');
+			}
+		};
+
+		$scope.delete = function(index) {
+			utils.confirm({
+				content: '确定要删除这张银行卡吗？',
+				okType: 'button-balanced',
+				onOk: function() {
+					$scope.cardList.splice(index, 1);
+				}
+			})
 		};
 
 		$rootScope.$on('boundBankListUpdated', function(evt) {
@@ -20,15 +35,16 @@ angular.module('landlordApp')
 	.controller('AddCardCtrl', function($scope, $rootScope, $state, userConfig, PayApi, bankService, toaster, $ionicLoading, $ionicActionSheet, utils) {
 		var accountInfo = userConfig.getAccountInfo(),
 				sessionId = userConfig.getSessionId(),
-				mId = accountInfo && accountInfo.m_id, 
+				mId = accountInfo && accountInfo.m_id,
 				realname = accountInfo.realname,
 				idNo = accountInfo.idnum,
-				extRefNo, 
+				extRefNo,
 				token,
 				resendCountdown = utils.resendCountdown($scope);
 
 		$scope.clicked = false;
 		$scope.bankList = bankService.getBankList();
+		$scope.pay.realname = accountInfo.realname;
 		if(!$scope.pay.bankCode)  {
 			$scope.pay.bankCode = $scope.bankList[0].value;
 			$scope.pay.bankName = $scope.bankList[0].text;
@@ -67,7 +83,6 @@ angular.module('landlordApp')
 			$ionicLoading.show();
 			PayApi.bindBankCard(mId, sessionId, extRefNo, realname, idNo, $scope.pay.cardNo, $scope.pay.bankCode, $scope.pay.phone, $scope.pay.vcode, token)
 				.success(function(data) {
-					$ionicLoading.hide();
 					if(data.flag === 1) {
 						toaster.pop('success', data.msg);
 						// update bankService

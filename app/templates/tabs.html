@@ -1,19 +1,19 @@
-<ion-tabs class="tabs-icon-top tabs-light">
+<ion-tabs class="tabs-icon-top tabs-light"  ng-class="{'tabs-item-hide': hideTabs}">
 
-  <ion-tab title="当期热卖" icon-on="ion-ios-home" icon-off="ion-ios-home-outline" href="#/tab/home">
+  <ion-tab title="投资" icon-on="i-nono-invest" icon-off="i-nono-invest-outline" href="#/tab/home">
     <ion-nav-view name="home-tab"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="往期回顾" icon-on="ion-ios-copy" icon-off="ion-ios-copy-outline" href="#/tab/history">
-    <ion-nav-view name="history-tab"></ion-nav-view>
+  <ion-tab title="福利" icon-on="i-nono-gift" icon-off="i-nono-gift-outline" href="#/tab/welfare">
+    <ion-nav-view name="welfare-tab"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="我的房产" icon-on="ion-ios-person" icon-off="ion-ios-person-outline" href="#/tab/info" hidden="{{!isLogined}}">
+  <ion-tab title="我的" icon-on="i-nono-person" icon-off="i-nono-person-outline" href="#/tab/info">
     <ion-nav-view name="info-tab"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="更多" icon-on="ion-ios-more" icon-off="ion-ios-more-outline" href="#/tab/more" hidden="{{!isLogined}}">
+  <!-- <ion-tab title="更多" icon-on="ion-ios-more" icon-off="ion-ios-more-outline" href="#/tab/more">
     <ion-nav-view name="more-tab"></ion-nav-view>
-  </ion-tab>
+  </ion-tab> -->
 
 </ion-tabs>

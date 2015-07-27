@@ -44,7 +44,6 @@ angular.module('landlordApp')
 			$ionicLoading.show();
 			BankApi.withdraw(sessionId, $scope.withdraw.result, $scope.card.id)
 				.success(function(data) {
-					$ionicLoading.hide();
 					if(data.flag === 8) { // success
 						accountService.update();
 						utils.goBack();

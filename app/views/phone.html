@@ -1,12 +1,11 @@
-<ion-view view-title="手机号" id="phone_view">
+<ion-view view-title="手机号" id="phone_view" class="whitesmoke-bg">
 	<ion-content>
-		<div class="logo-part"></div>
-		<div class="card padding bottom-border">
+		<div class="padding bottom-border">
 			<form name="phoneForm" ng-submit="sendSms()">
 				<div class="item item-input white" >
 			    <input type="tel" ng-model="account.phone" placeholder="房东大人，请填写手机号" ng-pattern="/^[0-9]{11}$/" ng-trim=true clear-input required>
 			  </div>
-			  <button type="submit" class="button button-full" ng-disabled="phoneForm.$invalid || clicked">下一步</button>
+			  <button type="submit" class="button button-full button-energized" ng-disabled="phoneForm.$invalid || clicked">下一步</button>
 			</form>
 		</div>
 	</ion-content>

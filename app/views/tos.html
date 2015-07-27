@@ -1,6 +1,6 @@
-<ion-view view-title="{{landlord.fp_title}}协议书">
-  <ion-content class="padding white tos-content">
-协议编号：VIP{{landlord.va_extno}} <br>
+<ion-view view-title="{{current.subject.title}}协议书">
+  <ion-content class="padding dark tos-content whitesmoke-bg">
+协议编号：{{current.contract_number}} <br>
 甲方：{{userInfo.realname}} <br>
 身份证件号码：{{userInfo.id}} <br>
 联系电话：{{userInfo.mobile}} <br>
@@ -22,23 +22,23 @@ b. 甲方自愿同意加入本次服务计划，并自愿遵守乙方网站现�
 		<div class="col-50">申请加入时间</div>
 		<div class="col-50">加入金额（单位:元）</div>
 	</div>
-	<div class="row" ng-repeat="record in landlord.records">
+	<div class="row" ng-repeat="record in current.buy_records">
 		<div class="col-50">{{record.date}}</div>
-		<div class="col-50">{{(record.amount) | currency:''}}</div>
+		<div class="col-50">{{(record.invest) | currency:''}}</div>
 	</div>
 </section>
 
-<div class="text-center">金额总计： {{(landlord.total) | currency:''}}（单位:元）</div>
+<div class="text-center">金额总计： {{current.invest | currency:''}}（单位:元）</div>
 （2） 甲方加入本次服务计划后，乙方将按照甲方首次加入计划的时间先后顺序，将甲方加入计划的金额在乙方平台安排进入优先自动投标。<br>
 <br>
 3. 本次服务计划的具体内容和要求如下：<br>
-（1） 名称：{{landlord.fp_title}}（上下文均称"本次服务计划"）。<br>
+（1） 名称：{{current.subject.title}}（上下文均称"本次服务计划"）。<br>
 （2） 描述：甲方加入本次服务计划后，在锁定期内，加入服务计划的金额将被优先安排自动投标。锁定期结束，系统将会在锁定期的最后一日开始结算，结算完成后的资金将自动划转至用户普通账户中。<br>
 （3） 优先自动投标范围：乙方平台上发布的【实地认证标】【机构担保标】。<br>
-（4） 加入金额要求：最低加入金额为人民币【{{landlord.fp_price_min | currency:''}}】元，并以人民币【{{landlord.fp_price_increment | currency:''}}】元整数倍递增，最高不超过人民币【{{landlord.fp_price_max | currency:''}}】元。<br>
-（5） 匹配期：自 {{landlord.fp_publish_date}} 至 {{landlord.fp_start_date}}。<br>
-（6） 锁定期：自 {{landlord.fp_start_date}} 至 {{landlord.fp_end_date}}。<br>
-（7） 甲方收益：甲方的收益将按本次服务计划所投标的对应的《借款担保协议》分别确认。本期计划预期年化收益【{{landlord.fp_rate_min}}%】，按月收取利息，到期收取本金。<br>
+（4） 加入金额要求：最低加入金额为人民币【{{current.subject.amount.min | currency:''}}】元，并以人民币【{{current.subject.amount.per | currency:''}}】元整数倍递增，最高不超过人民币【{{current.subject.amount.max | currency:''}}】元。<br>
+（5） 匹配期：自 {{current.subject.match_start_date.split(' ')[0]}} 至 {{current.subject.interest_start_date}}。<br>
+（6） 锁定期：自 {{current.subject.interest_start_date}} 至 {{current.subject.interest_end_date}}。<br>
+（7） 甲方收益：甲方的收益将按本次服务计划所投标的对应的《借款担保协议》分别确认。本期计划预期年化收益【{{current.subject.annual_yield}}%】，按月收取利息，到期收取本金。<br>
 （8）退出方式：本服务计划不支持锁定期内提前退出，到期后正常结算退出或以债权转让方式退出。<br>
 充值费:<br>
 a. 在线充值费（充值金额的 0.5%，目前优惠期间内按乙方平台计划详情执行）；<br>

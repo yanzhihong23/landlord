@@ -99,7 +99,6 @@ angular.module('landlordApp')
 			var password = md5.createHash($scope.recharge.password);
 			PayApi.quickPay(mId, sessionId, extRefNo, $scope.recharge.bankCard, $scope.recharge.amount, null, null, payMode, payCode, password)
 				.success(function(data) {
-					$ionicLoading.hide();
 					if(data.flag === 1) {
 						$rootScope.$broadcast('rechargeSuc', $scope.recharge.amount);
 						// reset
@@ -199,7 +198,6 @@ angular.module('landlordApp')
 				$scope.recharge.bankCode, 
 				$scope.recharge.phone)
 			.success(function(data) {
-				$ionicLoading.hide();
 				if(data.flag === 1) {
 					$rootScope.$broadcast('rechargeSuc', $scope.recharge.amount);
 					// reset

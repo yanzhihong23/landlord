@@ -1,0 +1,32 @@
+<ion-view view-title="{{title}}" id="product" class="whitesmoke-bg">
+	<section class="dbl-padding product-tabs" ng-init="type='desc'">
+		<div class="row text-center no-padding">
+			<div class="col" ng-class="{active: type=='desc'}" ng-click="type='desc'">产品介绍</div>
+			<div class="col" ng-class="{active: type=='security'}" ng-click="type='security'">安全保障</div>
+			<div class="col" ng-class="{active: type=='team'}" ng-click="type='team'">专业团队</div>
+		</div>
+	</section>
+
+	<ion-content class="dbl-padding-horizontal">
+		<section class="text-center" ng-show="type=='desc'">
+			<img src="images/ios/apple-touch-icon-180x180.png" width="23%" alt="">
+			<div class="bold fs-lg padding">大房东</div>
+			<div>麦子旗下优质房产移动金融信息服务平台</div>
+			<div class="dbl-margin-vertical text-left">让有融资需求的房产抵押借款人与各类金融机构和投资人进行快速、直观、透明，安全的投融资对接。给予投资人稳妥、安全的投资回报。</div>
+			<div class="bold fs-md padding-bottom">产品原理图</div>
+
+			<img src="images/product/product-info.jpg" width="100%" alt="">
+		</section>
+
+		<section ng-show="type=='security'">
+			<img src="images/product/product-security.jpg" width="100%" alt="">
+		</section>
+
+		<section ng-show="type=='team'">
+			<!-- <div class="intro-card">
+				<div class="avatar"></div>
+			</div> -->
+			<img src="images/product/xb.png" width="100%" alt="">
+		</section>
+	</ion-content>
+</ion-view>

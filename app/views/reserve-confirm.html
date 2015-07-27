@@ -1,0 +1,41 @@
+<ion-view view-title="确认预约" id="order">
+  <ion-content>
+    <div class="dbl-padding-horizontal">
+      <section class="dbl-margin-vertical gray">
+        预约2015-04-23(周二)
+        <div class="pull-right">
+          投资{{order.amount | currency:'￥'}}
+        </div>
+      </section>
+      <section class="dbl-margin-vertical" ng-click="selectCashCoupon()">
+        <div>
+          <i class="icon i-nono-cny energized"></i>
+          <span class="gray"> 为确保预约权益，将收取200元作为预约定金</span>
+        </div>
+        <div class="item item-arrow-right padding margin-top whitesmoke-bg" ng-click="showEarnestDesc()">
+          <span>查看定金说明</span>
+        </div>
+      </section>
+
+      <section class="dbl-margin-vertical">
+        <div class="row dbl-margin-bottom">
+          <div class="col-33 text-center gray">账户余额</div>
+          <div class="col-66 energized fs-lg">{{order.balance || 0 | currency:'￥'}}</div>
+        </div>
+         <div class="row">
+          <div class="col-33 text-center gray">还需支付</div>
+          <div class="col-66 energized fs-lg bold">{{order.amount || 0 | currency:'￥'}}</div>
+        </div>
+      </section>
+
+      <section class="dbl-margin-vertical dbl-padding-vertical text-center gray">
+        <div>付款后，资金由快钱支付公司托管</div>
+        <div class="padding"><a class="positive">查看银行卡支付限额</a></div>
+      </section>
+
+      <section>
+        <button class="button button-block button-energized" ng-click="confirm()">确定</button>
+      </section>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,9 @@
+<ion-view view-title="房东投资记录" id="sale_records">
+	<ion-content>
+		<div class="row gray" ng-repeat="item in current.sale_records">
+			<div class="col">{{item.phone | phone}}</div>
+			<div class="col energized text-center fs-md">{{item.amount | currency:'￥'}}</div>
+			<div class="col text-right">{{item.date.split(' ')[0]}}</div>
+		</div>
+	</ion-content>
+</ion-view>

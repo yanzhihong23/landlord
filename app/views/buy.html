@@ -1,83 +1,59 @@
-<ion-view view-title="投资">
-  <ion-content class="padding">
-  	<div class="card padding text-center" id="buy_card">
-  		<div class="padding text-center fs-xs limit-desc">
-  			购买上限<span class="energized fs-md">{{item.limit}}</span>万元，每份<span class="energized fs-md">{{house.increment | currency:''}}</span>元
-  		</div>
+<ion-view view-title="投资" id="buy">
+  <ion-content>
+  	<div class="dbl-padding-horizontal dbl-padding-vertical" id="buy_card">
+			<div class="row">
+				<div class="col-25">
+					<i class="icon i-nono-count"></i>
+					投资份数
+				</div>
+				<div class="col-75 text-right gray col-center">
+					每份{{item.per | currency:''}}元，剩余{{item.maxVolume}}份
+				</div>
+			</div>
 
-  		<div class="row cal">
-  			<div class="col-33 col-center">购买份数</div>
-  			<div class="col-50">
-  				<div class="row item count">
-  					<div class="col-25">
-  						<button class="button button-small" ng-disabled="buy.volume == item.volume" ng-click="decrease()"><i class="ion-minus"></i></button>
-  					</div>
-  					<div class="col-50">
-  						<input type="number" class="text-center" placeholder="1" ng-model="buy.volume">
-  					</div>
-  					<div class="col-25">
-  						<button class="button button-small" ng-disabled="buy.volume == item.limit" ng-click="increase()"><i class="ion-plus"></i></button>
-  					</div>
-  				</div>
-  			</div>
-  			<div class="col-30 col-center">份</div>
-  		</div>
+			<div class="counter">
+				<button class="button button-small button-energized" ng-disabled="order.volume == item.minVolume" ng-click="decrease()"><i class="ion-minus"></i></button>
+				<input type="tel" class="text-center" placeholder="1" ng-model="order.volume">
+				<button class="button button-small button-energized" ng-disabled="order.volume == item.maxVolume" ng-click="increase()"><i class="ion-plus"></i></button>
+			</div>
+			
+			<section class="dbl-margin-vertical">
+				<div>
+					<i class="icon i-nono-pig"></i>
+					投资金额
+				</div>
+				<div class="fs-lg energized padding-vertical">{{order.amount || 0 | currency:'￥'}}</div>
+			</section>
 
-  		<div class="fs-xs">
-		  	收益期限：{{house.startDate}} ~ {{house.endDate}}
+			<section class="dbl-margin-vertical" ng-click="selectInterestCoupon()">
+				<div>
+					<i class="icon i-nono-coupon-interest"></i>
+					加息券
+				</div>
+				<div class="item item-arrow-right padding margin-top" ng-class="{'interest-coupon': selected.interest!==null}">
+					<span ng-show="selected.interest===null">没有可用的加息券</span>
+					<span ng-show="selected.interest!==null">加息 <span class="fs-lg">{{coupons.interest[selected.interest].value}}%</span></span>
+				</div>
+			</section>
+			
+			<section class="dbl-margin-vertical">
+				<div>
+					<i class="icon i-nono-rent"></i>
+					预计房租收入
+					<small class="gray"> ({{subject.interest_start_date}} 至 {{subject.interest_end_date}})</small>
+				</div>
+				<div class="fs-lg energized padding-vertical">
+					<span class="energized">{{order.income || 0 | currency:'￥'}}</span>
+					<span ng-show="order .extraEarn"><span class="energized"> + {{order.extraEarn | currency:'￥'}}</span></span>
+				</div>
+			</section>
+
+		  <button class="button button-block button-energized" ng-click="buyNow()">确认投资</button>
+
+		  <div class="dbl-margin text-center gray">
+		  	<small>确认投资表示同意 <span class="positive" ng-click="goTos()">《投资协议书》</span></small>
 		  </div>
-
-		  <div class="row">
-		  	<div class="col">
-		  		<div class="pre-box text-center">
-		  			<div class="title blue-bg white fs-xs">预估 · 到期收益</div>
-		  			<div class="content">
-		  				<div>
-		  					<span class="energized">{{buy.total | currency:''}}</span><span class="fs-xs">元</span>
-		  					<span ng-show="buy.extraEarn"><span class="energized"> + {{buy.extraEarn | currency:''}}</span><span class="fs-xs">元</span></span>
-	  					</div>
-		  			</div>
-		  		</div>
-		  	</div>
-		  </div>
-
-		  <div class="padding-bottom fs-xs text-center" ng-init="tos=true">
-		  	<input type="checkbox" class="small" ng-model="tos"> 同意<a class="blue" ng-click="goTos()">《投资协议书》</a>
-		  </div>
-		  
-		  <section class="text-left coupon-info black">
-		  	<div class="coupon-type interest">
-		  		加息券<span class="fs-xs">（到期一次性支付加息）</span>
-		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showInterest, 'ion-chevron-down': !showInterest}" ng-click="showInterest = !showInterest" ng-show="validInterests.length"></i>
-		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validInterests.length"></i>
-	  		</div> 
-		  	<div class="row" ng-show="showInterest && validInterests.length">
-		  		<div class="col-50" ng-repeat="interest in validInterests" ng-class="{gray:interest.disabled}" ng-click="selectInterest($index)">
-		  			<input type="radio" name="interest" ng-model="interest.checked"  ng-disabled="interest.disabled" ng-checked="interest.checked"> {{interest.value}}<span class="fs-xs">%加息券</span>
-		  		</div>
-		  	</div>
-		  	
-		  	<div class="coupon-type coupon">
-		  		现金券<span class="fs-xs">（用于抵扣投资金额）</span>
-		  		<i class="gray-light pull-right" ng-class="{'ion-chevron-up': showCoupon, 'ion-chevron-down': !showCoupon}" ng-click="showCoupon = !showCoupon" ng-show="validCoupons.length"></i>
-		  		<i class="ion-ios-information-outline blue pull-right" ng-click="showInfo()" ng-hide="validCoupons.length"></i>
-	  		</div>
-		  	<div class="row" ng-show="showCoupon && validCoupons.length">
-		  		<label class="col-50" ng-repeat="coupon in validCoupons" ng-class="{gray:coupon.disabled}">
-		  			<input type="checkbox" class="small" ng-model="coupon.checked" ng-checked="coupon.checked" ng-disabled="coupon.disabled"> {{coupon.value}}<span class="fs-xs">元</span>
-		  		</label>
-		  	</div>
-
-		  	<!-- <pre ng-bind="selection | json"></pre> -->
-		  </section>
-		  <section class="text-center energized fs-md padding">
-	  		合计：{{order.total | currency:''}}元
-		  </section>
   	</div>
-
-
-
-		<button class="button button-full" ng-click="buyNow()" ng-disabled="!tos">立即投资</button>
 
   </ion-content>
 </ion-view>

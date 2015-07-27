@@ -1,66 +1,33 @@
-<ion-view view-title="支付" id="order_view">
+<ion-view view-title="支付" id="order">
   <ion-content>
-    <section class="white blue-bg">
-      <div class="row text-center">
-        <div class="col">
-          <div>投资金额</div>
-          <div>{{pay.count*house.increment | currency:''}}元</div>
+    <div class="dbl-padding-horizontal">
+      <section class="dbl-margin-vertical" ng-click="selectCashCoupon()">
+        <div><i class="icon i-nono-discount"></i> 现金券抵扣</div>
+        <div class="item item-arrow-right padding margin-top" ng-class="{'cash-coupon':selected.cash!==null}">
+          <span ng-show="selected.cash===null">没有可用的现金券</span>
+          <span ng-show="selected.cash!==null"><span class="fs-lg">{{coupons.cash[selected.cash].value | currency:'￥'}}</span></span>
         </div>
-        <div class="col">
-          <div>预估到期收益</div>
-          <div>{{pay.earning | currency:''}}元</div>
-        </div>
-      </div>
-    </section>
-    <section class="white text-center calc">
-      <div class="row">
-        <div class="col">
-          <div>支付金额</div>
-          <div>{{order.total | currency:'￥'}}</div>
-        </div>
-        <div class="col">
-          <div>余额支付</div>
-          <div>{{order.balance | currency:'￥'}}</div>
-        </div>
-        <div class="col">
-          <div>银行卡支付</div>
-          <div>{{order.bank | currency:'￥'}}</div>
-        </div>
-      </div>
-    </section>
-    <form name="orderForm" ng-submit="quickPay()">
-      <div class="card">
-        <section class="padding payment-select list bottom-border">
-          <label class="item item-input">
-            <input type="password" placeholder="请输入支付密码" ng-model="user.payPassword" ng-pattern="/^[\s\S]{6,16}$/" required>
-          </label>
-          <div class="row">
-            <label class="col-20 text-center">
-              <input type="checkbox" ng-model="order.useBalance" ng-disabled="!order.balanceUsable">
-            </label>
-            <div class="col-60">账户余额（{{order.balanceUsable | currency:''}}元）</div>
-            <div class="col-20 text-right"><a class="blue"  ng-click="recharge()">充值</a></div>
-          </div>
-          <div class="row">
-            <label class="col-20 text-center">
-              <input type="checkbox" ng-model="order.useCard" ng-disabled="order.cardDisabled"> 
-            </label>
-            <div class="col-80" ng-click="selectBank()">
-              <div class="c-select">{{order.bankCardShow}}</div>
-            </div>
-            <div ng-show="showBankRec" class="col-offset-20 col-80 fs-xs energized">该卡单笔限额5000元</div>
-          </div>
+      </section>
 
-          <section class="align" ng-show="showBankRec">
-            <bank-rec></bank-rec>
-            <div class="text-left padding-top gray fs-xs">土豪君VIP热线：<a href="tel:4000646668" class="energized">4000-646-668</a></div>
-          </section>
-        </section>
-      </div>
+      <section class="dbl-margin-vertical">
+        <div class="row dbl-margin-bottom">
+          <div class="col-33 text-center gray">账户余额</div>
+          <div class="col-66 energized fs-lg">{{order.balance | currency:'￥'}}</div>
+        </div>
+         <div class="row">
+          <div class="col-33 text-center gray">还需支付</div>
+          <div class="col-66 energized fs-lg bold">{{order.pay | currency:'￥'}}</div>
+        </div>
+      </section>
 
-      <button type="submit" class="button button-full" ng-disabled="!(order.useBalance || order.useCard) || orderForm.$invalid">确认支付</button>
-      
-    </form>
-  	
+      <section class="dbl-margin-vertical dbl-padding-vertical text-center gray">
+        <div>付款后，资金由快钱支付公司托管</div>
+        <div class="padding"><a class="positive">查看银行卡支付限额</a></div>
+      </section>
+
+      <section>
+        <button class="button button-block button-balanced" ng-click="confirm()">确定</button>
+      </section>
+    </div>
   </ion-content>
 </ion-view>

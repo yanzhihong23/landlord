@@ -1,162 +1,132 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, toaster, LandlordApi, $ionicLoading, utils, $window, userConfig) {
-  	$scope.countdown = 0;
+	.controller('HomeCtrl', function($scope, $rootScope, $ionicModal, $state, $timeout, $ionicScrollDelegate, orderService, subjectService, toaster, LandlordApi, $ionicLoading, utils, $window, userConfig, $ionicSlideBoxDelegate, localStorageService) {
+    // $scope.subjects = subjectService.subjects;
+    $scope.pastSubjects = [];
+    var index = 0;
 
-  	var updateData = function(restartCountdown) {
-      console.log('---------- update landlord -------------');
-  		// get current
-  		$ionicLoading.show();
-  		LandlordApi.getLandlord().success(function(data, status, headers, config) {
-  			$ionicLoading.hide();
-  			$scope.$broadcast('scroll.refreshComplete');
-  			if(data.flag === 1) {
-  				var landlord = data.data.landlord;
-  				// for tos
-  				$rootScope.landlord = landlord;
-  				$rootScope.landlord.fp_publish_date = utils.getDate(landlord.fp_publish_date.split(' ')[0]);
-
-  				$scope.house = {
-  					key: landlord.fp_id,
-  					type: 1,
-  					title: landlord.fp_title,
-  					duration: landlord.fp_expect,
-  					minPrice: ~~landlord.fp_price_min/10000,
-  					maxPrice: ~~landlord.fp_price_max/10000,
-            increment: ~~landlord.fp_price_increment,
-  					houseType: landlord.house_type,
-  					annualYield: landlord.fp_rate_max,
-            yieldShow: landlord.fp_rate_show,
-  					completeRate: landlord.fp_percent,
-  					status: landlord.fp_status,	// 0: not publish, 1: end, 3: on sell,
-  					slogan: landlord.fp_slogan,
-  					previews: data.data.landlord_atts,
-  					startDate: landlord.fp_start_date && landlord.fp_start_date.replace(/-/g,'.'),
-  					endDate: landlord.fp_end_date && landlord.fp_end_date.replace(/-/g,'.'),
-  					percent: landlord.fp_percent,
-  					price: landlord.fp_price,
-            // remain: ~~((100 - +landlord.fp_percent)*landlord.fp_price/1000000)
-  					remain: (landlord.fp_price - landlord.fp_price_adjust - landlord.fp_price_finish)/10000
-  				};
-
-  				$scope.$parent.house = $scope.house;
-
-          // countdown
-          if(landlord.status == 1) {
-            $scope.countdown = 0;
-          } else {
-            var remainStr = landlord.fp_status == 3 ? landlord.fp_finish_date_remain : landlord.fp_publish_remain;
-            if(/-/.test(remainStr)) {
-              $scope.countdown = 0;
-            } else {
-              var remainArr = remainStr.split(':');
-              $scope.countdown = +(Math.abs(remainArr[0])*3600 + remainArr[1]*60 + remainArr[2]*1);
-              if($scope.countdown > 86400) { // 24h
-                // $scope.countdown = 0;
-              }
-            }
-          }
-  				restartCountdown && countdown();
-  			} else {
-  				console.log('fail');
-  			}
-  		}).error(function(data) {
-  			$ionicLoading.hide();
-  		})
-  	};
-
-  	// localStorage.setItem('ls.isLogined', true); // test on device
-  	var seizeNow = false;
-  	$ionicModal.fromTemplateUrl('views/modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
-	  }).then(function(modal) {
-	    $rootScope.modal = modal;
-	  });
-	  $scope.openModal = function() {
-	    $rootScope.modal.show();
-	  };
-	  $scope.closeModal = function() {
-	    $rootScope.modal.hide();
-	  };
-	  $scope.$on('modal.hidden', function() {
-	  	if(seizeNow) {
-	  		seizeNow = false;
-	  		buyNow();
-	  	}
+    $rootScope.$watch('newTab', function(val) {
+      // $ionicSlideBoxDelegate.$getByHandle('homeTabs').slide(+!val);
+      $scope.title = val ? '最新' : '往期';
+      $ionicScrollDelegate.scrollTop();
     });
 
-	  $scope.seize = function(fromModal) {
-      if(fromModal) {
-        seizeNow = true;
-        $scope.modal.hide();
+    $scope.onSlideChanged = function(index) {
+      if(index) {
+        $rootScope.newTab = false;
+        $rootScope.oldTab = true;
       } else {
-        buyNow();
-      }
-	  };
-
-    var buyNow = function() {
-      if($rootScope.isLogined) {
-        $state.go('tabs.buy');
-      } else {
-        $state.go('tabs.phone');
+        $rootScope.newTab = true;
+        $rootScope.oldTab = false;
       }
     };
 
-	  var el_h1 = document.querySelector('#h1'),
-	  		el_h2 = document.querySelector('#h2'),
-	  		el_m1 = document.querySelector('#m1'),
-	  		el_m2 = document.querySelector('#m2'),
-	  		el_s1 = document.querySelector('#s1'),
-	  		el_s2 = document.querySelector('#s2'),
-	  		od_h1 = new Odometer({el: el_h1}),
-	  		od_h2 = new Odometer({el: el_h2}),
-	  		od_m1 = new Odometer({el: el_m1}),
-	  		od_m2 = new Odometer({el: el_m2}),
-	  		od_s1 = new Odometer({el: el_s1}),
-	  		od_s2 = new Odometer({el: el_s2});
+    LandlordApi.getPastSubjectIds().success(function(data) {
+      if(data.flag === 1) {
+        $scope.pastIds = data.data.id_list.reverse();
+        console.log($scope.pastIds);
 
-	  var countdown = function() {
-	  	var parsed = parseTime($scope.countdown);
-	  	od_h1.update(Math.min(parsed.h1, 9));
-	  	od_h2.update(parsed.h2);
-	  	od_m1.update(parsed.m1);
-	  	od_m2.update(parsed.m2);
-	  	od_s1.update(parsed.s1);
-	  	od_s2.update(parsed.s2);
-
-  		if($scope.countdown) {
-  			$timeout(function() {
-  				$scope.countdown += -1;
-          if(!$scope.countdown && $scope.house.status == 0) {
-            updateData(true);
+        if($scope.pastIds && $scope.pastIds.length >= 2) {
+          for(var i=0; i<2; i++) {
+            $scope.loadPastSubjects();
           }
-  				countdown();
-  			}, 1000);
-  		}
+        }
+      }
+    });
+
+    $scope.moreDataCanBeLoaded = function() {
+      return index !== ($scope.pastIds && ($scope.pastIds.length - 1));
+    }
+
+    $scope.loadPastSubjects = function() {
+      var id = $scope.pastIds[index];
+      var item = localStorageService.get('subject_' + id);
+      if(!item) {
+        LandlordApi.getSubject($scope.pastIds[index]).success(function(data) {
+          if(data.flag === 1) {
+            item = data.data;
+            formatSaleRecords(item.sale_records);
+
+            var maxAmount = 0;
+            item.sale_records.forEach(function(obj) {
+              (obj.amount > maxAmount) && (maxAmount = obj.amount);
+            });
+
+            var getProfit = function(amount) {
+              return amount*item.subject.annual_yield/100*item.subject.duration/12;
+            };
+
+            item.desc = {
+              total: getProfit(item.subject.amount.sum),
+              top: {
+                amount: maxAmount,
+                profit: getProfit(maxAmount)
+              }
+            };
+
+            localStorageService.add('subject_' + id, item);
+            $scope.pastSubjects.push(item);
+          }
+        }).finally(function() {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        });
+      } else {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.pastSubjects.push(item);
+      }
+
+      index++;
+    };
+
+    var initCurrent = function() {
+      LandlordApi.getSubject().success(function(data) {
+        if(data.flag === 1) {
+          $scope.current = data.data;
+          formatSaleRecords($scope.current.sale_records);
+        }
+      }).finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
+
+    var formatSaleRecords = function(records) {
+      records.map(function(obj) {
+        obj.phone = obj.phone.substr(0,3) + '****' + obj.phone.substr(-4);
+        obj.date = obj.date.split(' ')[0];
+      });
+    }
+
+    initCurrent();
+
+    $scope.showDetail = function() {
+      localStorageService.add('subjectDetail', $scope.current);
+      $state.go('tabs.subject');
+    };
+
+
+	  $scope.invest = function() {
+      if($rootScope.isLogined) {
+        localStorageService.add('subjectDetail', $scope.current);
+        orderService.subject = $scope.current;
+        $state.go('tabs.buy');
+      } else {
+        utils.confirm({
+          content: '您还未登录，去登录吧~~',
+          onOk: function() {
+            $state.go('tabs.login');
+          }
+        });
+      }
 	  };
 
-	  function parseTime(countdown) {
-	    if(countdown < 0) countdown = 0;
-	    var h = Math.floor(countdown/3600),
-	        m = Math.floor((countdown-3600*h)/60),
-	        s = Math.floor(countdown%60);
-
-	    return {
-        h1: Math.floor(h/10),
-        h2: h%10,
-        m1: Math.floor(m/10),
-        m2: m%10,
-        s1: Math.floor(s/10),
-        s2: s%10
-	    };
-		}
-		// countdown end
+    $scope.showPastSubject = function(index) {
+      localStorageService.add('subjectDetail', $scope.pastSubjects[index]);
+      $state.go('tabs.subject');
+    };
 
 		$scope.doRefresh = function() {
-			var restartCountdown = !$scope.countdown;
-			updateData(restartCountdown);
+      initCurrent();
 		};
 
 		$scope.reload = function() {
@@ -166,7 +136,4 @@ angular.module('landlordApp')
 		$rootScope.$on('landlordUpdated', function() {
 			$scope.doRefresh();
 		});
-
-		updateData(true);
-
 	});

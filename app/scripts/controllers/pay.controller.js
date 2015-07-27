@@ -95,7 +95,6 @@ angular.module('landlordApp')
 				$scope.pay.coupons, 
 				$scope.pay.interest)
 			.success(function(data) {
-				$ionicLoading.hide();
 				if(data.flag === 1) {
 					toaster.pop('success', data.msg);
 					$scope.pay = {};

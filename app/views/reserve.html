@@ -1,0 +1,59 @@
+<ion-view view-title="预约" id="reserve">
+	<ion-content>
+		<img src="images/reserve-banner.jpg" width="100%" alt="">
+		<div class="dbl-padding">
+			<div>
+				<i class="icon i-nono-date positive"></i>
+				<span class="gray">请选择投资的日期</span>
+			</div>
+			<div class="item item-select padding margin-top border-energized" ng-click="showCalenderFn()">
+				2015-06-23 <span class="padding-left">星期二</span>
+			</div>
+			<div class="text-center gray padding-top">
+				25人已预约
+			</div>
+		</div>
+
+		<div class="dbl-padding">
+			<div>
+				<i class="icon i-nono-pig energized"></i>
+				<span class="gray">投资金额</span>
+			</div>
+			<div class="item item-input margin-top border-energized fs-md">
+				<input type="tel" placeholder="10000" ng-model="order.amount">
+				<span class="padding-right">元</span>
+			</div>
+			<div class="text-center gray padding-top">
+				当天24小时内帮您保留的投资额度
+			</div>
+		</div>
+
+		<div class="dbl-padding">
+			<button class="button button-block button-energized" ng-disabled="!order.amount" ng-click="reserve()">提交预约</button>
+		</div>
+	</ion-content>
+
+	<article class="calender animated" ng-class="{slideInUp: showCalender, slideOutDown: !showCalender}" ng-if="showCalender" ng-cloak>
+		<header class="title">
+			<div class="pull-left padding-horizontal" ng-click="previewMonth()">
+				<i class="icon ion-ios-arrow-left"></i>
+			</div>
+			2015年5月
+			<div class="pull-right padding-horizontal" ng-click="nextMonth()">
+				<i class="icon ion-ios-arrow-right"></i>
+			</div>
+		</header>
+		<section class="body">
+			<div class="row">
+				<div class="col-50" ng-click="select(0)">5月3日 <span class="padding-left">周二</span></div>
+				<div class="col-50">5月6日 <span class="padding-left">周五</span></div>
+				<div class="col-50">5月3日 <span class="padding-left">周二</span></div>
+				<div class="col-50">5月6日 <span class="padding-left">周五</span></div>
+				<div class="col-50">5月3日 <span class="padding-left">周二</span></div>
+				<div class="col-50">5月6日 <span class="padding-left">周五</span></div>
+				<div class="col-50">5月3日 <span class="padding-left">周二</span></div>
+				<div class="col-50">5月6日 <span class="padding-left">周五</span></div>
+			</div>
+		</section>
+	</article>
+</ion-view>

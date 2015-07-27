@@ -1,15 +1,9 @@
 'use strict';
 
 angular.module('landlordApp')
-	.factory('httpInterceptor', function(toaster) {
+	.factory('utils', function($ionicHistory, $timeout, $ionicPopup) {
 		return {
-			responseError: function(rejecton) {
-				// toaster.pop('error', '网络连接超时');
-			}
-		}
-	})
-	.factory('utils', function($ionicHistory, $timeout) {
-		return {
+			passwordPattern: /^(?!\d+$|[a-zA-Z]+$|[\W-_]+$)[\s\S]{6,16}$/,
 			param: function(obj) {
 				var str = [];
         for(var p in obj) {
@@ -45,16 +39,7 @@ angular.module('landlordApp')
 				});
 			},
 			goBack: function(depth) {
-				if(depth) {
-					// get the right history stack based on the current view
-					var historyId = $ionicHistory.currentHistoryId();
-					var history = $ionicHistory.viewHistory().histories[historyId];
-					// set the view 'depth' back in the stack as the back view
-					var targetViewIndex = history.stack.length - 1 - depth;
-					$ionicHistory.backView(history.stack[targetViewIndex]);
-				}
-				// navigate to it
-				$ionicHistory.goBack();
+				$ionicHistory.goBack(depth);
 			},
 			isPasswordValid: function(password) {
 				var minMaxLength = /^[\s\S]{6,16}$/,
@@ -83,6 +68,37 @@ angular.module('landlordApp')
 					};
 					countdown();
 				};
+			},
+			alert: function(obj) {
+				var alertPopup = $ionicPopup.alert({
+				  title: obj.title || '温馨提示',
+				  cssClass: obj.cssClass || 'text-center',
+				  subTitle: obj.subTitle || '',
+				  template: obj.content || '',
+				  templateUrl: obj.contentUrl || '',
+				  okText: obj.okText || '确认',
+				  okType: obj.okType || 'button-energized'
+				});
+				alertPopup.then(function(res) {
+					obj.callback && obj.callback();
+				});
+			},
+			confirm: function(obj) {
+				var confirmPopup = $ionicPopup.confirm({
+				  title: obj.title || '温馨提示',
+				  template: obj.content || '',
+				  cssClass: obj.cssClass || 'text-center',
+				  okText: obj.okText || '确认',
+				  okType: obj.okType || 'button-energized',
+				  cancelText: obj.cancelText || '取消'
+				});
+				confirmPopup.then(function(res) {
+					if(res) {
+						obj.onOk && obj.onOk();
+					} else {
+						obj.onCancel && obj.onCancel();
+					}
+				});
 			}
 		}
 	})
@@ -95,7 +111,7 @@ angular.module('landlordApp')
 			return localStorageService.get('version');
 		};
 	})
-	.service('userConfig', function(localStorageService, UserApi, $interval, $rootScope) {
+	.service('userConfig', function(localStorageService, UserApi, $interval, $rootScope, $state, $ionicHistory) {
 		var self = this;
 		var auto = null;
 
@@ -174,6 +190,10 @@ angular.module('landlordApp')
 			localStorageService.remove('user');
 			localStorageService.remove('boundBankList');
 			// localStorageService.clearAll();
+
+			$state.go('tabs.info');
+			$ionicHistory.clearHistory();
+			$ionicHistory.clearCache();
 		};
 
 		this.setUser = function(user, broadcast) {

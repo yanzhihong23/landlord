@@ -211,3 +211,19 @@ angular.module('landlordApp')
       }
     }
   })
+  .directive('triangle', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        angular.element(element).addClass('relative').append('<i class="triangle-svg"><img src="images/triangle.svg"></i>');
+      }
+    }
+  })
+  .directive('triangleEnergized', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        angular.element(element).addClass('relative').append('<i class="triangle-svg"><img src="images/triangle-energized.svg"></i>');
+      }
+    }
+  })

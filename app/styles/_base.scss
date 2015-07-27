@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "mixin";
+@import "overwrite";
 
 .pull-left {
   @include float-left;
@@ -29,6 +29,22 @@ input[type="radio"]{
   }
 }
 
+.init-line-height{
+  line-height: initial;
+}
+
+.dbl-line-height{
+  line-height: 2;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.inline-block{
+  display: inline-block;
+}
+
 .hidden{
   display: none !important;
 }
@@ -39,6 +55,10 @@ input[type="radio"]{
 
 .normal{
   font-weight: normal !important;
+}
+
+.fw-xs{
+  font-weight: 200;
 }
 
 .fs-xs{
@@ -55,6 +75,18 @@ input[type="radio"]{
 
 .fs-lg{
 	font-size: 20px;
+}
+
+.fs-xl{
+  font-size: 56px;
+}
+
+.fs-18{
+  font-size: 18px;
+}
+
+.fs-36{
+  font-size: 36px;
 }
 
 .transparent{
@@ -81,26 +113,6 @@ input[type="radio"]{
 	color: $gray-dark;
 }
 
-.blue{
-  color: $blue;
-}
-
-.blue-bg{
-  background: $blue-bg;
-}
-
-.energized{
-  color: $energized;
-}
-
-.energized-light{
-  color: $energized-light;
-}
-
-.energized-bg{
-  background: $energized-bg;
-}
-
 .transparent-bg{
   background: transparent;
 }
@@ -114,7 +126,128 @@ input[type="radio"]{
 }
 
 .no-padding{
-  padding: 0;
+  padding: 0 !important;
+}
+
+.no-margin{
+  margin: 0 !important;
+}
+
+.margin{
+  margin: $content-padding;
+}
+
+.margin-top,
+.margin-vertical{
+  margin-top: $content-padding;
+}
+
+.margin-bottom,
+.margin-vertical{
+  margin-bottom: $content-padding;
+}
+
+.margin-left,
+.margin-horizontal{
+  margin-left: $content-padding;
+}
+
+.margin-right,
+.margin-horizontal{
+  margin-right: $content-padding;
+}
+
+.dbl-margin-top,
+.dbl-margin-vertical{
+  margin-top: $content-padding*2;
+}
+
+.dbl-margin-bottom,
+.dbl-margin-vertical{
+  margin-bottom: $content-padding*2;
+}
+
+.dbl-margin-left,
+.dbl-margin-horizontal{
+  margin-left: $content-padding*2;
+}
+
+.dbl-margin-right,
+.dbl-margin-horizontal{
+  margin-right: $content-padding*2;
+}
+
+.dbl-margin{
+  margin: $content-padding*2;
+}
+
+
+/**
+ * Content Padding
+ * --------------------------------------------------
+ */
+
+.dbl-padding {
+  padding: $content-padding*2;
+}
+
+.dbl-padding-top,
+.dbl-padding-vertical {
+  padding-top: $content-padding*2;
+}
+
+.dbl-padding-right,
+.dbl-padding-horizontal {
+  padding-right: $content-padding*2;
+}
+
+.dbl-padding-bottom,
+.dbl-padding-vertical {
+  padding-bottom: $content-padding*2;
+}
+
+.dbl-padding-left,
+.dbl-padding-horizontal {
+  padding-left: $content-padding*2;
+}
+
+.no-border{
+  border: 0 !important;
+}
+
+.border-top{
+  border-top: solid 1px $border-color;
+}
+
+.border-bottom{
+  border-bottom: solid 1px $border-color;
+}
+
+.border-right{
+  border-right: solid 1px $border-color;
+}
+
+.border-energized{
+  border: solid 1px $energized*1.25;
+}
+
+.flex-center{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-align: center;
 }
 
 html, body{
@@ -131,7 +264,7 @@ a, a:hover, a:active, a:focus{
 }
 
 a.blue{
-  color: $blue !important;
+  // color: $blue !important;
 }
 
 i{
@@ -200,7 +333,7 @@ i.bank-icon{
     width: 6px;
     height: 6px;
     color: transparent;
-    background: $energized-light;
+    background: $energized;
     position: absolute;
     top: 50%;
     left: -10px;
@@ -208,41 +341,43 @@ i.bank-icon{
   }
 }
 
-$cmd-size: 102px;
-$cmd-size-space: 8px;
-.cmd{
-  width: $cmd-size;
-  height: $cmd-size;
-  border-radius: $cmd-size/2;
-  background-color: $white;
-  color: transparent;
+.relative{
+  position: relative;
+}
+
+.relative .triangle-svg{
+  $size: 12px;
   position: absolute;
-  left: 50%;
-  margin-left: -$cmd-size/2;
-  bottom: -$cmd-size/2;
-  font-size: 24px;
-  font-weight: bold;
-  border: solid 1px $button-default-bg;
-  &:before{
-    width: $cmd-size - $cmd-size-space*2;
-    height: $cmd-size - $cmd-size-space*2;
-    line-height: $cmd-size - $cmd-size-space*2;
-    color: $white;
-    content: '去考察';
-    background: $button-default-bg;
+  display: inline-block;
+  width: $size;
+  height: $size;
+  right: 0;
+  bottom: 0;
+  img {
     display: block;
-    position: absolute;
-    border-radius: $cmd-size/2 - $cmd-size-space;
-    box-shadow: inset 0px -3px 0px 0 $energized;
-    left: $cmd-size-space - 1;
-    top: $cmd-size-space - 1;
+    width: 100%;
   }
 }
 
-.relative{
-  position: relative;
+ul.circle{
+  list-style-type: circle;
+  padding-left: 30px;
+}
+ul.square {
+  list-style-type:square;
+  padding-left: 30px;
+}
+ol.upper-roman {
+  list-style-type:upper-roman;
+  padding-left: 30px;
+}
+ol.lower-alpha {
+  list-style-type:lower-alpha;
+  padding-left: 30px;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+

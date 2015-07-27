@@ -1,21 +1,33 @@
-<ion-view view-title="注册" id="register_view">
+<ion-view view-title="注册房东账户">
 	<ion-content>
-		<div class="logo-part"></div>
-		<div class="card padding bottom-border">
+		<div class="padding">
 			<form name="registerForm" ng-submit="register()">
-				<div class="padding text-center fs-xs">为了您的账户安全，请设置您的登录密码</div>
-				<div class="item item-input-inset">
-			    <label class="item-input-wrapper">
-			      <input type="text" ng-model="account.vcode" ng-minlength="4" placeholder="短信验证码" rquired>
-			    </label>
-			    <button type="button" class="button button-small" ng-click="resendSms()" ng-disabled="resendCountdown">
-			      <span ng-show="resendCountdown">{{resendCountdown}}秒后</span>重新发送
-			    </button>
+				<div class="padding-vertical">
+					<div class="item item-input" >
+				    <input type="tel" ng-model="account.phone" name="phone" placeholder="手机号码" ng-pattern="/^[0-9]{11}$/" ng-trim=true clear-input required>
+				  </div>
+				</div>
+
+				<div class="padding-bottom clearfix">
+					<div class="pull-left" style="width: 55%">
+						<div class="item item-input">
+						  <input type="tel" ng-model="account.vcode" ng-minlength="4" placeholder="短信验证码" clear-input rquired>
+						</div>
+					</div>
+					<div class="pull-right" style="width: 40%">
+						<button type="button" class="button button-block button-energized no-margin" ng-click="resendSms()" ng-disabled="resendCountdown || registerForm.phone.$invalid">
+						  <span ng-show="resendCountdown" class="fs-xs">{{resendCountdown}}秒后重新发送</span>
+						  <span ng-hide="resendCountdown">获取验证码</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="list item item-input bottom-border">
+			    <input type="password" ng-model="account.password" ng-pattern="passwordPattern"  placeholder="6-16位，至少包含数字、字母、符号中的2种" clear-input required>
 			  </div>
-				<div class="item item-input bottom-border">
-			    <input type="password" ng-model="account.password" ng-change="passwordValidate(account.password)" placeholder="6~16位字母、数字、字符组合" clear-input required>
-			  </div>
-			  <button type="submit" class="button button-full" ng-disabled="registerForm.$invalid || invalidPassword || clicked">设置登录密码</button>
+			  <button type="submit" class="button button-block button-energized" ng-disabled="registerForm.$invalid || clicked">注册</button>
+
+			  <div class="text-center padding gray fs-xs">注册即表示同意《大房东服务协议》</div>
 			</form>
 		</div>
 	</ion-content>

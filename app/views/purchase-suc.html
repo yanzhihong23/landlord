@@ -1,0 +1,34 @@
+<ion-view view-title="投资成功" hide-back-button="true" id="purchase_suc">
+	<ion-nav-buttons side="right">
+    <button class="button button-icon" ng-click="complete()">完成</button>
+	</ion-nav-buttons>
+	<ion-content>
+		<div class="title white">
+			<div class="cele">恭喜您，又拿下一房</div>
+			<div class="name">第四期 {{subject.house.name}}</div>
+		</div>
+		<article class="timeline dbl-margin-horizontal">
+			<section class="event active">
+				<div class="wrapper">
+					<div>投资{{order.amount | currency:''}}元</div>
+					<div class="gray"><small>预计年化收益</small>{{subject.subject.annual_yield}}% <small>期限{{subject.subject.duration}}个月</small></div>
+				</div>
+			</section>
+			<section class="event">
+				<div class="wrapper">
+					<div>开始收益</div>
+					<div class="gray">{{startDate}}</div>
+				</div>
+			</section>
+			<section class="event" ng-repeat="item in refundPeriods">
+				<div class="wrapper">
+					<div>第{{$index+1}}笔房租收益到账</div>
+					<div class="gray">
+						{{item.date}} 大约{{item.amount | currency:'￥'}}
+						<span ng-show="item.desc"> {{item.desc}}</span>
+					</div>
+				</div>
+			</section>
+		</article>
+	</ion-content>
+</ion-view>

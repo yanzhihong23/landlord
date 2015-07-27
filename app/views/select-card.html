@@ -1,0 +1,11 @@
+<ion-view view-title="选择银行卡" id="my_cards">
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="card in bankCards" class="item-icon-left" ng-click="select($index)">
+				<i class="icon bank-icon" ng-class="card.shortName"></i>
+				{{card.name}}(尾号{{card.tailNo}})
+				<div class="gray">限额5,000.00元</div>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

@@ -16,6 +16,8 @@ angular.module('landlordApp')
 			});
 		};
 
+		
+
 		this.getLandlordAccountInfo = function(sessionId) {
 			return $http({
 				method: 'POST',
@@ -48,6 +50,78 @@ angular.module('landlordApp')
 					sessionId: sessionId,
 					key: key,
 					type: type
+				})
+			});
+		};
+
+
+		// ver 2.0
+		this.getSubject = function(subjectId) {
+			// subjectId = subjectId || '';
+
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getSubject',
+				headers: headers,
+				data: utils.param({
+					subject_id: subjectId || ''
+				})
+			});
+		};
+
+		this.getPastSubjectIds = function() {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getPastSubjectIds',
+				headers: headers
+			});
+		};
+
+		this.getAccountInfo = function(sessionId) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getAccountInfo',
+				headers: headers,
+				data: utils.param({
+					session_id: sessionId
+				})
+			});
+		};
+
+		this.getBalanceDetail = function(sessionId, length, offset) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getBalanceDetail',
+				headers: headers,
+				data: utils.param({
+					session_id: sessionId,
+					length: length,
+					offset: offset
+				})
+			});
+		};
+
+		this.getEarningHistory = function(sessionId, length, offset) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getEarningHistory',
+				headers: headers,
+				data: utils.param({
+					session_id: sessionId,
+					length: length,
+					offset: offset
+				})
+			});
+		};
+
+		this.getInvestedSubject = function(sessionId, subjectId) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/getInvestedSubject',
+				headers: headers,
+				data: utils.param({
+					session_id: sessionId,
+					subject_id: subjectId
 				})
 			});
 		};

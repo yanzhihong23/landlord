@@ -20,25 +20,53 @@ angular
   .constant('version', '1.0')
   .constant('serverConfig', {
     url: 'http://m.test.nonobank.com/msapi'
+    // url: 'https://m.nonobank.com/msapi'
   })
   .constant('$ionicLoadingConfig', {
     template: '<ion-spinner icon="bubbles" class="spinner-energized"></ion-spinner>'
   })
-  .config(function($httpProvider, $ionicConfigProvider) {
+  .config(function($httpProvider, $ionicConfigProvider, $provide) {
     $httpProvider.defaults.timeout = 5000;
-    $httpProvider.interceptors.push('httpInterceptor');
+    $httpProvider.interceptors.push(function($rootScope) {
+      return {
+        request: function(config) {
+          return config;
+        },
+        response: function(response) {
+          $rootScope.$broadcast('loading:hide')
+          return response;
+        }
+      }
+    });
 
     $ionicConfigProvider.tabs.position('bottom').style('standard');
+    $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-left').previousTitleText(false);
+    // $ionicConfigProvider.backButton.previousTitleText(false);
+
+    $provide.decorator('$locale', ['$delegate', function($delegate) {
+      if($delegate.id == 'en-us') {
+        $delegate.NUMBER_FORMATS.PATTERNS[1].negPre = '-\u00A4';
+        $delegate.NUMBER_FORMATS.PATTERNS[1].negSuf = '';
+      }
+      return $delegate;
+    }]);
   })
   // service inits when involved
-  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, version, appConfig, userConfig, $ionicPlatform, utils, $timeout, bankService) {
+  .run(function($rootScope, $ionicSlideBoxDelegate, $state, $ionicHistory, $ionicLoading, version, appConfig, userConfig, $ionicPlatform, utils, $timeout, bankService) {
+    $rootScope.passwordPattern = /^(?!\d+$|[a-zA-Z]+$|[\W-_]+$)[\s\S]{6,16}$/;
+
     if(appConfig.getVersion() != version) {
       appConfig.setVersion(version);
     }
 
+    $rootScope.$on('loading:hide', function() {
+      $ionicLoading.hide();
+    })
+
   	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       $rootScope.isLogined = userConfig.isLogined();
-      
+      $rootScope.showHomeTabs = toState.name === 'tabs.home';
+
       // close modal and popup 
       if($rootScope.modal && $rootScope.modal._isShown) {
         $rootScope.modal.hide();
@@ -58,21 +86,21 @@ angular
             event.preventDefault();
           }
           break;
-        case 'tabs.info':
-        case 'tabs.more':
-          if(!userConfig.isLogined()) {
-            event.preventDefault(); 
+        // case 'tabs.info':
+        // case 'tabs.more':
+        //   if(!userConfig.isLogined()) {
+        //     event.preventDefault(); 
 
-            var callMeOffFn = $rootScope.$on('loginSuc', function() {
-              utils.disableBack();
-              $state.go(toState.name);
-              callMeOffFn();
-            });
+        //     var callMeOffFn = $rootScope.$on('loginSuc', function() {
+        //       utils.disableBack();
+        //       $state.go(toState.name);
+        //       callMeOffFn();
+        //     });
 
-            utils.disableBack();
-            $state.go('tabs.phone');
-          }
-          break;
+        //     utils.disableBack();
+        //     $state.go('tabs.login');
+        //   }
+        //   break;
         case 'tabs.buy': 
           if(!userConfig.isLogined()) {
             event.preventDefault(); 
@@ -111,23 +139,14 @@ angular
             $state.go('tabs.home');
           }
           break;
+        case 'tabs.order':
+          if(fromState.name === 'tabs.selectCard') {
+            console.log('xxxxxxxxx')
+            $rootScope.$broadcast('backFromSeclecCard');
+          }
+          break;
   		}
   	});
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      if(!/tabs.home|tabs.history|tabs.info|tabs.more/.test(toState.name)) {
-        angular.element(document.querySelector('.tab-nav.tabs')).addClass('hidden');
-        // $rootScope.$on('$ionicView.enter', function() {
-          // angular.element(document.querySelectorAll('ion-content.has-tabs')).removeClass('has-tabs');
-        // })
-      } else {
-        angular.element(document.querySelector('.tab-nav.tabs')).removeClass('hidden');
-      }
-
-      $timeout(function() {
-        $ionicSlideBoxDelegate.update();
-      }, 50);
-    });
 
     // auto login
     if(userConfig.isLogined()) {
@@ -144,7 +163,7 @@ angular
     })
 
     // ************* main tabs start **************
-    .state('tabs', {
+    .state('tabs', { 
       url: "/tab",
       abstract: true,
       templateUrl: "templates/tabs.html",
@@ -168,19 +187,19 @@ angular
         }
       }
     })
-    .state('tabs.history', {
-      url: "/history",
+    .state('tabs.welfare', {
+      url: "/welfare",
       views: {
-        'history-tab': {
-          templateUrl: "views/history.html",
-          controller: 'HistoryCtrl'
+        'welfare-tab': {
+          templateUrl: "views/welfare.html",
+          controller: 'WelfareCtrl'
         }
       }
     })
     .state('tabs.more', {
       url: "/more",
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: "views/more.html",
           controller: 'MoreCtrl'
         }
@@ -188,11 +207,75 @@ angular
     })
     // ************* main tabs end **************
 
+    .state('tabs.subject', {
+      url: "/subject",
+      views: {
+        'home-tab': {
+          templateUrl: "views/subject.html",
+          controller: 'SubjectCtrl'
+        }
+      }
+    })
+    .state('tabs.preview', {
+      url: "/preview",
+      views: {
+        'home-tab': {
+          templateUrl: "views/preview.html",
+          controller: 'SubjectCtrl'
+        }
+      }
+    })
+    .state('tabs.rule', {
+      url: "/rule",
+      views: {
+        'home-tab': {
+          templateUrl: "views/rule.html",
+          controller: 'SubjectCtrl'
+        }
+      }
+    })
+    .state('tabs.saleRecords', {
+      url: "/saleRecords",
+      views: {
+        'home-tab': {
+          templateUrl: "views/sale-records.html",
+          controller: 'SubjectCtrl'
+        }
+      }
+    })
+    .state('tabs.coupons', {
+      url: "/coupons?type",
+      views: {
+        'home-tab': {
+          templateUrl: "views/my-coupons.html",
+          controller: 'CouponCtrl'
+        }
+      }
+    })
+    .state('tabs.selectCard', {
+      url: "/selectCard",
+      views: {
+        'home-tab': {
+          templateUrl: "views/select-card.html",
+          controller: 'SeclectCardCtrl'
+        }
+      }
+    })
+    .state('tabs.purchaseSuc', {
+      url: "/purchaseSuc",
+      views: {
+        'home-tab': {
+          templateUrl: "views/purchase-suc.html",
+          controller: 'PurchaseSucCtrl'
+        }
+      }
+    })
+
     // ************* views in more tab start **************
     .state('tabs.setting', {
       url: "/setting",
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: "views/setting.html",
           controller: 'SettingCtrl'
         }
@@ -201,25 +284,17 @@ angular
     .state('tabs.about', {
       url: "/about",
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: "views/about.html",
           // controller: 'SettingCtrl'
         }
       }
     })
-    .state('tabs.feedback', {
-      url: "/feedback",
-      views: {
-        'more-tab': {
-          templateUrl: "views/feedback.html",
-          // controller: 'SettingCtrl'
-        }
-      }
-    })
+    
     .state('tabs.myCards', {
       url: "/myCards",
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: "views/my-cards.html",
           controller: 'MyCardsCtrl'
         }
@@ -228,23 +303,68 @@ angular
     .state('tabs.addCard', {
       url: "/addCard",
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: "views/add-card.html",
           controller: 'AddCardCtrl'
         }
       }
     })
-    // ************* views in more tab end **************
-
-    .state('tabs.orders', {
-      url: "/orders",
+    .state('tabs.investRecords', {
+      url: "/investRecords",
       views: {
         'info-tab': {
-          templateUrl: "views/order-list.html",
-          controller: 'OrdersCtrl'
+          templateUrl: "views/invest-records.html",
+          controller: 'InvestRecordsCtrl'
         }
       }
     })
+    .state('tabs.earnings', {
+      url: "/earnings",
+      views: {
+        'info-tab': {
+          templateUrl: "views/earnings.html",
+          controller: 'EarningsCtrl'
+        }
+      }
+    })
+    .state('tabs.availableBalance', {
+      url: "/availableBalance",
+      views: {
+        'info-tab': {
+          templateUrl: "views/available-balance.html",
+          controller: 'InfoCtrl'
+        }
+      }
+    })
+    .state('tabs.balanceRecords', {
+      url: "/balanceRecords",
+      views: {
+        'info-tab': {
+          templateUrl: "views/balance-records.html",
+          controller: 'BalanceRecordsCtrl'
+        }
+      }
+    })
+    // ************* views in more tab end **************
+
+    .state('tabs.feedback', {
+      url: "/feedback",
+      views: {
+        'info-tab': {
+          templateUrl: "views/feedback.html",
+          // controller: 'SettingCtrl'
+        }
+      }
+    })
+    // .state('tabs.orders', {
+    //   url: "/orders",
+    //   views: {
+    //     'info-tab': {
+    //       templateUrl: "views/order-list.html",
+    //       controller: 'OrdersCtrl'
+    //     }
+    //   }
+    // })
     .state('tabs.house', {
       url: "/house",
       views: {
@@ -269,6 +389,15 @@ angular
         'info-tab': {
           templateUrl: "views/withdraw.html",
           controller: 'WithdrawCtrl'
+        }
+      }
+    })
+    .state('tabs.product', {
+      url: "/product",
+      views: {
+        'info-tab': {
+          templateUrl: "views/product.html",
+          controller: 'ProductCtrl'
         }
       }
     })
@@ -345,6 +474,24 @@ angular
         }
       }
     })
+    .state('tabs.reserve', {
+      url: "/reserve",
+      views: {
+        'home-tab': {
+          templateUrl: 'views/reserve.html',
+          controller: 'ReserveCtrl'
+        }
+      }
+    })
+    .state('tabs.reserveConfirm', {
+      url: "/reserveConfirm",
+      views: {
+        'home-tab': {
+          templateUrl: 'views/reserve-confirm.html',
+          controller: 'ReserveConfirmCtrl'
+        }
+      }
+    })
  // ************* account tabs start **************   
     .state('tabs.phone', {
     	url: "/phone",
@@ -358,7 +505,7 @@ angular
     .state('tabs.login', {
     	url: "/login?phone",
     	views: {
-    		'home-tab': {
+    		'info-tab': {
     			templateUrl: "views/login.html",
           controller: 'LoginCtrl'
     		}
@@ -367,7 +514,7 @@ angular
     .state('tabs.register', {
       url: "/register?phone&sessionId",
       views: {
-        'home-tab': {
+        'info-tab': {
           templateUrl: "views/register.html",
           controller: 'RegisterCtrl'
         }
@@ -376,7 +523,7 @@ angular
     .state('tabs.setPayPassword', {
       url: "/setPayPassword",
       views: {
-        'home-tab': {
+        'info-tab': {
           templateUrl: "views/set-pay-password.html",
           controller: 'SetPayPasswordCtrl'
         }
@@ -385,7 +532,7 @@ angular
     .state('tabs.retrievePassword', {
       url: '/retrievePassword?phone',
       views: {
-        'home-tab': {
+        'info-tab': {
           templateUrl: 'views/retrieve-password.html',
           controller: 'RetrievePasswordCtrl'
         }
@@ -410,7 +557,7 @@ angular
         }
       }
     })
-    .state('tabs.rechargeInfo', {
+    .state('tabs.recharge:info', {
       url: '/rechargeInfo',
       views: {
         'info-tab': {
@@ -431,7 +578,7 @@ angular
     .state('tabs.kyc', {
       url: '/kyc',
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: 'views/kyc.html',
           controller: 'KycCtrl'
         }
@@ -440,7 +587,7 @@ angular
     .state('tabs.gesture', {
       url: '/gesture?action',
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: 'views/gesture.html',
           controller: 'GestureCtrl'
         }
@@ -449,7 +596,7 @@ angular
     .state('tabs.changePassword', {
       url: '/changePassword',
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: 'views/change-password.html',
           controller: 'ChangePasswordCtrl'
         }
@@ -458,7 +605,7 @@ angular
     .state('tabs.changePayPassword', {
       url: '/changePayPassword',
       views: {
-        'more-tab': {
+        'info-tab': {
           templateUrl: 'views/change-password.html',
           controller: 'ChangePayPasswordCtrl'
         }

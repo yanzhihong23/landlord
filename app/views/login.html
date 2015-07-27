@@ -1,15 +1,26 @@
-<ion-view view-title="登录" id="login_view">
+<ion-view view-title="房东登录">
+	<ion-nav-buttons side="right">
+    <a class="button button-icon" ui-sref="tabs.register">注册帐号</a>
+	</ion-nav-buttons>
+
 	<ion-content>
-		<div class="logo-part"></div>
-		<div class="card padding bottom-border">
+		<div class="padding">
 			<form name="loginForm" ng-submit="login()">
-				<div class="padding text-center fs-xs">您已经是大房东的用户，请您登录</div>
-				<div class="item item-input">
-			    <input type="password" ng-model="account.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="请输入登录密码" clear-input required>
-			  </div>
-			  <a class="pull-right padding fs-xs blue" ng-click="retrievePassword()">忘记密码?</a>
-			  <button type="submit" class="button button-full" ng-disabled="loginForm.$invalid">登录</button>
-			  <div class="fs-xs gray tip">*您可以使用诺诺镑客的账户登录大房东</div>
+				<div class="padding-vertical">
+					<div class="item item-input">
+				    <input type="tel" ng-model="account.phone" placeholder="手机号码" ng-pattern="/^[0-9]{11}$/" ng-trim=true clear-input required>
+				  </div>
+				</div>
+				
+				<div class="padding-bottom">
+					<div class="item item-input">
+				    <input type="password" ng-model="account.password" ng-pattern="/^[\s\S]{6,16}$/" placeholder="登录密码" clear-input required>
+				  </div>
+				</div>
+
+			  <button type="submit" class="button button-block button-energized" ng-disabled="loginForm.$invalid">登录</button>
+
+			  <a class="pull-right padding energized" ng-click="retrievePassword()">忘记密码?</a>
 			</form>
 		</div>
 	</ion-content>

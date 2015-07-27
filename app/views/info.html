@@ -1,35 +1,68 @@
-<ion-view view-title="我的房产" id="my_info" class="whitesmoke-bg">
-	<ion-nav-buttons side="right">
-    <button class="button button-icon" ng-click="showMenu()"><i class="ion-ios-more"></i></button>
-	</ion-nav-buttons>
-
+<ion-view view-title="我的房产" id="info" class="whitesmoke-bg" hide-back-button="true">
 	<ion-content>
-		<section class="padding item">
-			<div>累计收益</div>
-			<div class="text-center fs-lg">{{balance.earnings | currency:''}}</div>
-		</section>
-		<section class="padding item">
-			<div>下期收益</div>
-			<div class="row text-center">
-				<div class="col-33 col-offset-33 fs-lg">{{balance.earnings | currency:''}}</div>
-				<div class="col-33">2015/5/21</div>
-			</div>
-		</section>
+		<article class="padding-bottom init-line-height assertive text-center fw-xs balance-info">
+			<section>
+				<a class="item item-arrow-right  text-left" ng-href="{{isLogined ? '#/tab/more' : '#/tab/login'}}">
+					<span class="black">{{isLogined ? user.name || user.phone : '登录账户'}}</span>
+					<span class="item-note" ng-show="user.gender && isLogined">{{user.gender}}</span>
+				</a>
+				<div class="item assertive" triangle ng-click="showEarings()">
+					<div class="fs-xs">房租总收入(元)</div>
+					<span class="fs-xl fw-xs">{{info.earnings.total | currency:''}}</span>
+				</div>
 
-		<section class="row padding text-center item">
-			<div class="col">
-				<div>账户余额（元）</div>
-				<div>{{balance.available | currency:''}}</div>
-			</div>
-			<div class="col">
-				<div>冻结金额（元）</div>
-				<div>{{balance.frozen | currency:''}}</div>
-			</div>
-		</section>
+				<div class="row white-bg no-padding border-top border-bottom margin-bottom">
+					<div class="col-50 dbl-padding-vertical">
+						<div class="padding-bottom fs-xs">本月收入</div>
+						<div class="fs-lg">{{info.earnings.current_month | currency:''}}</div>
+					</div>
+					<div class="col-50 dbl-padding-vertical">
+						<div class="padding-bottom fs-xs">下月预计收入</div>
+						<div class="fs-lg">{{info.earnings.next_month | currency:''}}</div>
+					</div>
+				</div>
+			</section>
 
-		<div class="list padding-top">
-			<a class="item item-arrow-right" href="#/tab/orders">我的房产清单</a>
-			<a class="item item-arrow-right">我的预约记录</a>
+			<section class="row white-bg no-padding margin-top">
+				<div class="col-50 item no-margin border-right dbl-padding-vertical" triangle ng-click="showInvestRecords()">
+					<div class="black padding-bottom fs-xs">房产投资本金</div>
+					<div class="fs-lg assertive">{{info.invest | currency:''}}</div>
+				</div>
+				<div class="col-50 item no-margin dbl-padding-vertical" triangle ng-click="showAvailableBalance()">
+					<div class="black padding-bottom fs-xs">可用资金</div>
+					<div class="fs-lg assertive">{{info.balance.available | currency:''}}</div>
+				</div>
+			</section>
+		</article>
+
+		<div class="list margin-bottom">
+			<a class="item item-icon-left item-arrow-right" ng-click="showInvestRecords()">
+				<i class="icon i-nono-records calm"></i>
+				房产记录
+			</a>
+			<a class="item item-icon-left item-arrow-right" ng-click="showReserveRecords()">
+				<i class="icon i-nono-calender assertive"></i>
+				预约记录
+			</a>
+			<a class="item item-icon-left item-arrow-right" ng-click="showWelfare()">
+				<i class="icon i-nono-coupon-cash energized"></i>
+				福利券
+			</a>
+			<a class="item item-icon-left item-arrow-right" ng-click="showCards()">
+				<i class="icon i-nono-card balanced"></i>
+				银行卡
+			</a>
+		</div>
+
+		<div class="list padding-bottom">
+			<a class="item item-icon-left item-arrow-right" ui-sref="tabs.product">
+				<i class="icon i-nono-shield positive"></i>
+				产品安全
+			</a>
+			<a class="item item-icon-left item-arrow-right" ui-sref="tabs.feedback">
+				<i class="icon i-nono-msg royal"></i>
+				体验反馈
+			</a>
 		</div>
 		
 	</ion-content>

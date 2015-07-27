@@ -11,7 +11,6 @@ angular.module('landlordApp')
 			UserApi.sendSms($scope.account.phone)
 				.success(function(data) {
 					$scope.clicked = false;
-					$ionicLoading.hide();
 	  			if(data.flag === 1) {
 	  				$state.go('tabs.register', {phone: $scope.account.phone, sessionId: data.data.session_id});
 	  				toaster.pop('success', '短信验证码发送成功');
@@ -26,31 +25,35 @@ angular.module('landlordApp')
 	})
 	.controller('RegisterCtrl', function($scope, $state, $stateParams, $ionicLoading, UserApi, userConfig, utils, md5, toaster) {
 		var resendCountdown = utils.resendCountdown($scope),
-				phone = $stateParams.phone, 
+				// phone = $stateParams.phone, 
 				sessionId = $stateParams.sessionId;
 		
 		// init
-		$scope.invalidPassword = false;
-		$scope.account = {};
-
-		$scope.passwordValidate = function(password) {
-      $scope.invalidPassword = !utils.isPasswordValid(password);
+		$scope.passwordPattern = utils.passwordPattern;
+		$scope.account = {
+			phone: $stateParams.phone
 		};
 
 		$scope.resendSms = function() {
 			$scope.clicked = true;
 			$ionicLoading.show();
-			UserApi.sendSms(phone)
+			UserApi.sendSms($scope.account.phone)
 				.success(function(data) {
 					$scope.clicked = false;
-					$ionicLoading.hide();
 	  			if(data.flag === 1) {
 	  				sessionId = data.data.session_id;
-	  				toaster.pop('success', '短信验证码发送成功');
+	  				// toaster.pop('success', '短信验证码发送成功');
 	  				resendCountdown();
-	  			} else if(data.flag === 8) {
-	  				toaster.clear();
-	  				toaster.pop('error', data.msg);
+	  			} else {
+	  				utils.confirm({
+	  					content: '您已经是大房东用户，去登录吧',
+	  					onOk: function() {
+	  						$state.go('tabs.login', {phone: $scope.account.phone});
+	  					},
+	  					onCancel: function() {
+	  						$scope.account.phone = '';
+	  					}
+	  				})
 	  			}
 	  		});
 		};
@@ -60,43 +63,48 @@ angular.module('landlordApp')
 			if(!$scope.clicked) {
 				$scope.clicked = true;
 				$ionicLoading.show();
-	  		UserApi.register(phone, account.vcode, account.password, sessionId)
+	  		UserApi.register(account.phone, account.vcode, account.password, sessionId)
 	  			.success(function(data) {
 	  				$ionicLoading.hide();
 		  			if(data.flag === 1) {
 		  				userConfig.setAccountInfo(data.data);
-		  				toaster.pop('success', data.msg);
+		  				// toaster.pop('success', data.msg);
 
 		  				userConfig.setUser({
-								username: phone,
+								username: account.phone,
 								password: md5.createHash(account.password)
 							});
 							// clear password
 							$scope.account.password = null;
 
-							$state.go('tabs.setPayPassword');
+							// $state.go('tabs.setPayPassword');
+		  			} else if(data.flag === 4) { // wrong verify code
+		  				utils.alert({
+		  					content: data.msg,
+		  					callback: function() {
+		  						$scope.account.vcode = null;
+		  					}
+		  				});
 		  			} else {
 		  				toaster.pop('error', data.msg);
 		  			}
 		  			$scope.clicked = false;
 		  		});
 			}
-  		
 		};
 
-		// start countdown
-		resendCountdown();
 	})
-	.controller('LoginCtrl', function($scope, $rootScope, $state, $stateParams, $ionicLoading, UserApi, userConfig, bankService, utils, md5, toaster) {
-		$scope.account = {};
+	.controller('LoginCtrl', function($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicHistory, UserApi, userConfig, bankService, utils, md5, toaster) {
+		$scope.account = {
+			phone: $stateParams.phone
+		};
 		$scope.login = function() {
-  		var username = $stateParams.phone;
+  		var username = $scope.account.phone;
   		var password = md5.createHash($scope.account.password || '');
 
   		$ionicLoading.show();
   		UserApi.login(username, password)
   			.success(function(data) {
-  				$ionicLoading.hide();
 					if(data.flag === 1) {
 						var accountInfo = data.data;
 						userConfig.setAccountInfo(accountInfo);
@@ -105,27 +113,37 @@ angular.module('landlordApp')
 						$scope.account.password = null;
 
 						if(accountInfo && !accountInfo.is_pay_password) {
-							utils.disableBack();
-							$state.go('tabs.setPayPassword');
+							// utils.disableBack();
+							// $state.go('tabs.setPayPassword');
 						} else {
 							$rootScope.$broadcast('loginSuc');
-							utils.disableBack();
-							$state.go('tabs.home');
+							$state.go('tabs.info');
+							$ionicHistory.clearHistory();
+							$ionicHistory.clearCache();
 						}
 
 						userConfig.setUser({
 							username: username,
 							password: password
 						});
+					} else if(+data.flag === 3) {
+						utils.alert({
+							content: '用户名或密码错误',
+							callback: function() {
+								$scope.account.password = null;
+							}
+						});
 					} else {
-						toaster.pop('error', data.msg);
+						utils.alert({
+							content: data.msg
+						});
 					}
 				});
 		};
 
 		$scope.retrievePassword = function() {
-			$state.go('tabs.retrievePassword', {phone: $stateParams.phone});
-		}
+			$state.go('tabs.retrievePassword', {phone: $scope.account.phone});
+		};
 	})
 	.controller('SetPayPasswordCtrl', function($scope, $state, $rootScope, $ionicLoading, UserApi, userConfig, md5, utils, toaster) {
 		$scope.account = {};
@@ -142,7 +160,6 @@ angular.module('landlordApp')
 				$ionicLoading.show();
 				UserApi.setPayPassword(userConfig.getSessionId(), password)
 					.success(function(data) {
-						$ionicLoading.hide();
 						if(data.flag === 1) {
 							toaster.pop('success', data.msg);
 							$rootScope.$broadcast('loginSuc');
@@ -176,7 +193,6 @@ angular.module('landlordApp')
 			$ionicLoading.show();
 			UserApi.findPassword($scope.account.phone, $scope.account.retrieveVcode, $scope.account.idNo || '')
 				.success(function(data) {
-					$ionicLoading.hide();
 					if(data.flag === 5) {
 						var password = md5.createHash($scope.account.newPassword);
 						UserApi.changeFindPassword(data.data.session_id, password)

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('MoreCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, utils, bankService) {
+	.controller('MoreCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, $ionicActionSheet, utils, bankService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var kyc, setKyc;
 		var boundCards = bankService.getBoundBankList();
@@ -14,16 +14,26 @@ angular.module('landlordApp')
 			kyc: kyc,
 			setKyc: setKyc,
 			phone: accountInfo.mobilenum.substr(0,3) + '****' + accountInfo.mobilenum.substr(-4),
-			cards: boundCards && boundCards.length
+			cards: boundCards && boundCards.length,
+			payPwdSet: accountInfo.is_pay_password
 		};
 
 		$scope.logout = function() {
-      $ionicHistory.clearHistory();
-      $ionicHistory.clearCache();
-
-			userConfig.logout();
-			utils.disableBack();
-			$state.go('tabs.home');
+			$ionicActionSheet.show({
+				buttons: [
+				 { text: '退出登录' }
+				],
+				// destructiveText: 'Delete',
+				titleText: '退出账户?',
+				cancelText: '取消',
+				cssClass: 'assertive',
+				cancel: function() {
+			    // add cancel code..
+			  },
+				buttonClicked: function(index) {
+				 userConfig.logout();
+				}
+			});
 		};
 	})
 	.controller('KycCtrl', function($scope, $rootScope, $ionicPopup, userConfig, UserApi, utils, toaster) {
@@ -50,17 +60,18 @@ angular.module('landlordApp')
 		};
 
 		var submit = function() {
-			UserApi.updateKycInfo(sessionId, $scope.kyc.name, $scope.kyc.id, accountInfo.mobilenum)
+			UserApi.doKyc(sessionId, $scope.kyc.name, $scope.kyc.id)
 				.success(function(data) {
-					if(data.flag === 1) {
-						userConfig.autoLogin(); // get new account info
-						utils.goBack();
-					} else {
-						toaster.pop('error', data.msg);
-					}
+					utils.alert({
+						content: data.msg,
+						callback: function() {
+							if(data.flag === 8) {
+								utils.goBack();
+							}
+						}
+					});
 				});
-		}
+		};
 	})
-	
 
 

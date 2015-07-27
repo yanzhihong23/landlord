@@ -1,22 +1,23 @@
-<ion-view view-title="身份认证" class="whitesmoke-bg">
+<ion-view view-title="实名认证" class="whitesmoke-bg">
 	<ion-content class="padding">
 		<form name="kycForm" ng-submit="showConfirm()">
-			<div class="list ">
-				<div class="padding-top text-center energized tip">
-					请填写本人真实信息，核实后不可更改哦~
+			<div class="list">
+				<div class="padding-vertical tip">
+					为保障您的权益和资金安全，请做实名认证，通过后不能修改。
 				</div>
-			  <div class="item item-input">
-			    <span class="input-label">真实姓名</span>
-			    <input type="text" ng-model="kyc.name" placeholder="请输入真实姓名" ng-disabled="disableIdEdit" clear-input required>
+				<div class="padding-bottom">
+					<div class="item item-input">
+					  <input type="text" ng-model="kyc.name" placeholder="真实姓名" ng-disabled="disableIdEdit" clear-input required>
+					</div>
+				</div>
+			  <div class="padding-bottom">
+			  	<div class="item item-input">
+			  	  <input type="text" ng-model="kyc.id" ng-pattern="/.{15,18}$/" placeholder="身份证号码" ng-disabled="disableIdEdit" clear-input required>
+			  	</div>
 			  </div>
-			  <div class="item item-input">
-			    <span class="input-label">身份证</span>
-			    <input type="text" ng-model="kyc.id" ng-pattern="/.{15,18}$/" placeholder="请输入身份证号码" ng-disabled="disableIdEdit" clear-input required>
-			  </div>
-			  <!-- <div ng-show="kyc.id">{{kyc.id}}</div> -->
 			</div>
 			<div class="submit">
-				<button type="submit" class="button button-full" ng-disabled="kycForm.$invalid">提交</button>
+				<button type="submit" class="button button-block button-energized" ng-disabled="kycForm.$invalid">确定</button>
 			</div>
 		</form>
 	</ion-content>

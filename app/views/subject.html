@@ -1,0 +1,64 @@
+<ion-view view-title="详细" class="home whitesmoke-bg" id="detail">
+	<ion-content>
+		<section class="relative preview" ng-click="showPreviews()">
+		 <img src="images/preview.jpg" ng-src="{{current.house.previews[0]}}" height="230" width="100%">
+		 <!-- <img src="images/preview.jpg" height="230" width="100%"> -->
+		 <div class="dbl-padding white desc">
+		 	<div class="fs-18 padding-bottom">{{current.subject.title.substr(7)}} <span class="dbl-padding-left">{{current.house.name}}</span>
+		 	</div>
+		 	<div class="fs-xs">
+		 	  <!-- <i class="icon ion-ios-checkmark-outline energized"></i> -->
+		 	  {{current.house.type || "地铁房"}}
+		 	</div>
+		 	<div>{{current.house.city}} - {{current.house.district}} 市价{{+current.house.price/10000}}万 抵押借款{{+current.subject.amount.sum/10000}}万</div>
+		 </div>
+		 <div class="count white">{{current.house.previews.length}}张</div>
+		</section>
+
+		<section class="slogan">
+			<ul>
+				<li ng-repeat="s in slogans" class="dbl-margin-left">{{s}}</li>
+			</ul>
+		</section>
+
+		<section>
+			<div class="list dark">
+				<div class="item">
+					借款金额<small class="gray">(房产已抵押)</small>
+					<span class="item-note energized fs-lg">
+						{{+current.subject.amount.sum/10000}}<small class="fs-sm">万</small>
+					</span>
+				</div>
+				<div class="item">
+					起始时间
+					<span class="item-note dark">
+						{{current.subject.interest_start_date}} 至 {{current.subject.interest_end_date}}
+					</span>
+				</div>
+				<a class="item" ng-class="{'item-arrow-right': current.sale_records.length}" ng-href="{{current.sale_records.length?'#/tab/saleRecords':''}}">
+					房东人数
+					<span class="item-note energized fs-lg">
+						{{current.sale_records.length}}
+					</span>
+				</a>
+				<a class="item item-arrow-right" ui-sref="tabs.rule">
+					查看详细规则
+				</a>
+			</div>
+		</section>
+
+		<section class="margin-top white-bg">
+			<div class="row padding energized">
+			  <div class="col-50 fs-lg">{{current.subject.annual_yield_show}}</div>
+			  <div class="col-50 text-right"><span class="inline-block border-energized padding-horizontal">{{current.subject.duration}}个月</span></div>
+			</div>
+			<div class="row padding gray fs-xs">
+			  <div class="col-50">预期年化收益率（本金保障）</div>
+			  <div class="col-50 text-right">可投资{{remain/10000}}万</div>
+			</div>
+			<div class="padding-horizontal dbl-padding-vertical">
+			  <button class="button button-block button-energized no-margin" ng-click="invest()" ng-disabled="current.subject.status!=3">{{current.subject.status == 1 ? '已满额': '投资'}}</button>
+			</div>
+		</section>
+	</ion-content>
+</ion-view>
