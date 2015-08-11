@@ -285,6 +285,9 @@ i.bank-icon{
   height: 36px;
   margin: auto 5px;
   vertical-align: middle;
+  .item-icon-left &{
+    left: 4px;
+  }
   &.icbc{
     background: url(../images/bank/bank_icon_icbc.png) no-repeat center;
     background-size: contain;
@@ -321,9 +324,13 @@ i.bank-icon{
     background: url(../images/bank/bank_icon_gdb_guangfa.png) no-repeat center;
     background-size: contain;
   }
-
-
+  &.cmbc{
+    background: url(../images/bank/bank_icon_cmbc_minsheng.png) no-repeat center;
+    background-size: contain;
+  }
 }
+
+
 
 .dot{
   position: relative;

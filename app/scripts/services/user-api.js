@@ -193,18 +193,29 @@ angular.module('landlordApp')
 			});
 		};
 
-		this.changePassword = function(sessionId, password, newPassword) {
+		this.changeFindPassword = function(sessionId, password) {
 			return $http({
 				method: 'POST',
-				url: server + '/user/changePassword',
+				url: server + '/user/changeFindPassword',
 				headers: headers,
 				data: utils.param({
 					sessionId: sessionId,
-					password: password,
-					newPassword: newPassword
+					password: password
 				})
 			});
-		}
+		};
+
+		this.feedback = function(sessionId, content) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/feedBack',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					suggestion: content
+				})
+			});
+		};
 
 
 	})

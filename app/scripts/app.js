@@ -141,7 +141,6 @@ angular
           break;
         case 'tabs.order':
           if(fromState.name === 'tabs.selectCard') {
-            console.log('xxxxxxxxx')
             $rootScope.$broadcast('backFromSeclecCard');
           }
           break;
@@ -247,7 +246,7 @@ angular
       url: "/coupons?type",
       views: {
         'home-tab': {
-          templateUrl: "views/my-coupons.html",
+          templateUrl: "views/select-coupon.html",
           controller: 'CouponCtrl'
         }
       }
@@ -261,12 +260,39 @@ angular
         }
       }
     })
+    .state('tabs.selectCard:info', {
+      url: "/selectCard",
+      views: {
+        'info-tab': {
+          templateUrl: "views/select-card.html",
+          controller: 'SeclectCardCtrl'
+        }
+      }
+    })
+    .state('tabs.selectCard:new', {
+      url: "/selectCard",
+      views: {
+        'info-tab': {
+          templateUrl: "views/select-card.html",
+          controller: 'SeclectCardCtrl'
+        }
+      }
+    })
     .state('tabs.purchaseSuc', {
       url: "/purchaseSuc",
       views: {
         'home-tab': {
           templateUrl: "views/purchase-suc.html",
           controller: 'PurchaseSucCtrl'
+        }
+      }
+    })
+    .state('tabs.reserveSuc', {
+      url: "/reserveSuc",
+      views: {
+        'home-tab': {
+          templateUrl: "views/reserve-suc.html",
+          controller: 'ReserveSucCtrl'
         }
       }
     })
@@ -301,11 +327,20 @@ angular
       }
     })
     .state('tabs.addCard', {
-      url: "/addCard",
+      url: "/addCard?flow",
       views: {
         'info-tab': {
           templateUrl: "views/add-card.html",
           controller: 'AddCardCtrl'
+        }
+      }
+    })
+    .state('tabs.addCard:sms', {
+      url: "/addCard?flow",
+      views: {
+        'info-tab': {
+          templateUrl: "views/sms-verify.html",
+          controller: 'AddCardVerifyCtrl'
         }
       }
     })
@@ -345,6 +380,32 @@ angular
         }
       }
     })
+    .state('tabs.reserveRecords', {
+      url: "/reserveRecords",
+      views: {
+        'info-tab': {
+          templateUrl: "views/reserve-records.html",
+          controller: 'ReserveRecordsCtrl'
+        }
+      }
+    })
+    .state('tabs.myCoupons', {
+      url: "/myCoupons",
+      views: {
+        'info-tab': {
+          templateUrl: "views/my-coupons.html",
+          controller: 'MyCouponsCtrl'
+        }
+      }
+    })
+    .state('tabs.aboutCoupons', {
+      url: "/aboutCoupons",
+      views: {
+        'info-tab': {
+          templateUrl: "views/about-coupons.html"
+        }
+      }
+    })
     // ************* views in more tab end **************
 
     .state('tabs.feedback', {
@@ -352,7 +413,7 @@ angular
       views: {
         'info-tab': {
           templateUrl: "views/feedback.html",
-          // controller: 'SettingCtrl'
+          controller: 'FeedbackCtrl'
         }
       }
     })
@@ -538,6 +599,15 @@ angular
         }
       }
     })
+    .state('tabs.resetPayPassword', {
+      url: '/resetPayPassword?type',
+      views: {
+        'info-tab': {
+          templateUrl: 'views/reset-pay-password.html',
+          controller: 'ResetPayPasswordCtrl'
+        }
+      }
+    })
 // ************* account tabs end **************   
     .state('tabs.recharge', {
       url: '/recharge',
@@ -576,7 +646,7 @@ angular
       }
     })
     .state('tabs.kyc', {
-      url: '/kyc',
+      url: '/kyc?flow',
       views: {
         'info-tab': {
           templateUrl: 'views/kyc.html',

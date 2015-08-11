@@ -125,4 +125,24 @@ angular.module('landlordApp')
 				})
 			});
 		};
+
+		this.reserveList = function() {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/reserveList',
+				headers: headers
+			});
+		};
+
+		this.isInvestEnabled = function(sessionId, subjectId) {
+			return $http({
+				method: 'POST',
+				url: server + '/landlord_2/isInvestEnabled',
+				headers: headers,
+				data: utils.param({
+					session_id: sessionId,
+					subject_id: subjectId
+				})
+			});
+		}
 	})

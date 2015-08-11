@@ -3,7 +3,7 @@
 		<ion-list>
 			<ion-item class="init-line-height">
 				<div class="fs-18">总收入(元)</div>
-				<div class="assertive fs-36">{{info.earnings.total}}</div>
+				<div class="assertive fs-36">{{info.earnings.total | currency:''}}</div>
 			</ion-item>
 			<ion-item ng-repeat="item in items">
 				<div class="fs-md">
@@ -16,5 +16,13 @@
 				</div>
 			</ion-item>
 		</ion-list>
+		<ion-infinite-scroll
+		  ng-if="hasMoreData"
+		  on-infinite="loadMore()"
+		  icon="ion-loading-c"
+		  spinner="lines"
+		  immediate-check="true"
+		  distance="1%">
+		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

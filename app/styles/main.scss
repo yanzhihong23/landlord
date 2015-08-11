@@ -354,52 +354,49 @@
 
 
 #my_cards{
-  .bank-icon{
-    left: 4px;
-  }
   .ion-ios-plus{
     font-size: 36px;
   }
 }
 
-
-#product{
-  .product-tabs{
-    position: absolute;
-    width: 100%;
-    top: 44px;
-    .platform-cordova &{
-      top: 64px;
+.product-tabs{
+  position: absolute;
+  width: 100%;
+  top: 44px;
+  .platform-cordova &{
+    top: 64px;
+  }
+  $size: 6px;
+  .row{
+    border-radius: $size;
+    border: solid 1px $energized;
+  }
+  .col{
+    background: $white;
+    color: $energized;
+    padding: $size;
+    &:first-child{
+      border-top-left-radius: $size;
+      border-bottom-left-radius: $size;
     }
-    $size: 6px;
-    .row{
-      border-radius: $size;
-      border: solid 1px $energized;
+    &:last-child{
+      border-top-right-radius: $size;
+      border-bottom-right-radius: $size;
     }
-    .col{
-      background: $white;
-      color: $energized;
-      padding: $size;
-      &:first-child{
-        border-top-left-radius: $size;
-        border-bottom-left-radius: $size;
-      }
-      &:last-child{
-        border-top-right-radius: $size;
-        border-bottom-right-radius: $size;
-      }
-      &:not(:last-child){
-        border-right: solid 1px $energized;
-      }
-      &.active{
-        background: $energized;
-        color: $white;
-      }
+    &:not(:last-child){
+      border-right: solid 1px $energized;
+    }
+    &.active{
+      background: $energized;
+      color: $white;
     }
   }
-  .scroll-content{
+  +.scroll-content{
     margin-top: 74px;
   }
+}
+
+#product{
   .intro-card{
     padding: 20px;
     background: $white;
@@ -586,6 +583,87 @@
     margin-top: 85px;
   }
 }
+
+#reserve_records{
+  .card{
+    margin: $content-padding*2;
+    border-radius: 6px;
+    padding: 0;
+  }
+  .subject{
+    line-height: 1.78;
+  }
+}
+
+#my_coupons{
+  .coupon{
+    position: relative;
+    min-height: 116px;
+    background: url(../images/coupon.png) no-repeat;
+    background-size: 100% 100%;
+    .desc{
+      line-height: 1.15;
+    }
+    .value{
+      font-size: 42px;
+    }
+    .valid-date{
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      padding: 6px 20px;
+    }
+  }
+}
+
+#reserve_suc{
+  .title{
+    padding-left: 22%;
+    height: 124px;
+    background: url(../images/purchase-suc.jpg) no-repeat center;
+    background-size: cover;
+    .cele{
+      font-size: 22px;
+      font-weight: bold;
+      padding: 40px 0 10px;
+    }
+  }
+  .date{
+    $size: 14px;
+    position: relative;
+    padding-left: $size*2.5;
+    &:before{
+      content: '';
+      display: block;
+      width: $size;
+      height: $size;
+      border-radius: $size;
+      background: #ff6e07;
+      box-shadow: 0 0 0 $size*.4 #ffe8d8;
+      position: absolute;
+      left: $size*.4;
+      top: 50%;
+      margin-top: -$size/2;
+    }
+  }
+  .reserve-info{
+    background: #f0f0f0;
+    padding: 10px 15px;
+    line-height: 2;
+    margin-top: 20px;
+    border: solid 1px $border-color;
+    &:before{
+      content: '';
+      display: block;
+    }
+  }
+  input[type="checkbox"]{
+    @include checkbox(10px, $energized);
+    padding-right: 5px;
+  }
+}
+
+
 
 /****************************************************************/
 

@@ -1,0 +1,68 @@
+<ion-view view-title="关于福利券">
+	<section class="dbl-padding product-tabs" ng-init="type='cash'">
+		<div class="row text-center no-padding">
+			<div class="col" ng-class="{active: type=='cash'}" ng-click="type='cash'">现金券</div>
+			<div class="col" ng-class="{active: type=='interest'}" ng-click="type='interest'">加息券</div>
+		</div>
+	</section>
+	<ion-content>
+		<article ng-show="type==='cash'" class="padding-left dbl-padding-right">
+			<ul class="circle">
+				<li>
+					<span class="bold">什么是现金券？</span>
+					<p>
+						现金券是大房东向用户提供的一种投资抵扣券，用户可在大房东投资时，根据现金券的面值抵扣等额的投资金额。（例：用户投资大房东标的2000元人民币，抵扣面值100元的现金券后，实际只需支付1900元人民币。）
+						现金券仅作为一项用户福利，不可折现、不可转让，用户须在有效期内按现金券的使用条件抵扣投资金额。
+					</p>
+				</li>
+
+				<li>
+					<span class="bold">如何获取现金券？</span>
+					<ol class="lower-alpha padding-bottom">
+						<li>为感恩回馈新老用户，大房东会不定期地发放现金券给用户，用户可在我的福利中查看。</li>
+						<li>其它不定期举办的各类活动。</li>
+					</ol>
+				</li>
+
+				<li>
+					<span class="bold">如何使用现金券？</span>
+					<div>现金券只能在大房东进行投资时使用，步骤如下：</div>
+					<ol class="lower-alpha">
+						<li>选购完投资项目后进入支付页面，若账户中存在符合使用条件的现金券，则默认全部勾选并使用；</li>
+						<li>用户可选择使用1张现金券；</li>
+						<li>使用后，用户仅需支付抵扣现金券后剩余的投资金额。</li>
+					</ol>
+				</li>
+			</ul>
+		</article>
+		<article ng-show="type==='interest'"  class="padding-left dbl-padding-right">
+			<ul class="circle">
+				<li>
+					<span class="bold">什么是加息券？</span>
+					<p>
+						加息券是大房东向用户提供的一种投资返利券，用户可在大房东投资后，根据所使用的加息券的年化利率，在结算时获得额外的收益奖励。（例：用户投资诺诺精选50,000元人民币，期限24个月，使用了年化利率为1%的加息券，则在结算时将额外获得1000元的收益奖励。）
+						加息券仅作为一项用户福利，不可折现、不可转让，用户须在有效期内按加息券的使用条件及时使用。
+						一般加息券的收益在最后一个月结算。
+					</p>
+				</li>
+				<li>
+					<span class="bold">如何获取加息券？</span>
+					<ol class="lower-alpha padding-bottom">
+						<li>通过提前预约，可获得1张加息1%的加息券；</li>
+						<li>为感恩回馈新老用户，大房东会不定期地发放加息券给用户，用户可在我的福利券中查看；</li>
+						<li>参与含加息券奖励的各类活动。</li>
+					</ol>
+				</li>
+				<li>
+					<span class="bold">如何使用加息券？</span>
+					<div>加息券只能在大房东进行投资时使用，步骤如下：</div>
+					<ol class="lower-alpha">
+						<li>选购投资时，若账户中存在符合使用条件的加息券，则全部显示；</li>
+						<li>用户可选择使用其中的1张加息券；</li>
+						<li>使用后，在该笔投资结算时，用户获得额外的收益奖励。</li>
+					</ol>
+				</li>
+			</ul>
+		</article>
+	</ion-content>
+</ion-view>

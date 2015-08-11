@@ -8,24 +8,24 @@ angular.module('landlordApp')
 				headers = {'Authorization': vMd5,'Content-Type': 'application/x-www-form-urlencoded'};
 
 		// vcode for pay
-		this.getPayVcode = function(extRefNo, realname, idNo, idType, mId, bankCardNo, mobile, count, key, type, paycode, payMode) { 
+		this.getPayVcode = function(obj) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/getDynTr2',
 				headers: headers,
 				data: utils.param({
-					externalRefNumber: extRefNo,
-					realname: realname,
-					idno: idNo,
-					idType: idType || 0, // 0: default
-					m_id: mId,
-					bankCardNo: bankCardNo,
-					mobile: mobile,
-					count: count,
-					key: key, // product id
-					type: type, //product type
-					paycode: paycode, // 1: buy, 2: repayment/recharge
-					payMode: payMode // 1: bank, 2: balance， 3: combo
+					externalRefNumber: obj.extRefNo,
+					realname: obj.realname,
+					idno: obj.idNo,
+					idType: obj.idType || 0, // 0: default
+					m_id: obj.mId,
+					bankCardNo: obj.bankCardNo,
+					mobile: obj.mobile,
+					count: obj.count,
+					key: obj.key, // product id
+					type: obj.type, //product type
+					paycode: obj.payCode, // 1: buy, 2: repayment/recharge
+					payMode: obj.payMode // 1: bank, 2: balance， 3: combo
 				})
 			});
 		};
@@ -70,30 +70,30 @@ angular.module('landlordApp')
 		};
 
 		// bind and pay
-		this.bindAndPay = function(mId, sessionId, extRefNo, storablePan, count, vcode, token, payMode, payCode, key, type, realname, idNo, bankCardNo, bankCode, mobile, coupon, interest) {
+		this.bindAndPay = function(obj) {
 			return $http({
 				method: 'POST',
 				url: server + '/quickBill/doPay',
 				headers: headers,
 				data: utils.param({
-					m_id: mId,
-					sessionId: sessionId,
-					externalRefNumber: extRefNo,
-					storablePan: storablePan,
-					count: count,
-					validCode: vcode || '',
-					token: token,
-					payMode: payMode,
-					key: key,
-					type: type,
-					realname: realname,
-					idno: idNo,
-					bankCardNo: bankCardNo,
-					bankcode: bankCode,
-					mobile: mobile,
-					paycode: payCode,
-					coupon: coupon || '', // uv_code:uv_id:value
-					interest: interest || ''
+					m_id: obj.mId,
+					sessionId: obj.sessionId,
+					externalRefNumber: obj.extRefNo,
+					storablePan: obj.storablePan,
+					count: obj.count,
+					validCode: obj.vcode || '',
+					token: obj.token,
+					payMode: obj.payMode,
+					key: obj.key,
+					type: obj.type,
+					realname: obj.realname,
+					idno: obj.idNo,
+					bankCardNo: obj.bankCardNo,
+					bankcode: obj.bankCode,
+					mobile: obj.mobile,
+					paycode: obj.payCode,
+					coupon: obj.coupon || '', // uv_code:uv_id:value
+					interest: obj.interest || ''
 				})
 			})
 		};

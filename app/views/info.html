@@ -3,7 +3,7 @@
 		<article class="padding-bottom init-line-height assertive text-center fw-xs balance-info">
 			<section>
 				<a class="item item-arrow-right  text-left" ng-href="{{isLogined ? '#/tab/more' : '#/tab/login'}}">
-					<span class="black">{{isLogined ? user.name || user.phone : '登录账户'}}</span>
+					<span class="black">{{isLogined ? user.name || (user.phone | phone) : '登录账户'}}</span>
 					<span class="item-note" ng-show="user.gender && isLogined">{{user.gender}}</span>
 				</a>
 				<div class="item assertive" triangle ng-click="showEarings()">

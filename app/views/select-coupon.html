@@ -1,0 +1,14 @@
+<ion-view view-title="{{title}}" class="whitesmoke-bg" id="coupons">
+	<ion-content>
+		<section>
+			<div class="card" ng-repeat="coupon in coupons" ng-class="{disabled: coupon.disabled}" ng-click="select($index)">
+				<div class="padding-vertical">
+					<span class="fs-lg bold" ng-show="type==='interest'">加息</span>
+					<span class="value">{{coupon.value}}{{type==='interest' ? '%' : '元'}}</span>
+					<span> (投资{{coupon.minimum/10000}}万元以上使用)</span>
+				</div>
+				<div class="padding-vertical text-right">有效期: 2015.5.10 至 {{coupon.expired | moment:'YYYY.MM.DD'}}</div>
+			</div>
+		</section>
+	</ion-content>
+</ion-view>

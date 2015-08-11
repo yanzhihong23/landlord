@@ -2,7 +2,7 @@
   <ion-content>
     <div class="dbl-padding-horizontal">
       <section class="dbl-margin-vertical gray">
-        预约2015-04-23(周二)
+        预约{{order.selected.date}}({{order.selected.localWeek}})
         <div class="pull-right">
           投资{{order.amount | currency:'￥'}}
         </div>
@@ -20,11 +20,11 @@
       <section class="dbl-margin-vertical">
         <div class="row dbl-margin-bottom">
           <div class="col-33 text-center gray">账户余额</div>
-          <div class="col-66 energized fs-lg">{{order.balance || 0 | currency:'￥'}}</div>
+          <div class="col-66 energized fs-lg">{{balance.available || 0 | currency:'￥'}}</div>
         </div>
          <div class="row">
           <div class="col-33 text-center gray">还需支付</div>
-          <div class="col-66 energized fs-lg bold">{{order.amount || 0 | currency:'￥'}}</div>
+          <div class="col-66 energized fs-lg bold">{{200 | currency:'￥'}}</div>
         </div>
       </section>
 

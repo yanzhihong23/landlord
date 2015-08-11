@@ -6,7 +6,7 @@
     </section>
     <div class="item item-arrow-right" ng-hide="order.payMode == 2" ng-click="selectCard()">
       <div class="bold">{{order.card.name}}（尾号{{order.card.tailNo}}）</div>
-      <div class="gray">限额5,000.00</div>
+      <div class="gray">{{order.card.limit.desc}}</div>
     </div>
     <div class="list list-inset">
       <div class="item item-input">

@@ -43,4 +43,16 @@ angular.module('landlordApp')
 				})
 			});
 		};
+
+		this.deleteCard = function(sessionId, bankId) {
+			return $http({
+				method: 'POST',
+				url: server + '/user/deleteBankCard',
+				headers: headers,
+				data: utils.param({
+					sessionId: sessionId,
+					banks_id: bankId
+				})
+			});
+		}
 	})

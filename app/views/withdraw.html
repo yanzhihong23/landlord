@@ -1,36 +1,31 @@
 <ion-view view-title="提现" class="whitesmoke-bg">
 	<ion-content>
+		<div class="padding gray">只能提现到本人的借记卡，24小时内到账</div>
 		<form ng-submit="submit()" name="withdrawForm">
-			<ul class="list padding-top">
-				<li class="item item-icon-left item-arrow-right" ng-click="selectBank()">
-					<i class="icon bank-icon" ng-class="card.shortName"></i>
-					{{card.name}}
-					<span class="item-note" ng-show="card.tailNo">
-						尾号{{card.tailNo}}
-					</span>
-				</li>
-			</ul>
+			<div class="margin-bottom">
+				<div class="item item-icon-left item-arrow-right dbl-padding-vertical" ng-click="selectCard()">
+					<i class="icon bank-icon" ng-class="order.card.shortName"></i>
+					{{order.card.name}}(尾号{{order.card.tailNo}})
+				</div>
+			</div>
 
-			<ul class="list">
-				<li class="item">
-					可提现金额
-					<span class="item-note">{{balanceAvailable | currency:''}}</span>
-				</li>
-			</ul>
+			<div class="padding-horizontal gray">
+				可提现金额 {{info.balance.available | currency:''}} 元
+			</div>
 
-			<ul class="list">
-				<li class="item item-input">
+			<div class="margin-top">
+				<div class="item item-input">
 					<span class="input-label">提现金额</span>
 		    	<input type="text" ng-model="withdraw.amount" placeholder="≥2.00" clear-input required>
-				</li>
-			</ul>
-
-			<div class="row">
-				<div class="col">手续费 <span class="energized">{{withdraw.fee | currency:''}}</span></div>
-				<div class="col">实际到账 <span class="energized">{{withdraw.result | currency:''}}</span></div>
+				</div>
 			</div>
-			<div class="padding">
-				<button type="submit" class="button button-full" ng-disabled="withdrawForm.$invalid || withdraw.invalid">提现</button>
+
+			<div class="row gray">
+				<div class="col">手续费 <span class="">{{withdraw.fee | currency:''}}</span> 元</div>
+				<div class="col">实际到账 <span class="assertive">{{withdraw.result | currency:''}}</span> 元</div>
+			</div>
+			<div class="dbl-margin-vertical margin-horizontal">
+				<button type="submit" class="button button-block button-energized" ng-disabled="!withdraw.amount || withdraw.invalid">提现</button>
 			</div>
 		</form>
 	</ion-content>

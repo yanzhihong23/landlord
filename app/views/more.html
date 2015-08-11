@@ -11,7 +11,7 @@
 		  <a class="item" href="">
       手机号码
 	      <span class="item-note">
-	        {{info.phone}}
+	        {{info.phone | phone}}
 	      </span>
 	    </a>
     </div>
@@ -23,7 +23,7 @@
 	      </span>
 	    </a>
 
-	    <a class="item item-arrow-right" href="#/tab/changePayPassword">
+	    <a class="item item-arrow-right" ng-href="{{'#/tab/resetPayPassword'+(info.payPwdSet?'':'?type=new')}}">
 	      支付密码
 	      <span class="item-note">
 	        {{info.payPwdSet ? '修改':'未设置'}}

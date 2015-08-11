@@ -1,0 +1,28 @@
+<ion-view view-title="预约成功" hide-back-button="true" id="reserve_suc">
+	<ion-nav-buttons side="right">
+    <button class="button button-icon" ng-click="complete()">完成</button>
+	</ion-nav-buttons>
+	<ion-content class="white-bg">
+		<div class="title white">
+			<div class="cele">恭喜您，又将拿下一房</div>
+			<div class="name">完成该比投资，收入将至少增加700元</div>
+		</div>
+		<section class="border-bottom dbl-padding">
+			<div class="date fs-md">2015-06-23(周二)</div>
+
+			<div class="reserve-info">
+				<div>预约金额: <span class="padding-left">{{7000 | currency:'￥'}}</span></div>
+				<div>预约定金: <span class="padding-left">{{200 | currency:'￥'}}</span></div>
+				<div>预约福利: <span class="padding-left">1%加息券1张<small class="gray">(可在我的福利券查看)</small></span></div>
+			</div>
+		</section>
+
+		<section class="border-bottom dbl-padding fs-xs dark">
+			<div>以免忘记投资，当日我们至少通过以下一种方式提示您。</div>
+			<div class="row no-padding">
+				<div class="col-50 padding-vertical"><input type="checkbox" checked disabled>短信提醒</div>
+				<div class="col-50 padding-vertical"><input type="checkbox" checked disabled>客服电话通知</div>
+			</div>
+		</section>
+	</ion-content>
+</ion-view>

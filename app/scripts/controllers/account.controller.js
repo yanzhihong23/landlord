@@ -23,7 +23,7 @@ angular.module('landlordApp')
 	  		});
 		};
 	})
-	.controller('RegisterCtrl', function($scope, $state, $stateParams, $ionicLoading, UserApi, userConfig, utils, md5, toaster) {
+	.controller('RegisterCtrl', function($scope, $state, $rootScope, $stateParams, $ionicLoading, $ionicHistory, UserApi, userConfig, utils, md5, toaster) {
 		var resendCountdown = utils.resendCountdown($scope),
 				// phone = $stateParams.phone, 
 				sessionId = $stateParams.sessionId;
@@ -78,6 +78,10 @@ angular.module('landlordApp')
 							$scope.account.password = null;
 
 							// $state.go('tabs.setPayPassword');
+							$rootScope.$broadcast('loginSuc');
+							$state.go('tabs.info');
+							$ionicHistory.clearHistory();
+							$ionicHistory.clearCache();
 		  			} else if(data.flag === 4) { // wrong verify code
 		  				utils.alert({
 		  					content: data.msg,
@@ -288,5 +292,45 @@ angular.module('landlordApp')
 				})
 		}
 	})
+	.controller('ResetPayPasswordCtrl', function($scope, $stateParams, $rootScope, $ionicLoading, userConfig, utils, md5, UserApi) {
+		var accountInfo = userConfig.getAccountInfo(),
+				sessionId = userConfig.getSessionId(),
+				resendCountdown = utils.resendCountdown($scope);
 
-	
+		$scope.passwordPattern = utils.passwordPattern;
+		$scope.type = $stateParams.type === 'new' ? '设置' : '重置';
+		$scope.user = {
+			phone: accountInfo.mobilenum
+		};
+
+		$scope.sendSms = function() {
+			$ionicLoading.show();
+			UserApi.sendSmsForRetrievePayPassword(sessionId, $scope.user.phone)
+				.success(function(data) {
+					if(data.flag === 1) {
+						resendCountdown();
+					} else {
+						utils.alert({content: data.msg});
+					}
+				});
+		};
+
+		$scope.submit = function() {
+			$ionicLoading.show();
+			var password = md5.createHash($scope.user.password);
+			UserApi.retrievePayPassword(sessionId, $scope.user.vcode, password)
+				.success(function(data) {
+					if(data.flag === 1) {
+						if($stateParams.type === 'new') {
+							$rootScope.$broadcast('payPasswordSet');
+							accountInfo.is_pay_password = true;
+							userConfig.setAccountInfo(accountInfo);
+						}
+						utils.goBack();
+					} else {
+						utils.alert({content: data.msg});
+					}
+				});
+		};
+	})
+

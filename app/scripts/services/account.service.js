@@ -4,23 +4,25 @@ angular.module('landlordApp')
 	.service('accountService', function($rootScope, LandlordApi, userConfig) {
 		var self = this;
 
-		this.invest = 0;
-		this.recharge = 0;
-		this.withdraw = 0;
-		// export balance
-		this.balance = {
-			total: 0,
-			available: 0,
-			frozen: 0
-		};
+		this.init = function() {
+			this.invest = 0;
+			this.recharge = 0;
+			this.withdraw = 0;
+			// export balance
+			this.balance = {
+				total: 0,
+				available: 0,
+				frozen: 0
+			};
 
-		this.earnings = {
-			total: 0,
-			current_month: 0,
-			next_month: 0
-		};
-		// export investing items
-		this.investing_ids = [];
+			this.earnings = {
+				total: 0,
+				current_month: 0,
+				next_month: 0
+			};
+			// export investing items
+			this.investing_ids = [];
+		}
 
 		this.update = function() {
 			// reset investing ids
@@ -52,6 +54,7 @@ angular.module('landlordApp')
 				});
 		};
 
+		self.init();
 		self.update();
 
 		$rootScope.$on('loginSuc', function() {

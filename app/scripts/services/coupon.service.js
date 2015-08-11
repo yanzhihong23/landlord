@@ -31,7 +31,8 @@ angular.module('landlordApp')
 							id: obj.uv_id,
 							value: ~~obj.value,
 							minimum: +obj.minimum,
-							sum: obj.uv_code + ':' + obj.uv_id + ':' + obj.value
+							sum: obj.uv_code + ':' + obj.uv_id + ':' + obj.value,
+							expired: obj.stop_time
 						};
 					};
 

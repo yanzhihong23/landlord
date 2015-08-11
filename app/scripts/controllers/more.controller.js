@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('MoreCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, $ionicActionSheet, utils, bankService) {
+	.controller('MoreCtrl', function($scope, $rootScope, $state, userConfig, $ionicHistory, $ionicActionSheet, utils, bankService, accountService) {
 		var accountInfo = userConfig.getAccountInfo();
 		var kyc, setKyc;
 		var boundCards = bankService.getBoundBankList();
@@ -13,7 +13,7 @@ angular.module('landlordApp')
 		$scope.info = {
 			kyc: kyc,
 			setKyc: setKyc,
-			phone: accountInfo.mobilenum.substr(0,3) + '****' + accountInfo.mobilenum.substr(-4),
+			phone: accountInfo.mobilenum,
 			cards: boundCards && boundCards.length,
 			payPwdSet: accountInfo.is_pay_password
 		};
@@ -32,11 +32,17 @@ angular.module('landlordApp')
 			  },
 				buttonClicked: function(index) {
 				 userConfig.logout();
+				 accountService.init();
 				}
 			});
 		};
+
+		$rootScope.$on('payPasswordSet', function() {
+			$scope.info.payPwdSet = true;
+			// $scope.$apply();
+		})
 	})
-	.controller('KycCtrl', function($scope, $rootScope, $ionicPopup, userConfig, UserApi, utils, toaster) {
+	.controller('KycCtrl', function($scope, $state, $stateParams, $rootScope, $ionicPopup, userConfig, UserApi, utils, toaster) {
 		var accountInfo = userConfig.getAccountInfo(),
 				sessionId = userConfig.getSessionId();
 
@@ -65,8 +71,17 @@ angular.module('landlordApp')
 					utils.alert({
 						content: data.msg,
 						callback: function() {
-							if(data.flag === 8) {
-								utils.goBack();
+							if(data.flag === 8 || data.flag === 4) {
+								// update accountInfo
+								accountInfo.realname = $scope.kyc.name;
+								accountInfo.idnum = $scope.kyc.id;
+								userConfig.setAccountInfo(accountInfo);
+
+								if($stateParams.flow === 'kycAddCard') {
+									$state.go('tabs.addCard', {flow: 'kycAddCard'});
+								} else {
+									utils.goBack();
+								}
 							}
 						}
 					});

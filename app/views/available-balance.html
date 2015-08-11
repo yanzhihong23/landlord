@@ -6,16 +6,16 @@
 		</div>
 
 		<div class="row white-bg no-padding border-top border-bottom text-center">
-			<a class="col-50 border-right dbl-padding-vertical fs-md assertive " ui-sref="tabs.recharge:info">
+			<a class="col-50 border-right dbl-padding-vertical fs-md balanced" ng-click="recharge()">
 				充值
 			</a>
-			<a class="col-50 dbl-padding-vertical fs-md balanced" ui-sref="tabs.withdraw">
+			<a class="col-50 dbl-padding-vertical fs-md assertive" ng-click="withdraw()">
 				提现
 			</a>
 		</div>
 
-		<a class="margin-top item item-arrow-right gray" ui-sref="tabs.balanceRecords">
-			充值提现记录
+		<a class="margin-top item item-arrow-right" ui-sref="tabs.balanceRecords">
+			<span class="gray">充值提现记录</span>
 		</a>
 	</ion-content>
 </ion-view>

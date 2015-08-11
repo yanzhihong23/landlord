@@ -46,7 +46,6 @@ angular.module('landlordApp')
         LandlordApi.getSubject($scope.pastIds[index]).success(function(data) {
           if(data.flag === 1) {
             item = data.data;
-            formatSaleRecords(item.sale_records);
 
             var maxAmount = 0;
             item.sale_records.forEach(function(obj) {
@@ -83,19 +82,11 @@ angular.module('landlordApp')
       LandlordApi.getSubject().success(function(data) {
         if(data.flag === 1) {
           $scope.current = data.data;
-          formatSaleRecords($scope.current.sale_records);
         }
       }).finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
       });
     };
-
-    var formatSaleRecords = function(records) {
-      records.map(function(obj) {
-        obj.phone = obj.phone.substr(0,3) + '****' + obj.phone.substr(-4);
-        obj.date = obj.date.split(' ')[0];
-      });
-    }
 
     initCurrent();
 
@@ -109,7 +100,15 @@ angular.module('landlordApp')
       if($rootScope.isLogined) {
         localStorageService.add('subjectDetail', $scope.current);
         orderService.subject = $scope.current;
-        $state.go('tabs.buy');
+
+        LandlordApi.isInvestEnabled(userConfig.getSessionId(), $scope.current.subject.id)
+          .success(function(data) {
+            if(data.flag === 1) {
+              $state.go('tabs.buy');
+            } else {
+              utils.alert({content: data.msg});
+            }
+          })
       } else {
         utils.confirm({
           content: '您还未登录，去登录吧~~',

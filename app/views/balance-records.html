@@ -18,7 +18,7 @@
 						{{item.amount | currency: (+item.amount>0 ? '+':'')}}
 					</div>
 				</div>
-				<div class="fs-xs gray">{{item.date}}<div class="pull-right">余额: {{item.balance | currency:''}}</div></div>
+				<div class="fs-xs gray">{{item.date | moment:'YYYY-MM-DD HH:mm'}}<div class="pull-right">余额: {{item.balance | currency:''}}</div></div>
 			</ion-item>
 		</ion-list>
 		<ion-infinite-scroll

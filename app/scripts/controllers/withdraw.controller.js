@@ -1,14 +1,11 @@
 'use strict';
 
 angular.module('landlordApp')
-	.controller('WithdrawCtrl', function($scope, $ionicActionSheet, $ionicLoading, accountService, bankService, BankApi, userConfig, utils) {
+	.controller('WithdrawCtrl', function($scope, $state, $ionicLoading, accountService, orderService, bankService, BankApi, userConfig, utils) {
 		var accountInfo = userConfig.getAccountInfo(),
 				sessionId = userConfig.getSessionId();
-		$scope.balanceAvailable = +accountService.balance.available;
-		$scope.cardList = bankService.getBoundBankList();
-		if($scope.cardList && $scope.cardList.length) {
-			$scope.card = $scope.cardList[0];
-		}
+
+		$scope.info = accountService;
 
 		$scope.withdraw = {
 			fee: 0,
@@ -16,20 +13,21 @@ angular.module('landlordApp')
 			invalid: false
 		};
 
-		$scope.selectBank = function() {
-			var hideSheet = $ionicActionSheet.show({
-				buttons: $scope.cardList,
-				cancelText: '取消',
-				buttonClicked: function(index) {
-					$scope.card = $scope.cardList[index];
-					hideSheet();
-				}
-			});
+		$scope.order = orderService.order = {};
+
+		// get bound bank list
+		$scope.bankCards = bankService.getBoundBankList();
+		if($scope.bankCards.length) {
+			$scope.order.card = $scope.bankCards[$scope.bankCards.length - 1];
+		}
+
+		$scope.selectCard = function() {
+			$state.go('tabs.selectCard:info');
 		};
 
 		$scope.$watch('withdraw.amount', function(val) {
 			if(/\.$/.test(val)) return;
-			val = Math.min(parseFloat(val), $scope.balanceAvailable);
+			val = Math.min(parseFloat(val), $scope.info.balance.available);
 			$scope.withdraw.invalid = val < 2;
 			$scope.withdraw.amount = val;
 			$scope.withdraw.fee = +val ? getFee(+val) : 0;
@@ -42,14 +40,23 @@ angular.module('landlordApp')
 
 		$scope.submit = function() {
 			$ionicLoading.show();
-			BankApi.withdraw(sessionId, $scope.withdraw.result, $scope.card.id)
+			BankApi.withdraw(sessionId, $scope.withdraw.result, $scope.order.card.id)
 				.success(function(data) {
 					if(data.flag === 8) { // success
 						accountService.update();
-						utils.goBack();
+						utils.alert({
+							content: '提现申请已提交，最快24小时内到账',
+							okType: 'button-balanced',
+							callback: function() {
+								utils.goBack();
+							}
+						});
+					} else {
+						utils.alert({
+							content: data.msg
+						});
 					}
-				})
+				});
 		};
 
-		BankApi.getWithdrawList(sessionId, 10, 0);
 	})

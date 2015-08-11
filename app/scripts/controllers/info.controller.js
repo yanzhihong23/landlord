@@ -3,15 +3,16 @@
 angular.module('landlordApp')
 	.controller('InfoCtrl', function($scope, $rootScope, $state, $ionicActionSheet, accountService, userConfig, utils) {
     $scope.info = accountService;
+    var accountInfo;
 
     var init = function() {
-      var accountInfo = userConfig.getAccountInfo();
+      accountInfo = userConfig.getAccountInfo();
       if(accountInfo) {
         var gender = accountInfo.sex === '男' ? '包租公' : accountInfo.sex === '女' ? '包租婆' : '';
 
         $scope.user = {
           name: accountInfo.realname,
-          phone: accountInfo.mobilenum.substr(0,3) + '****' + accountInfo.mobilenum.substr(-4),
+          phone: accountInfo.mobilenum,
           gender: gender
         };
       }
@@ -45,7 +46,7 @@ angular.module('landlordApp')
       if(!$rootScope.isLogined) {
         loginConfirm();
       } else {
-        // $state.go('tabs.reserveRecords');
+        $state.go('tabs.reserveRecords');
       }
     };
 
@@ -53,7 +54,7 @@ angular.module('landlordApp')
       if(!$rootScope.isLogined) {
         loginConfirm();
       } else {
-        // $state.go('tabs.reserveRecords');
+        $state.go('tabs.myCoupons');
       }
     };
 
@@ -65,9 +66,31 @@ angular.module('landlordApp')
       }
     };
 
+    $scope.recharge = function() {
+      if(accountInfo.is_set_bank) {
+        $state.go('tabs.recharge:info');
+      } else {
+        addCardAlert();
+      }
+    };
+
+    $scope.withdraw = function() {
+      if(accountInfo.is_set_bank) {
+        $state.go('tabs.withdraw');
+      } else {
+        addCardAlert();
+      }
+    };
+
     $rootScope.$on('loginSuc', function() {
       init();
     });
+
+    var addCardAlert = function() {
+      utils.alert({
+        content: '您还未绑定银行卡'
+      });
+    };
 
     var loginConfirm = function() {
       utils.confirm({
@@ -97,22 +120,32 @@ angular.module('landlordApp')
     });
   })
   .controller('EarningsCtrl', function($scope, LandlordApi, userConfig, accountService) {
-    var sessionId = userConfig.getSessionId();
+    var sessionId = userConfig.getSessionId(), length = 10, offset = 0;
     $scope.info = accountService;
     $scope.items = [];
+    $scope.hasMoreData = true;
 
-    LandlordApi.getEarningHistory(sessionId, 10, 0)
-      .success(function(data) {
-        if(data.flag === 1) {
-          var history = data.data.history.map(function(obj) {
-            obj.subject_title = obj.subject_title.substr(7);
-            return obj;
-          });
+    $scope.loadMore = function() {
+      LandlordApi.getEarningHistory(sessionId, length, offset)
+        .success(function(data) {
+          if(data.flag === 1) {
+            var history = data.data.history.map(function(obj) {
+              obj.subject_title = obj.subject_title.substr(7);
+              return obj;
+            });
 
-          $scope.items = $scope.items.concat(history);
-          console.log($scope.items);
-        }
-      })
+            if(history.length < length) {
+              $scope.hasMoreData = false;
+            }
+
+            $scope.items = $scope.items.concat(history);
+          }
+        }).finally(function() {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        });
+
+      offset += length;
+    };
   })
   .controller('BalanceRecordsCtrl', function($scope, LandlordApi, userConfig, accountService) {
     var sessionId = userConfig.getSessionId(), length = 10, offset = 0;
@@ -124,17 +157,17 @@ angular.module('landlordApp')
       LandlordApi.getBalanceDetail(sessionId, length, offset)
         .success(function(data) {
           if(data.flag === 1) {
-            var history = data.data.history.map(function(obj) {
-              // obj.subject_title = obj.subject_title.substr(7);
-              return obj;
-            });
+            var history = data.data.history;
 
-            if(history.length < length) {
+            if(history) {
+              if(history.length < length) {
+                $scope.hasMoreData = false;
+              }
+
+              $scope.items = $scope.items.concat(history);
+            } else {
               $scope.hasMoreData = false;
             }
-
-            $scope.items = $scope.items.concat(history);
-            console.log($scope.items);
           }
         }).finally(function() {
           $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -142,7 +175,27 @@ angular.module('landlordApp')
 
       offset += length;
     };
+  })
+  .controller('ReserveRecordsCtrl', function($scope, LandlordApi, userConfig) {
 
-    // $scope.loadMore();
-
+  })
+  .controller('MyCouponsCtrl', function($scope, couponService) {
+    $scope.coupons = couponService.coupons;
+  })
+  .controller('FeedbackCtrl', function($scope, $ionicLoading, UserApi, userConfig, utils) {
+    var sessionId = userConfig.getSessionId();
+    $scope.submit = function() {
+      $ionicLoading.show();
+      UserApi.feedback(sessionId, $scope.content)
+        .success(function(data) {
+          utils.alert({
+            content: data.msg,
+            callback: function() {
+              if(data.flag === 1) {
+                utils.goBack();
+              }
+            }
+          });
+        })
+    }
   })
